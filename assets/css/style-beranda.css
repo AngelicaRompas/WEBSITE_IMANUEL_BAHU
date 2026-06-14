@@ -3,105 +3,78 @@
    TEMA: Glassmorphism, Clean, Digital Aesthetic
    ======================================================== */
 
+:root { --bs-primary: #6f42c1; }
+
 body {
-    background-color: #f8fafc; /* Tetap bersih dan terang */
+    background-color: #f8fafc;
     font-family: 'Plus Jakarta Sans', sans-serif;
     position: relative;
     overflow-x: hidden; 
 }
 
-/* Tekstur Grid Digital - Diubah ke ungu transparan */
+/* Utilitas Global Ungu */
+.bg-primary { background-color: #6f42c1 !important; }
+.text-primary { color: #6f42c1 !important; }
+.btn-primary { background-color: #6f42c1 !important; border-color: #6f42c1 !important; }
+.btn-outline-primary { border-color: #6f42c1 !important; color: #6f42c1 !important; }
+.btn-outline-primary:hover { background-color: #6f42c1 !important; color: white !important; }
+.border-primary { border-color: #6f42c1 !important; }
+.bg-opacity-10 { background-color: rgba(111, 66, 193, 0.1) !important; }
+
+/* Digital Grid */
 .digital-grid {
-    position: fixed;
-    top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2;
-    background-image: 
-        linear-gradient(rgba(111, 66, 193, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(111, 66, 193, 0.04) 1px, transparent 1px);
-    background-size: 40px 40px; 
-    pointer-events: none;
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2;
+    background-image: linear-gradient(rgba(111, 66, 193, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(111, 66, 193, 0.04) 1px, transparent 1px);
+    background-size: 40px 40px; pointer-events: none;
 }
 
-/* Cahaya Aurora Latar Belakang (Gradient Blob) */
+/* Aurora Blobs */
 .aurora-container {
-    position: fixed;
-    top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
     overflow: hidden; pointer-events: none;
 }
 .aurora-blob {
     position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.28;
     animation: floatGlow 15s infinite alternate ease-in-out;
 }
-/* Blob Utama - Diubah dari biru ke ungu */
-.blob-blue {
-    top: -10%; left: 10%; width: 45vw; height: 45vw; min-width: 300px; min-height: 300px;
-    background: #6f42c1;
-}
-/* Blob Pendukung - Diubah dari biru muda ke ungu muda */
-.blob-soft {
-    bottom: -10%; right: -5%; width: 55vw; height: 55vw; min-width: 350px; min-height: 350px;
-    background: #f3effb; 
-    animation-delay: -5s;
-}
+.blob-blue { top: -10%; left: 10%; width: 45vw; height: 45vw; background: #6f42c1; }
+.blob-soft { bottom: -10%; right: -5%; width: 55vw; height: 55vw; background: #f3effb; animation-delay: -5s; }
 
 @keyframes floatGlow {
     0% { transform: translate(0, 0) scale(1); }
     100% { transform: translate(3vw, 5vh) scale(1.1); }
 }
 
-/* Tipografi Hero */
-/* Tipografi Hero - Menghapus bayangan biru jika ada */
-.hero-title {
+/* Hero Section */
+.hero-section { min-height: 80vh; display: flex; align-items: center; position: relative; }
+.hero-title { 
     font-family: 'Plus Jakarta Sans', sans-serif;
-    letter-spacing: -1.5px;
-    line-height: 1.1;
-    text-shadow: none !important;
-    color: #0f172a; 
+    letter-spacing: -1.5px; line-height: 1.1; color: #0f172a; 
     font-size: clamp(2.8rem, 5.5vw, 4.2rem) !important;
+    text-shadow: none !important;
 }
-
-/* Mengubah gradasi nama gereja dari biru ke ungu */
-.church-name-aesthetic {
-    font-family: 'Playfair Display', serif; 
-    font-weight: 700;
-    /* Gradasi Ungu: Dari Ungu terang ke Ungu lebih tua */
+.church-name-aesthetic { 
+    font-family: 'Playfair Display', serif; font-weight: 700;
     background: linear-gradient(135deg, #6f42c1 0%, #4a2c85 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    display: inline-block;
-    padding-right: 15px; 
-    padding-left: 5px; 
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
 }
 
-/* Kartu Glassmorphism - Memperbaiki hover shadow agar sesuai tema ungu */
+/* Cards & Components */
 .glass-card {
     background: rgba(255, 255, 255, 0.75);
     backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
     border: 1px solid rgba(255, 255, 255, 1);
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
     transition: all 0.3s ease;
-    position: relative;
-    z-index: 2;
+    position: relative; z-index: 2;
 }
-.glass-card:hover {
-    transform: translateY(-5px);
-    /* Shadow ungu tipis saat hover */
-    box-shadow: 0 20px 40px rgba(111, 66, 193, 0.15);
-}
+.glass-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(111, 66, 193, 0.15); }
 
-/* Animasi Ikon Kamera - Mengganti semua efek pulsa biru ke ungu */
 .icon-pulse {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    /* Latar belakang ungu transparan */
-    background-color: rgba(111, 66, 193, 0.1);
-    color: #6f42c1;
-    box-shadow: 0 0 0 0 rgba(111, 66, 193, 0.4);
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 70px; height: 70px; border-radius: 50%;
+    background-color: rgba(111, 66, 193, 0.1); color: #6f42c1;
     animation: pulse 2s infinite;
 }
 @keyframes pulse {
@@ -110,40 +83,37 @@ body {
     100% { box-shadow: 0 0 0 0 rgba(111, 66, 193, 0); }
 }
 
-/* Verse Text - Tetap elegan, namun bisa diberikan sedikit sentuhan ungu */
-.verse-text {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.3rem, 2.5vw, 1.9rem);
-    line-height: 1.6;
-    color: #4a2c85; /* Sedikit lebih gelap dari ungu utama agar kontras namun senada */
-    font-style: italic;
+.zoom-img:hover { transform: scale(1.1); }
+
+.verse-text { 
+    font-family: 'Playfair Display', serif; font-size: clamp(1.3rem, 2.5vw, 1.9rem); 
+    font-style: italic; color: #4a2c85; line-height: 1.6;
 }
 
-.hero-section { min-height: 80vh; display: flex; align-items: center; position: relative; }
+/* Event Calendar Badge */
+.event-calendar-badge { min-width: 65px; text-align: center; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(111, 66, 193, 0.15); }
+.event-calendar-month { background: #6f42c1; color: white; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; padding: 4px 0; letter-spacing: 1px; }
+.event-calendar-date { background: white; color: #6f42c1; font-size: 1.5rem; font-weight: 800; padding: 6px 0; line-height: 1; }
 
-/* Style Mini Kalender Event - Ganti semua aksen biru ke ungu */
-.event-calendar-badge {
-    min-width: 65px;
-    text-align: center;
-    border-radius: 12px;
+/* Merapikan judul berita agar tidak berantakan */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    /* Shadow ungu tipis */
-    box-shadow: 0 4px 10px rgba(111, 66, 193, 0.15);
 }
-.event-calendar-month {
-    background: #6f42c1; /* Ungu utama */
-    color: white;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    padding: 4px 0;
-    letter-spacing: 1px;
+.object-fit-cover {
+    object-fit: cover;
 }
-.event-calendar-date {
-    background: white;
-    color: #6f42c1; /* Ungu utama */
-    font-size: 1.5rem;
-    font-weight: 800;
-    padding: 6px 0;
-    line-height: 1;
+
+/* Responsive Mobile Adjustments */
+@media (max-width: 767px) {
+    .hero-title { font-size: 1.8rem !important; margin-bottom: 1rem !important; padding: 0 10px; }
+    .church-name-aesthetic { font-size: 2.1rem !important; white-space: nowrap; display: block; margin-top: 5px; }
+    .hero-section { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+    .row.g-4 > [class*='col-'] { margin-bottom: 1.5rem; }
+    .glass-card { padding: 1.5rem !important; }
+    .glass-card [style*="height: 320px"] { height: 250px !important; }
+    h2 { font-size: 1.5rem !important; }
+    .container-fluid { padding-left: 20px !important; padding-right: 20px !important; }
 }

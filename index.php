@@ -1,4 +1,11 @@
 <?php ob_start(); ?>
+
+<?php
+include 'koneksi.php';  
+// Ambil 3 event terlaksana terbaru
+$queryNews = mysqli_query($koneksi, "SELECT * FROM events WHERE DATE(tanggal) < CURDATE() AND tanggal != '0000-00-00' ORDER BY tanggal DESC LIMIT 3");
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -10,77 +17,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700;1,900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="assets/css/style-beranda.css?v=<?php echo time(); ?>">
     
-    <style>
-        /* CSS GLOBAL UNTUK TEMA UNGU */
-        :root { --bs-primary: #6f42c1; }
-        .bg-primary { background-color: #6f42c1 !important; }
-        .text-primary { color: #6f42c1 !important; }
-        .btn-primary { background-color: #6f42c1 !important; border-color: #6f42c1 !important; }
-        .btn-outline-primary { border-color: #6f42c1 !important; color: #6f42c1 !important; }
-        .btn-outline-primary:hover { background-color: #6f42c1 !important; color: white !important; }
-        .border-primary { border-color: #6f42c1 !important; }
-        .bg-opacity-10 { background-color: rgba(111, 66, 193, 0.1) !important; }
-        
-        /* Memperbaiki ikon glow ungu */
-        .icon-pulse {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 70px; height: 70px; border-radius: 50%;
-            background-color: rgba(111, 66, 193, 0.1);
-            color: #6f42c1;
-            box-shadow: 0 0 0 0 rgba(111, 66, 193, 0.4);
-            animation: pulse 2s infinite;
-        }
-
-        .zoom-img:hover {
-        transform: scale(1.1); /* Foto membesar 10% saat kursor di atasnya */
-        }
-
-        /* CSS KHUSUS MOBILE */
-    @media (max-width: 767px) {
-        .hero-title {
-            font-size: 1.8rem !important; /* Ukuran teks "Selamat Datang di" */
-            margin-bottom: 1rem !important;
-            padding: 0 10px; /* Menambah ruang di samping agar tidak mepet */
-        }
-        .church-name-aesthetic {
-            font-size: 2.1rem !important; /* Ukuran font gereja agar muat 1 baris */
-            white-space: nowrap;          /* Memaksa teks tetap 1 baris */
-            display: block;               /* Memastikan dia punya ruang sendiri */
-            margin-top: 5px;
-        }
-        /* Mengurangi py-5 pada hero-section agar lebih ringkas di mobile */
-        .hero-section {
-            padding-top: 2rem !important;
-            padding-bottom: 2rem !important;
-        }
-
-        .row.g-4 > [class*='col-'] {
-            margin-bottom: 1.5rem;
-        }
-        
-        /* Mengatur ulang tinggi kartu agar tidak terlalu panjang di mobile */
-        .glass-card {
-            padding: 1.5rem !important;
-        }
-        
-        /* Memastikan gambar tetap proporsional */
-        .glass-card [style*="height: 320px"] {
-            height: 250px !important;
-        }
-
-        /* Mengurangi ukuran font judul agar tidak patah baris */
-        h2 { font-size: 1.5rem !important; }
-        
-        /* Mengatur padding container agar tidak terlalu mepet ke layar */
-        .container-fluid {
-            padding-left: 20px !important;
-            padding-right: 20px !important;
-        }
-    }
-    </style>
 </head>
 <body>
 
@@ -91,7 +29,6 @@
 </div>
 
 <?php 
-include 'koneksi.php'; 
 include 'navbar.php'; 
 ?>
 
@@ -173,6 +110,116 @@ include 'navbar.php';
     </div>
   </div>
 </div>
+
+
+<section class="py-5" id="berita-kegiatan">
+    <div class="container">
+        <h2 class="fw-bold mb-5 text-center text-dark" data-aos="fade-up">Berita Kegiatan</h2>
+        
+        <div class="row g-4 justify-content-center">
+            <?php 
+            if(mysqli_num_rows($queryNews) > 0):
+                while($row = mysqli_fetch_assoc($queryNews)): 
+            ?>
+            <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                <div class="glass-card h-100 shadow-sm border-0 d-flex flex-column" style="border-radius: 20px; overflow: hidden;">
+                    <div style="height: 200px; overflow: hidden;">
+                        <img src="assets/gallery/<?php echo htmlspecialchars($row['poster']); ?>" 
+                             class="w-100 h-100 object-fit-cover zoom-img" 
+                             alt="<?php echo htmlspecialchars($row['judul']); ?>">
+                    </div>
+                    <div class="card-body p-4 d-flex flex-column">
+                        <span class="badge bg-primary mb-2 align-self-start shadow-sm"><?php echo date('d M Y', strtotime($row['tanggal'])); ?></span>
+                        <h6 class="fw-bold text-dark mb-3 line-clamp-2"><?php echo htmlspecialchars($row['judul']); ?></h6>
+                        <button class="btn btn-outline-primary w-100 rounded-pill py-2 mt-auto fw-bold" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#modalNews<?php echo $row['id']; ?>">
+                            Lihat Detail
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <?php 
+                endwhile; 
+            else: 
+            ?>
+                <div class="col-12 text-center py-4">
+                    <p class="text-muted">Belum ada berita kegiatan terbaru.</p>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</section>
+
+<?php 
+mysqli_data_seek($queryNews, 0); 
+while($row = mysqli_fetch_assoc($queryNews)): ?>
+<div class="modal fade" id="modalNews<?php echo $row['id']; ?>" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="p-4 text-white" style="background: linear-gradient(135deg, #6f42c1 0%, #4a2b85 100%);">
+                <h4 class="fw-bold mb-0"><i class="bi bi-newspaper me-2"></i>Detail Kegiatan</h4>
+            </div>
+            
+            <div class="modal-body p-4 bg-light">
+                <div class="row">
+                    <div class="col-lg-5 mb-3">
+                        <div class="bg-white p-2 rounded-4 shadow-sm border">
+                            <img src="assets/gallery/<?php echo htmlspecialchars($row['poster']); ?>" class="img-fluid rounded-3 w-100">
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <h5 class="fw-bold text-dark mb-2"><?php echo htmlspecialchars($row['judul']); ?></h5>
+                        <div class="d-flex align-items-center text-primary mb-3">
+                            <i class="bi bi-calendar3 me-2"></i> 
+                            <span class="small fw-bold"><?php echo date('d F Y', strtotime($row['tanggal'])); ?></span>
+                        </div>
+                        <div class="bg-white p-3 rounded-4 shadow-sm border border-light">
+                            <p class="text-muted small mb-0" style="line-height: 1.7;"><?php echo nl2br(htmlspecialchars($row['deskripsi'])); ?></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mt-4 mb-3">
+                    <h6 class="fw-bold mb-0 text-dark text-uppercase" style="font-size: 0.8rem; letter-spacing: 1px;">
+                        <i class="bi bi-images me-2 text-primary"></i>Dokumentasi Foto
+                    </h6>
+                    <div class="flex-grow-1 border-top ms-3 opacity-25"></div>
+                </div>
+
+                <div class="row g-2">
+                    <?php 
+                    $galeri = mysqli_query($koneksi, "SELECT * FROM event_gallery WHERE event_id = '".$row['id']."'");
+                    while($g = mysqli_fetch_assoc($galeri)): ?>
+                        <div class="col-3">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#modalFotoNews<?php echo $g['id']; ?>" class="d-block border rounded-3 overflow-hidden shadow-sm hover-zoom">
+                                <img src="assets/gallery/<?php echo $g['foto_path']; ?>" class="w-100 h-100" style="object-fit:cover; aspect-ratio:1/1;">
+                            </a>
+                        </div>
+                    <?php endwhile; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php 
+$galeri = mysqli_query($koneksi, "SELECT * FROM event_gallery WHERE event_id = '".$row['id']."'");
+while($g = mysqli_fetch_assoc($galeri)): ?>
+    <div class="modal fade" id="modalFotoNews<?php echo $g['id']; ?>" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 bg-transparent">
+                <div class="modal-body p-0 text-center">
+                    <img src="assets/gallery/<?php echo $g['foto_path']; ?>" class="img-fluid rounded-3 shadow-lg border border-white border-2">
+                    <button type="button" class="btn btn-dark rounded-pill mt-3 shadow" data-bs-dismiss="modal">
+                        <i class="bi bi-x-lg me-1"></i> Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endwhile; ?>
+<?php endwhile; ?>
 
 <section class="schedule-section py-5">
     <div class="container text-center py-4">
