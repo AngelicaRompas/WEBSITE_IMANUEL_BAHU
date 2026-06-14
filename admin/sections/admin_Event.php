@@ -21,7 +21,7 @@
                     <thead class="table-light"><tr><th class="ps-4">Tanggal</th><th>Judul</th><th>Lokasi</th><th class="text-end pe-4">Aksi</th></tr></thead>
                     <tbody>
                     <?php 
-                    $today = date('Y-m-d');
+                    // Menggunakan $today yang sudah ada dari admin_dashboard.php
                     $q_mendatang = mysqli_query($koneksi, "SELECT * FROM events WHERE tanggal >= '$today' ORDER BY tanggal ASC");
                     while($evt = mysqli_fetch_assoc($q_mendatang)): ?>
                     <tr>
@@ -82,7 +82,7 @@
                     </div>
                     <div class="mb-3"><label class="small fw-bold">Lokasi</label><input type="text" name="lokasi" class="form-control" required></div>
                     <div class="mb-3"><label class="small fw-bold">Deskripsi</label><textarea name="deskripsi" class="form-control" rows="3"></textarea></div>
-                    <div class="mb-3"><label class="small fw-bold">Foto Cover</label><input type="file" name="poster" class="form-control" accept="image/*" required></div>
+                    <div class="mb-3"><label class="small fw-bold">Foto Cover (Opsional)</label><input type="file" name="poster" class="form-control" accept="image/*"></div>
                     <div class="mb-3"><label class="small fw-bold">Dokumentasi (Multiple)</label><input type="file" name="galeri[]" class="form-control" accept="image/*" multiple></div>
                 </div>
                 <div class="modal-footer border-0"><button type="submit" name="simpan_event" class="btn btn-primary">Simpan</button></div>

@@ -1,70 +1,81 @@
-        .page-header-premium {
-            padding-top: 6rem;
-            padding-bottom: 3rem;
-            position: relative;
-        }
-        .main-title-aesthetic {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(3rem, 5vw, 4rem);
-            font-weight: 900;
-            color: #0f172a;
-            letter-spacing: -1px;
-        }
-        
-        /* Modifikasi Event Card dengan Glassmorphism */
-        .event-card-glass {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 1);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-            transition: all 0.3s ease;
-        }
-        .event-card-glass:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(13, 110, 253, 0.12);
-        }
-        
-        .badge-kategori { 
-            position: absolute; 
-            top: 15px; 
-            left: 15px; 
-            z-index: 10;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-        
-        .img-event { 
-            height: 220px; 
-            object-fit: cover; 
-            transition: transform 0.5s ease;
-        }
-        .event-card-glass:hover .img-event {
-            transform: scale(1.05); /* Efek zoom halus saat di-hover */
-        }
-        
-        /* Kustomisasi Tab Navigasi agar Premium */
-        .nav-pills .nav-link {
-            border-radius: 50rem;
-            padding: 10px 30px;
-            color: #475569;
-            font-weight: 600;
-            transition: all 0.3s;
-            background: rgba(255,255,255,0.6);
-            border: 1px solid rgba(13, 110, 253, 0.1);
-            margin: 0 5px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
-        }
-        .nav-pills .nav-link:hover {
-            background: rgba(255,255,255,0.9);
-            transform: translateY(-2px);
-        }
-        .nav-pills .nav-link.active {
-            background: #6f42c1;
-            color: white;
-            box-shadow: 0 8px 20px rgba(13, 110, 253, 0.25);
-            border-color: #6f42c1;
-        }
+/* ==========================================================================
+   EVENT PAGE STYLES - GMIM IMANUEL BAHU (OPTIMIZED)
+   ========================================================================== */
+
+/* Global Reset & Layout */
+body { overflow-x: hidden; }
+
+/* Header & Typography */
+.page-header-premium { padding-top: 4rem; padding-bottom: 2rem; position: relative; }
+.main-title-aesthetic { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; color: #0f172a; letter-spacing: -1px; }
+
+/* Upcoming Event Cards */
+.event-card-glass { 
+    background: rgba(255, 255, 255, 0.75); 
+    backdrop-filter: blur(16px); 
+    border: 1px solid rgba(255, 255, 255, 1); 
+    border-radius: 20px; 
+    overflow: hidden; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); 
+    transition: all 0.3s ease; 
+    width: 100%; 
+}
+.event-card-glass:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(13, 110, 253, 0.12); }
+.img-event { height: 220px; width: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.event-card-glass:hover .img-event { transform: scale(1.05); }
+
+/* Tabs */
+.nav-pills .nav-link { 
+    border-radius: 50rem; 
+    padding: 10px 25px; 
+    color: #475569; 
+    font-weight: 600; 
+    transition: all 0.3s; 
+    background: rgba(255,255,255,0.6); 
+    border: 1px solid rgba(13, 110, 253, 0.1); 
+    margin: 0 5px; 
+    white-space: nowrap; 
+}
+.nav-pills .nav-link.active { background: #6f42c1; color: white; box-shadow: 0 8px 20px rgba(13, 110, 253, 0.25); }
+
+/* Archived Event Cards */
+.event-card-archived { 
+    background: #ffffff; 
+    border-radius: 24px; 
+    padding: 15px; 
+    transition: 0.4s; 
+    border: 1px solid rgba(0,0,0,0.05); 
+    width: 100%; 
+}
+.event-card-archived:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(111, 66, 193, 0.15) !important; }
+.img-event-archived { height: 200px; width: 100%; object-fit: cover; border-radius: 18px; filter: grayscale(30%); transition: 0.4s; }
+.event-card-archived:hover .img-event-archived { filter: grayscale(0%); }
+
+/* Buttons & Utilities */
+.btn-doc { background: #f1f5f9; color: #475569; font-weight: 600; border-radius: 12px; transition: 0.3s; }
+.btn-doc:hover { background: #6f42c1; color: white; }
+.hover-zoom { transition: transform 0.3s ease; }
+.hover-zoom:hover { transform: scale(1.05); }
+.border-primary { border-color: #6f42c1 !important; }
+.text-primary { color: #6f42c1 !important; }
+
+/* MODAL MODERN RESPONSIVE */
+/* Memastikan Modal tidak melebar di layar HP */
+.modal-content { border-radius: 20px !important; }
+.modal-body img { max-width: 100%; }
+
+@media (max-width: 768px) {
+    .main-title-aesthetic { font-size: 2.2rem; }
+    .nav-pills .nav-link { padding: 8px 15px; font-size: 0.85rem; }
+    
+    /* Membuat Grid Galeri lebih rapat di mobile */
+    .col-3 { width: 33.33%; } 
+    
+    /* Sesuaikan padding modal agar tidak terlalu rapat di pinggir layar */
+    .modal-body { padding: 1.5rem !important; }
+}
+
+@media (max-width: 576px) {
+    /* Galeri di HP bisa dibuat lebih besar (2 kolom) */
+    .col-3 { width: 50%; }
+}

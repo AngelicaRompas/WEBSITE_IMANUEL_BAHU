@@ -8,6 +8,8 @@ if (!isset($_SESSION['admin_imanuel'])) {
 
 include '../koneksi.php';
 
+$today = date('Y-m-d');
+
 /* =========================
    DATA STATISTIK
 ========================= */
