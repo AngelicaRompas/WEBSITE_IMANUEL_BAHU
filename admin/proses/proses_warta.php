@@ -1,65 +1,73 @@
 <?php
 session_start();
 if (!isset($_SESSION['admin_imanuel'])) {
-    header("Location: ../login.php"); // Perbaiki path redirect login
+    header("Location: ../../login.php"); 
     exit;
 }
 include '../../koneksi.php';
 
 if (isset($_POST['upload_warta'])) {
-    // Amankan data teks
-    $nomor_warta        = mysqli_real_escape_string($koneksi, $_POST['nomor_warta']);
-    $tanggal            = mysqli_real_escape_string($koneksi, $_POST['tanggal']);
-    $tema_mingguan      = mysqli_real_escape_string($koneksi, $_POST['tema_mingguan']);
-    $pembacaan_alkitab  = mysqli_real_escape_string($koneksi, $_POST['pembacaan_alkitab']);
-    $isi_warta          = mysqli_real_escape_string($koneksi, $_POST['isi_warta']);
+    // 1. Amankan Data Umum
+    $tanggal           = mysqli_real_escape_string($koneksi, $_POST['tanggal']);
+    $tema_mingguan     = mysqli_real_escape_string($koneksi, $_POST['tema_mingguan']);
+    $pembacaan_alkitab = mysqli_real_escape_string($koneksi, $_POST['pembacaan_alkitab']);
     
-    // Ambil data file
+    // 2. Upload File PDF Utama
     $file_name  = $_FILES['file_pdf']['name'];
     $file_tmp   = $_FILES['file_pdf']['tmp_name'];
-    $file_size  = $_FILES['file_pdf']['size'];
-    $file_error = $_FILES['file_pdf']['error'];
+    $ekstensi   = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+    
+    if ($ekstensi == 'pdf') {
+        $nama_file_baru = "warta_" . $tanggal . "_" . uniqid() . ".pdf";
+        $folder_tujuan  = "../../assets/document_warta/" . $nama_file_baru;
 
-    $ekstensi_diperbolehkan = ['pdf', 'jpg', 'jpeg', 'png'];
-    $x = explode('.', $file_name);
-    $ekstensi = strtolower(end($x));
-
-    if ($file_error === 0) {
-        if (in_array($ekstensi, $ekstensi_diperbolehkan)) {
-            if ($file_size < 10485760) { 
+        if (move_uploaded_file($file_tmp, $folder_tujuan)) {
+            
+            // 3. Proses Insert untuk setiap Sesi (I, II, III)
+            foreach (['I', 'II', 'III'] as $sesi) {
+                // Amankan Input Data per Sesi
+                $khadim   = mysqli_real_escape_string($koneksi, $_POST["khadim_sesi_$sesi"]);
+                $penerima = mysqli_real_escape_string($koneksi, $_POST["penerima_sesi_$sesi"]);
+                $doa      = mysqli_real_escape_string($koneksi, $_POST["doa_sesi_$sesi"]);
+                $puji     = mysqli_real_escape_string($koneksi, $_POST["puji_sesi_$sesi"]);
                 
-                $nama_file_baru = "doc_warta_" . $tanggal . "_" . uniqid() . "." . $ekstensi;
+                // Penanganan Upload Foto Khadim
+                $foto_khadim = "";
+                if (!empty($_FILES["foto_sesi_$sesi"]['name'])) {
+                    $f_name = $_FILES["foto_sesi_$sesi"]['name'];
+                    $f_tmp  = $_FILES["foto_sesi_$sesi"]['tmp_name'];
+                    $f_ext  = strtolower(pathinfo($f_name, PATHINFO_EXTENSION));
+                    $foto_khadim = "foto_" . $sesi . "_" . uniqid() . "." . $f_ext;
+                    move_uploaded_file($f_tmp, "../../admin/assets/images-khadim/" . $foto_khadim);
+                }
                 
-                // PERBAIKAN: Gunakan ../../ untuk menunjuk folder assets di root website
-                // Ubah path ini sesuai struktur folder riil jika assets ada di root
-                $folder_tujuan = $_SERVER['DOCUMENT_ROOT'] . "/gereja_imanuel/assets/document_warta/" . $nama_file_baru;
-
-                // Periksa apakah folder benar-benar ada, jika belum otomatis dibuat
-                if(!is_dir($_SERVER['DOCUMENT_ROOT'] . "/gereja_imanuel/assets/document_warta/")) {
-                    mkdir($_SERVER['DOCUMENT_ROOT'] . "/gereja_imanuel/assets/document_warta/", 0777, true);
-                }
-
-                if (move_uploaded_file($file_tmp, $folder_tujuan)) {
-                    $query = "INSERT INTO warta_jemaat (nomor_warta, tanggal, tema_mingguan, pembacaan_alkitab, isi_warta, file_pdf) 
-                              VALUES ('$nomor_warta', '$tanggal', '$tema_mingguan', '$pembacaan_alkitab', '$isi_warta', '$nama_file_baru')";
-                    
-                    if (mysqli_query($koneksi, $query)) {
-                        header("Location: ../admin_dashboard.php?pesan=sukses_warta&tab=edit-warta");
-                        exit;
-                    } else {
-                        echo "Error Database: " . mysqli_error($koneksi);
-                    }
-                } else {
-                    echo "Gagal memindahkan berkas. Pastikan folder tujuan dapat diakses.";
-                }
-            } else {
-                echo "Ukuran file terlalu besar (Maksimal 10MB).";
+                // Masukkan ke database
+                $query = "INSERT INTO warta_jemaat (
+                            tanggal, tema_mingguan, pembacaan_alkitab, 
+                            sesi_ibadah, nama_khadim, foto_khadim, penerima_jemaat, 
+                            doa_pembacaan, puji_pujian, file_pdf
+                          ) VALUES (
+                            '$tanggal', '$tema_mingguan', '$pembacaan_alkitab',
+                            'Ibadah Sesi $sesi', '$khadim', '$foto_khadim', '$penerima', 
+                            '$doa', '$puji', '$nama_file_baru'
+                          )";
+                
+                mysqli_query($koneksi, $query);
             }
+
+            // Arahkan ke dashboard dengan pesan sukses yang sudah terdaftar di sistem alert Anda
+            header("Location: ../admin_dashboard.php?pesan=sukses_warta&tab=edit-warta");
+            exit;
+            
         } else {
-            echo "Format ekstensi file wajib PDF atau Gambar.";
+            // Jika gagal upload PDF
+            header("Location: ../admin_dashboard.php?pesan=error&tab=edit-warta");
+            exit;
         }
     } else {
-        echo "Gagal mengunggah berkas warta, kode error: " . $file_error;
+        // Jika file bukan PDF
+        header("Location: ../admin_dashboard.php?pesan=error&tab=edit-warta");
+        exit;
     }
 } else {
     header("Location: ../admin_dashboard.php?tab=edit-warta");

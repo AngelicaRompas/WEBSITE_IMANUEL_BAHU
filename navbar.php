@@ -169,13 +169,9 @@ if (session_status() === PHP_SESSION_NONE) {
 
                 <li class="nav-item"><a class="nav-link px-3 fw-bold text-white" href="event.php">Event</a></li>
                 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle px-3 fw-bold text-white" href="#" role="button" data-bs-toggle="dropdown">Warta</a>
-                    <ul class="dropdown-menu shadow border-0 animate slideIn">
-                        <li><a class="dropdown-item fw-semibold" href="warta-keuangan.php">Laporan Keuangan</a></li>
-                        <li><a class="dropdown-item fw-semibold" href="warta-jemaat.php">Warta Jemaat</a></li>
-                    </ul>
-                </li>
+                <li class="nav-item"><a class="nav-link px-3 fw-bold text-white" href="warta-jemaat.php">Warta Jemaat</a></li>
+
+                <li class="nav-item"><a class="nav-link px-3 fw-bold text-white" href="warta-keuangan.php">Keuangan</a></li>
 
                 <li class="nav-item"><a class="nav-link px-3 fw-bold text-white" href="renungan.php">Renungan</a></li>
 

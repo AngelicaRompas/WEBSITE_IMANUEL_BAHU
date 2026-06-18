@@ -34,13 +34,13 @@
     <button class="nav-link nav-link-admin text-start py-3 d-flex justify-content-between align-items-center" 
         type="button" 
         data-bs-toggle="collapse" 
-        data-bs-target="#menu-pengelolaan" 
+        data-bs-target="#menu-profil" 
         aria-expanded="false">
-    <span><i class="bi bi-database-gear me-2"></i> Pengelolaan Data</span>
+    <span><i class="bi bi-database-gear me-2"></i> Edit Profil</span>
     <i class="bi bi-chevron-down"></i>
 </button>
 
-    <div class="collapse ps-3 mb-2" id="menu-pengelolaan">
+    <div class="collapse ps-3 mb-2" id="menu-profil">
         <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#edit-data-jemaat" type="button">
             <i class="bi bi-people-fill me-2"></i> Edit Data Jemaat
         </button>
@@ -124,14 +124,14 @@
                 <i class="bi bi-house-door-fill me-2"></i> Beranda
             </button>
 
-            <!-- DROPDOWN PENGELOLAAN DATA -->
+            <!-- DROPDOWN MENU EDIT PROFIL -->
             <button class="nav-link nav-link-admin text-start py-3 d-flex justify-content-between align-items-center" 
-                    type="button" data-bs-toggle="collapse" data-bs-target="#menu-pengelolaan-mobile" aria-expanded="false">
-                <span><i class="bi bi-database-gear me-2"></i> Pengelolaan Data</span>
+                    type="button" data-bs-toggle="collapse" data-bs-target="#menu-edit-profil-mobile" aria-expanded="false">
+                <span><i class="bi bi-database-gear me-2"></i> Edit Profil</span>
                 <i class="bi bi-chevron-down"></i>
             </button>
 
-            <div class="collapse ps-3 mb-2" id="menu-pengelolaan-mobile">
+            <div class="collapse ps-3 mb-2" id="menu-edit-profil-mobile">
                 <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#edit-data-jemaat" data-bs-dismiss="offcanvas" type="button">
                     <i class="bi bi-people-fill me-2"></i> Edit Data Jemaat
                 </button>
@@ -143,7 +143,6 @@
                 </button>
             </div>
 
-            <!-- MENU LAINNYA (Tanpa duplikasi) -->
             <button class="nav-link nav-link-admin text-start py-3" data-bs-toggle="pill" data-bs-target="#edit-warta" data-bs-dismiss="offcanvas" type="button">
                 <i class="bi bi-file-earmark-text-fill me-2"></i> Edit Warta Jemaat
             </button>
