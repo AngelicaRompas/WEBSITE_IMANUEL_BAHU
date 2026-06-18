@@ -58,8 +58,8 @@ $queryKetua = mysqli_query($koneksi, "SELECT * FROM ketua_jemaat ORDER BY tahun_
     <div class="row g-4 mb-5">
         <div class="col-lg-6 mb-4" data-aos="fade-up">
             <div class="glass-card">
-                <img src="assets/images/GIB.jpg" class="img-fluid rounded-4 mb-4" style="width: 100%; height: 300px; object-fit: cover;">
-                <h5 class="fw-bold" style="color: #6f42c1;">Gedung Gereja Saat Ini</h5>
+                <img src="assets/images/GEDUNG LAMA BARU.jpg" class="img-fluid rounded-4 mb-4" style="width: 100%; height: 300px; object-fit: cover;">
+                <h5 class="fw-bold" style="color: #6f42c1;">Gedung Gereja Lama & Gedung Gereja Saat Ini</h5>
                 <p class="text-muted small">Pusat peribadatan jemaat yang berlokasi di Jalan Wolter Monginsidi, Bahu.</p>
             </div>
         </div>

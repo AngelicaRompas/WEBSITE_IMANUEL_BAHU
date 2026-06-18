@@ -1,0 +1,102 @@
+/* =========================================
+   SIDEBAR & OFFCANVAS BASE
+========================================= */
+.admin-sidebar,
+.admin-offcanvas {
+    background: linear-gradient(180deg, #4c1d95 0%, #6d28d9 45%, #7c3aed 100%);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+}
+
+.admin-sidebar {
+    min-height: 100vh;
+}
+
+.admin-offcanvas {
+    width: 280px !important;
+}
+
+/* =========================================
+   TOPBAR & LOGO
+========================================= */
+.admin-mobile-topbar {
+    background: linear-gradient(90deg, #4c1d95, #7c3aed);
+    position: sticky;
+    top: 0;
+    z-index: 1040;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.admin-logo {
+    width: 70px;
+    height: 70px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.8rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* =========================================
+   NAVIGATION LINKS
+========================================= */
+.nav-link-admin {
+    border-radius: 16px !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-weight: 600;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+}
+
+.nav-link-admin:hover {
+    background: rgba(255, 255, 255, 0.12) !important;
+    color: #fff !important;
+    transform: translateX(4px);
+}
+
+.nav-link-admin.active {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: #fff !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* =========================================
+   DROPDOWN (COLLAPSE) STYLING
+========================================= */
+/* Ikon chevron */
+[data-bs-toggle="collapse"] i.bi-chevron-down {
+    transition: transform 0.3s ease;
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+[data-bs-toggle="collapse"][aria-expanded="true"] i.bi-chevron-down {
+    transform: rotate(180deg);
+}
+
+/* Styling menu di dalam dropdown agar terlihat bertingkat */
+.collapse .nav-link-admin {
+    margin-bottom: 4px;
+    padding-left: 1.5rem !important; /* Memberikan efek indentasi */
+    font-size: 0.92rem;
+    background: rgba(0, 0, 0, 0.05) !important;
+}
+
+.collapse .nav-link-admin:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+@media (max-width: 991px) {
+    .tab-content {
+        padding-top: 1rem;
+    }
+}

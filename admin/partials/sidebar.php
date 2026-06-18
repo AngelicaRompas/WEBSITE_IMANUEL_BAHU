@@ -31,24 +31,27 @@
             Beranda
         </button>
 
-        <button class="nav-link nav-link-admin text-start py-3"
-                data-bs-toggle="pill"
-                data-bs-target="#edit-data-jemaat"
-                type="button">
+    <button class="nav-link nav-link-admin text-start py-3 d-flex justify-content-between align-items-center" 
+        type="button" 
+        data-bs-toggle="collapse" 
+        data-bs-target="#menu-pengelolaan" 
+        aria-expanded="false">
+    <span><i class="bi bi-database-gear me-2"></i> Pengelolaan Data</span>
+    <i class="bi bi-chevron-down"></i>
+</button>
 
-            <i class="bi bi-people-fill me-2"></i>
-            Edit Data Jemaat
-
+    <div class="collapse ps-3 mb-2" id="menu-pengelolaan">
+        <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#edit-data-jemaat" type="button">
+            <i class="bi bi-people-fill me-2"></i> Edit Data Jemaat
         </button>
-
-        <button class="nav-link nav-link-admin text-start py-3"
-                data-bs-toggle="pill"
-                data-bs-target="#edit-profil"
-                type="button">
-
-            <i class="bi bi-person-gear me-2"></i>
-            Edit Sejarah
+        <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#edit-profil" type="button">
+            <i class="bi bi-person-gear me-2"></i> Edit Sejarah
         </button>
+        <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#edit-struktur" type="button">
+            <i class="bi bi-diagram-3-fill me-2"></i> Edit Struktur
+        </button>
+    </div>
+
 
         <button class="nav-link nav-link-admin text-start py-3"
                 data-bs-toggle="pill"
@@ -77,14 +80,6 @@
             Edit Keuangan
         </button>
 
-        <button class="nav-link nav-link-admin text-start py-3"
-                data-bs-toggle="pill"
-                data-bs-target="#edit-struktur"
-                type="button">
-
-            <i class="bi bi-diagram-3-fill me-2"></i>
-            Edit Struktur Pelayan
-        </button>
 
         <button class="nav-link nav-link-admin text-start py-3"
                 data-bs-toggle="pill"
@@ -114,213 +109,60 @@
 <!-- =========================================
      SIDEBAR MOBILE
 ========================================= -->
-
-<div class="offcanvas offcanvas-start admin-offcanvas d-lg-none"
-     tabindex="-1"
-     id="mobileSidebar">
-
+<div class="offcanvas offcanvas-start admin-offcanvas d-lg-none" tabindex="-1" id="mobileSidebar">
     <div class="offcanvas-header border-bottom border-light border-opacity-25">
-
         <h5 class="offcanvas-title text-white fw-bold mb-0">
-
-            <i class="bi bi-shield-lock-fill me-2"></i>
-            Admin Panel
-
+            <i class="bi bi-shield-lock-fill me-2"></i> Admin Panel
         </h5>
-
-        <button type="button"
-                class="btn-close btn-close-white"
-                data-bs-dismiss="offcanvas">
-        </button>
-
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
     </div>
-
+    
     <div class="offcanvas-body p-4">
-
         <div class="nav flex-column nav-pills">
-
-            <button class="nav-link nav-link-admin active text-start py-3"
-                    data-bs-toggle="pill"
-                    data-bs-target="#beranda-admin"
-                    data-bs-dismiss="offcanvas"
-                    type="button">
-
-                <i class="bi bi-house-door-fill me-2"></i>
-                Beranda
-
+            <!-- BERANDA -->
+            <button class="nav-link nav-link-admin active text-start py-3" data-bs-toggle="pill" data-bs-target="#beranda-admin" data-bs-dismiss="offcanvas" type="button">
+                <i class="bi bi-house-door-fill me-2"></i> Beranda
             </button>
 
-            <button class="nav-link nav-link-admin text-start py-3"
-                    data-bs-toggle="pill"
-                    data-bs-target="#edit-data-jemaat"
-                    data-bs-dismiss="offcanvas"
-                    type="button">
-
-                <i class="bi bi-people-fill me-2"></i>
-                Edit Data Jemaat
-
+            <!-- DROPDOWN PENGELOLAAN DATA -->
+            <button class="nav-link nav-link-admin text-start py-3 d-flex justify-content-between align-items-center" 
+                    type="button" data-bs-toggle="collapse" data-bs-target="#menu-pengelolaan-mobile" aria-expanded="false">
+                <span><i class="bi bi-database-gear me-2"></i> Pengelolaan Data</span>
+                <i class="bi bi-chevron-down"></i>
             </button>
 
-            <button class="nav-link nav-link-admin text-start py-3"
-                    data-bs-toggle="pill"
-                    data-bs-target="#edit-profil"
-                    data-bs-dismiss="offcanvas"
-                    type="button">
+            <div class="collapse ps-3 mb-2" id="menu-pengelolaan-mobile">
+                <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#edit-data-jemaat" data-bs-dismiss="offcanvas" type="button">
+                    <i class="bi bi-people-fill me-2"></i> Edit Data Jemaat
+                </button>
+                <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#edit-profil" data-bs-dismiss="offcanvas" type="button">
+                    <i class="bi bi-person-gear me-2"></i> Edit Sejarah
+                </button>
+                <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#edit-struktur" data-bs-dismiss="offcanvas" type="button">
+                    <i class="bi bi-diagram-3-fill me-2"></i> Edit Struktur
+                </button>
+            </div>
 
-                <i class="bi bi-person-gear me-2"></i>
-                Edit Profil / Sejarah
-
+            <!-- MENU LAINNYA (Tanpa duplikasi) -->
+            <button class="nav-link nav-link-admin text-start py-3" data-bs-toggle="pill" data-bs-target="#edit-warta" data-bs-dismiss="offcanvas" type="button">
+                <i class="bi bi-file-earmark-text-fill me-2"></i> Edit Warta Jemaat
             </button>
-
-            <button class="nav-link nav-link-admin text-start py-3"
-                    data-bs-toggle="pill"
-                    data-bs-target="#edit-warta"
-                    data-bs-dismiss="offcanvas"
-                    type="button">
-
-                <i class="bi bi-file-earmark-text-fill me-2"></i>
-                Edit Warta Jemaat
-
+            <button class="nav-link nav-link-admin text-start py-3" data-bs-toggle="pill" data-bs-target="#edit-event" data-bs-dismiss="offcanvas" type="button">
+                <i class="bi bi-calendar-event me-2"></i> Edit Event
             </button>
-
-            <button class="nav-link nav-link-admin text-start py-3"
-                    data-bs-toggle="pill"
-                    data-bs-target="#edit-event"
-                    data-bs-dismiss="offcanvas"
-                    type="button">
-
-                <i class="bi bi-calendar-event me-2"></i>
-                Edit Event
-
+            <button class="nav-link nav-link-admin text-start py-3" data-bs-toggle="pill" data-bs-target="#edit-keuangan" data-bs-dismiss="offcanvas" type="button">
+                <i class="bi bi-cash-coin me-2"></i> Edit Warta Keuangan
             </button>
-
-            <button class="nav-link nav-link-admin text-start py-3"
-                    data-bs-toggle="pill"
-                    data-bs-target="#edit-keuangan"
-                    data-bs-dismiss="offcanvas"
-                    type="button">
-
-                <i class="bi bi-cash-coin me-2"></i>
-                Edit Warta Keuangan
-
+            <button class="nav-link nav-link-admin text-start py-3" data-bs-toggle="pill" data-bs-target="#edit-renungan" data-bs-dismiss="offcanvas" type="button">
+                <i class="bi bi-journal-bookmark-fill me-2"></i> Edit Renungan Harian
             </button>
-
-            <button class="nav-link nav-link-admin text-start py-3"
-                    data-bs-toggle="pill"
-                    data-bs-target="#edit-struktur"
-                    data-bs-dismiss="offcanvas"
-                    type="button">
-
-                <i class="bi bi-diagram-3-fill me-2"></i>
-                Edit Struktur Pelayan
-
-            </button>
-
-            <button class="nav-link nav-link-admin text-start py-3"
-                    data-bs-toggle="pill"
-                    data-bs-target="#edit-renungan"
-                    data-bs-dismiss="offcanvas"
-                    type="button">
-
-                <i class="bi bi-journal-bookmark-fill me-2"></i>
-                Edit Renungan Harian
-
-            </button>
-
-            <button class="nav-link nav-link-admin text-start py-3"
-                    data-bs-toggle="pill"
-                    data-bs-target="#edit-navigasi"
-                    data-bs-dismiss="offcanvas"
-                    type="button">
-
-                <i class="bi bi-compass-fill me-2"></i>
-                Edit Tur Virtual 360°
-
-            </button>
-
         </div>
-
+        
+        <!-- LOGOUT -->
         <div class="mt-5 pt-4 border-top border-light border-opacity-25">
-
-            <a href="../logout.php"
-               class="btn btn-light text-danger fw-semibold rounded-pill w-100 py-2">
-
-                <i class="bi bi-box-arrow-left me-2"></i>
-                Keluar
-
+            <a href="../logout.php" class="btn btn-light text-danger fw-semibold rounded-pill w-100 py-2">
+                <i class="bi bi-box-arrow-left me-2"></i> Keluar
             </a>
-
         </div>
-
     </div>
-
 </div>
-
-<style>
-
-.admin-sidebar,
-.admin-offcanvas{
-    background:linear-gradient(180deg,#4c1d95 0%,#6d28d9 45%,#7c3aed 100%);
-    border-right:1px solid rgba(255,255,255,.08);
-    backdrop-filter:blur(20px);
-}
-
-.admin-sidebar{
-    min-height:100vh;
-}
-
-.admin-offcanvas{
-    width:280px !important;
-}
-
-.admin-mobile-topbar{
-    background:linear-gradient(90deg,#4c1d95,#7c3aed);
-    position:sticky;
-    top:0;
-    z-index:1040;
-    box-shadow:0 5px 20px rgba(0,0,0,.08);
-}
-
-.admin-logo{
-    width:70px;
-    height:70px;
-    border-radius:20px;
-    background:rgba(255,255,255,.12);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#fff;
-    font-size:1.8rem;
-    box-shadow:0 10px 25px rgba(0,0,0,.15);
-}
-
-.nav-link-admin{
-    border-radius:16px !important;
-    color:rgba(255,255,255,.85) !important;
-    font-weight:600;
-    margin-bottom:8px;
-    transition:.25s ease;
-    border:1px solid transparent;
-}
-
-.nav-link-admin:hover{
-    background:rgba(255,255,255,.12) !important;
-    color:#fff !important;
-    transform:translateX(4px);
-}
-
-.nav-link-admin.active{
-    background:rgba(255,255,255,.18) !important;
-    color:#fff !important;
-    box-shadow:0 10px 25px rgba(0,0,0,.15);
-}
-
-@media (max-width:991px){
-
-    .tab-content{
-        padding-top:1rem;
-    }
-
-}
-
-</style>
