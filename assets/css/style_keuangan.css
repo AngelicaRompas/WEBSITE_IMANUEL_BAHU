@@ -1,0 +1,107 @@
+    .page-header-premium {
+        padding-top: 6rem;
+        padding-bottom: 3rem;
+        position: relative;
+    }
+    .main-title-aesthetic {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(3rem, 5vw, 4rem);
+        font-weight: 900;
+        color: #0f172a;
+        letter-spacing: -1px;
+    }
+    
+    /* Modifikasi Card Saldo dengan Glassmorphism */
+    .saldo-card-glass {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 1);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+        transition: transform 0.3s ease;
+    }
+    .saldo-card-glass:hover {
+        transform: translateY(-5px);
+    }
+    
+    .saldo-primary-glass {
+        background: rgba(111, 66, 193, 0.9); /* Ungu */
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+    }
+    
+    /* Modifikasi Tabel Glassmorphism */
+    .table-glass-container {
+        background: rgba(255, 255, 255, 0.65);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 1);
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    }
+    
+    .table-custom {
+        margin-bottom: 0;
+    }
+    .table-custom thead th {
+        background-color: rgba(111, 66, 193, 0.08); /* Ungu muda */
+        color: #0f172a;
+        font-weight: 700;
+        border-bottom: 2px solid rgba(111, 66, 193, 0.2);
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+    }
+    .table-custom tbody td {
+        background-color: transparent !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        vertical-align: middle;
+    }
+    .table-custom tbody tr:hover td {
+        background-color: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    /* Styling Kartu Bulan */
+    .month-card {
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 12px;
+        padding: 10px;
+        transition: all 0.3s ease;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+    .month-card:hover {
+        background: rgba(111, 66, 193, 0.1);
+        transform: translateY(-3px);
+    }
+    .month-card.active {
+        background: linear-gradient(135deg, #6f42c1, #4a2c85);
+        color: white;
+    }
+    .month-card i { font-size: 1.1rem; }
+
+    .month-card a {
+        transition: transform 0.2s ease;
+    }
+    .month-card a:hover {
+        transform: scale(1.2);
+    }
+
+    /* CSS Tambahan untuk Form Login (Sama dengan Warta) */
+        .glass-card { 
+            background: rgba(255, 255, 255, 0.9); 
+            backdrop-filter: blur(10px); 
+            border: 1px solid rgba(111, 66, 193, 0.1); 
+            border-radius: 20px; 
+            box-shadow: 0 8px 32px rgba(111, 66, 193, 0.05); 
+        }
+        .btn-purple { background: #6f42c1; color: white; border-radius: 50px; transition: 0.3s;}
+        .btn-purple:hover { background: #5a369e; color: white; transform: translateY(-2px);}
+        .text-purple { color: #6f42c1; }
