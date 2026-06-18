@@ -61,7 +61,7 @@ include 'navbar.php';
         <div class="row g-4 justify-content-center"> 
             <?php
             $profil_items = [
-                ["foto" => "pendeta.jpg", "title" => "Pendeta", "desc" => "Pelayan Firman & Sakramen", "link" => "data-jemaat.php#pills-bpmj"],
+                ["foto" => "pendeta.png", "title" => "Pendeta", "desc" => "Pelayan Firman & Sakramen", "link" => "data-jemaat.php#pills-bpmj"],
                 ["foto" => "pelsus.jpg", "title" => "Pelayan Khusus", "desc" => "Penatua & Diaken Kolom", "link" => "data-jemaat.php#pills-pelsus"],
                 ["foto" => "bpmj.jpg", "title" => "Badan Pekerja", "desc" => "Majelis Jemaat", "link" => "data-jemaat.php#pills-bpmj"]
             ];

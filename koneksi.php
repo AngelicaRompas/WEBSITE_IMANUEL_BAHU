@@ -3,7 +3,7 @@
 $host     = "localhost";
 $username = "root";
 $password = "";
-$database = "db_gereja_imanuel";
+$database = "web_imanuel_bahu";
 $port     = 3307; // Sesuaikan dengan port MySQL Anda yang sedang berjalan
 
 // Membuat koneksi ke database
