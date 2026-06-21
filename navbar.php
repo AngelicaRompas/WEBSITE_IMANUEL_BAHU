@@ -143,7 +143,7 @@ if (session_status() === PHP_SESSION_NONE) {
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow-sm" style="background-color: #6f42c1;">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center fw-bold" href="index.php">
-            <img src="assets/images/logo-gmim.png" alt="Logo GMIM" width="55" height="55" class="me-3">
+            <img src="assets/images/logo_gereja_imanuel.png" alt="Logo GMIM" width="55" height="55" class="me-3">
             <div class="brand-container">
                 <span class="brand-text d-block" style="letter-spacing: 1px;">GMIM IMANUEL BAHU</span>
             </div>
