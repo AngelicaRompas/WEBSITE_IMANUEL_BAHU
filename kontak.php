@@ -15,59 +15,8 @@ include 'koneksi.php';
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700;1,900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="assets/css/style-beranda.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="assets/css/style-kontak.css?v=<?php echo time(); ?>">
     
-    <style>
-        .page-header-premium {
-            padding-top: 6rem;
-            padding-bottom: 3rem;
-            position: relative;
-        }
-        .main-title-aesthetic {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(3rem, 5vw, 4rem);
-            font-weight: 900;
-            color: #0f172a;
-            letter-spacing: -1px;
-        }
-        
-        /* Card Style yang identik dengan Warta */
-        .glass-card-custom {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 1);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-            transition: all 0.3s ease;
-        }
-        .glass-card-custom:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(111, 66, 193, 0.12) !important;
-        }
-        
-        .icon-circle-purple {
-            width: 50px; height: 50px;
-            border-radius: 15px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem;
-            background: rgba(111, 66, 193, 0.1); 
-            color: #6f42c1;
-        }
-
-        .form-control-aesthetic {
-            border-radius: 12px;
-            padding: 12px 20px;
-            border: 1px solid rgba(0,0,0,0.08);
-            background: rgba(255,255,255,0.5);
-            transition: all 0.3s ease;
-        }
-
-        .form-control-aesthetic:focus {
-            background: #fff;
-            border-color: #6f42c1;
-            box-shadow: 0 0 0 4px rgba(111, 66, 193, 0.1);
-        }
-    </style>
 </head>
 <body>
 

@@ -1,0 +1,93 @@
+.page-header-premium {
+            padding-top: 6rem;
+            padding-bottom: 3rem;
+            position: relative;
+        }
+        
+        .main-title-aesthetic {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 6vw, 4.5rem);
+            font-weight: 900;
+            color: #000000;
+            letter-spacing: -1px;
+            line-height: 1;
+        }
+        
+        .sub-title-aesthetic {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            font-weight: 600;
+            color: #6f42c1;
+            letter-spacing: 0.5px;
+        }
+
+        .church-highlight {
+            color: #6f42c1;
+            font-weight: 800;
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Ornamen Garis Minimalis di Bawah Judul */
+        .premium-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .premium-divider .line {
+            height: 1px;
+            width: 80px;
+            background: linear-gradient(90deg, transparent, #6f42c1, transparent);
+        }
+        .premium-divider .dot {
+            width: 6px;
+            height: 6px;
+            background-color: #6f42c1;
+            border-radius: 50%;
+            margin: 0 10px;
+            box-shadow: 0 0 8px #6f42c1;
+        }
+
+        /* Styling List Misi */
+        .mission-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .mission-list li {
+            position: relative;
+            padding-left: 2.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            color: #334155;
+            font-size: 1.05rem;
+            transition: transform 0.2s ease;
+        }
+        .mission-list li:hover {
+            transform: translateX(3px);
+        }
+        .mission-list li i {
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: #6f42c1;
+            font-size: 1.3rem;
+        }
+        
+        .visi-text-callout {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            line-height: 1.4;
+            color: #0f172a;
+        }
+
+        @media (min-width: 992px) {
+            .divider-vertical {
+                border-right: 1px dashed rgba(111, 66, 193, 0.25);
+                padding-right: 3.5rem;
+            }
+            .mission-content {
+                padding-left: 3.5rem;
+            }
+        }

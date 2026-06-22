@@ -10,29 +10,7 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700;1,900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style-beranda.css?v=<?php echo time(); ?>">
-    
-    <style>
-        .page-header-premium { padding-top: 6rem; padding-bottom: 3rem; }
-        .main-title-aesthetic { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 6vw, 4.5rem); font-weight: 900; color: #0f172a; }
-        .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 1); border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); padding: 1.5rem; transition: 0.3s; height: 100%; }
-        .glass-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(111, 66, 193, 0.1); }
-        .header-box { display: inline-block; padding: 10px 30px; background: #6f42c1; color: white; border-radius: 50px; font-weight: bold; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(111, 66, 193, 0.3); }
-        .ketua-img { width: 100%; height: 250px; object-fit: cover; border-radius: 15px; cursor: pointer; transition: 0.3s; }
-        .ketua-img:hover { filter: brightness(1.1); }
-        /* Spesifik untuk tombol close di modal foto */
-        .modal-content .btn-close {
-            background-color: #6f42c1 !important;
-            color: white !important;
-            opacity: 1 !important;
-            border-radius: 50%;
-            padding: 6px;
-            margin: 5px; /* Memberi jarak agar tidak menimpa foto */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        .modal-content .btn-close:hover {
-            background-color: #5a32a3 !important;
-        }
-    </style>
+    <link rel="stylesheet" href="assets/css/style-sejarah.css?v=<?php echo time(); ?>">
 </head>
 <body>
 
