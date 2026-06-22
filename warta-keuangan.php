@@ -16,7 +16,7 @@ if (isset($_POST['btn_akses'])) {
         header("Location: " . $halaman_ini); 
         exit;
     } else { 
-        $error = "Kode referral salah!"; 
+        $error = "Kode Akses Salah!"; 
     }
 }
 
@@ -83,7 +83,7 @@ if ($akses_keuangan) {
             </span>      
         </div>
         <h1 class="main-title-aesthetic mb-3" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="100">
-            Transparansi Keuangan
+            Laporan Keuangan
         </h1>
         <p class="text-muted fw-medium mb-0" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
             Laporan Kas Masuk, Keluar, dan Saldo Kumulatif Jemaat GMIM Imanuel Bahu
@@ -97,8 +97,8 @@ if ($akses_keuangan) {
         <div class="row justify-content-center" data-aos="zoom-in" data-aos-delay="300">
             <div class="col-md-5 glass-card p-5 text-center mt-4">
                 <i class="bi bi-shield-lock text-purple fs-1 mb-3 d-block"></i>
-                <h5 class="fw-bold my-3">Area Keuangan Terbatas</h5>
-                <p class="text-muted small mb-4">Laporan keuangan bersifat internal. Silakan masukkan kode akses jemaat untuk melanjutkan.</p>
+                <h5 class="fw-bold my-3">Area Terbatas Jemaat</h5>
+                <p class="text-muted small mb-4">Laporan keuangan bersifat internal. Silakan masukkan kode akses jemaat yang dapat diperoelh melalui panduan website Imanuel Bahu atau melalui pelayan khusus.</p>
                 <form method="POST">
                     <input type="text" name="kode_referral" class="form-control mb-3 text-center rounded-pill py-2" placeholder="Masukkan Kode Akses..." required>
                     <button type="submit" name="btn_akses" class="btn btn-purple w-100 py-2 fw-bold">Verifikasi Akses</button>

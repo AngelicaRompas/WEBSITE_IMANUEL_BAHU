@@ -36,7 +36,7 @@ include 'navbar.php';
     <div class="container text-center position-relative">
         <div data-aos="fade-down" data-aos-duration="1000">
             <h1 class="hero-title fw-bolder mb-5 mt-3">
-                Selamat Datang di <br>
+                Selamat Datang di Portal Pelayanan <br>
                 <span class="church-name-aesthetic fst-italic" style="font-size: 4.5rem;">"GMIM Imanuel Bahu"</span>
             </h1>
         </div>
@@ -61,9 +61,9 @@ include 'navbar.php';
         <div class="row g-4 justify-content-center"> 
             <?php
             $profil_items = [
-                ["foto" => "pendeta.png", "title" => "Pendeta", "desc" => "Pelayan Firman & Sakramen", "link" => "data-jemaat.php#pills-bpmj"],
+                ["foto" => "pendeta.png", "title" => "Pendeta", "desc" => "Pendeta Pelayanan GMIM Imanuel Bahu", "link" => "data-jemaat.php#pills-bpmj"],
                 ["foto" => "pelsus.jpg", "title" => "Pelayan Khusus", "desc" => "Penatua & Diaken Kolom", "link" => "data-jemaat.php#pills-pelsus"],
-                ["foto" => "bpmj.jpg", "title" => "Badan Pekerja", "desc" => "Majelis Jemaat", "link" => "data-jemaat.php#pills-bpmj"]
+                ["foto" => "bpmj.jpg", "title" => "Badan Pekerja Majelis Jemaat", "desc" => "Badan Pekerja Majelis Jemaat Periode Pelayanan 2022 - 2026", "link" => "data-jemaat.php#pills-bpmj"]
             ];
             foreach($profil_items as $item):
                 $path_foto = "assets/images/" . $item['foto'];
@@ -114,7 +114,7 @@ include 'navbar.php';
 
 <section class="py-5" id="berita-kegiatan">
     <div class="container">
-        <h2 class="fw-bold mb-5 text-center text-dark" data-aos="fade-up">Berita Kegiatan</h2>
+        <h2 class="fw-bold mb-5 text-center text-dark" data-aos="fade-up">Berita Kegiatan Pelayanan</h2>
         
         <div class="row g-4 justify-content-center">
             <?php 
@@ -224,7 +224,7 @@ while($g = mysqli_fetch_assoc($galeri)): ?>
 <section class="schedule-section py-5">
     <div class="container text-center py-4">
         <h2 class="fw-bold mb-2 text-dark" data-aos="fade-up">Jadwal Ibadah Minggu</h2>
-        <p class="text-muted mb-5" data-aos="fade-up" data-aos-delay="100">Mari bertumbuh bersama dalam persekutuan jemaat Imanuel Bahu</p>
+        <p class="text-muted mb-5" data-aos="fade-up" data-aos-delay="100">Mari bertumbuh bersama dalam persekutuan Ibadah jemaat GMIM Imanuel Bahu.</p>
         
         <div class="row g-4 justify-content-center">
             <div class="col-md-4" data-aos="fade-up" data-aos-delay="150">

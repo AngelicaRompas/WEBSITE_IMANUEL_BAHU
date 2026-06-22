@@ -60,7 +60,7 @@ $queryKetua = mysqli_query($koneksi, "SELECT * FROM ketua_jemaat ORDER BY tahun_
             <div class="glass-card">
                 <img src="assets/images/GEDUNG LAMA BARU.jpg" class="img-fluid rounded-4 mb-4" style="width: 100%; height: 300px; object-fit: cover;">
                 <h5 class="fw-bold" style="color: #6f42c1;">Gedung Gereja Lama & Gedung Gereja Saat Ini</h5>
-                <p class="text-muted small">Pusat peribadatan jemaat yang berlokasi di Jalan Wolter Monginsidi, Bahu.</p>
+                <p class="text-muted small">Pusat Peribadatan Jemaat Yang Berlokasi di Jl. Wolter Monginsidi, Bahu, Kec. Malalayang, Kota Manado, Sulawesi Utara.</p>
             </div>
         </div>
         

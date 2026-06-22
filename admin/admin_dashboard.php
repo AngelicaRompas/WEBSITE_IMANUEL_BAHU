@@ -116,7 +116,7 @@ $kolomBerikutnya = (
 
     <div class="fw-bold text-white">
         <i class="bi bi-shield-lock-fill me-2"></i>
-        Admin Panel
+        Dashboard Admin
     </div>
 
     <button class="btn btn-light rounded-pill px-3"

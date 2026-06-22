@@ -12,7 +12,7 @@ if (isset($_POST['btn_akses'])) {
         header("Location: warta-jemaat.php"); 
         exit;
     } else { 
-        $error = "Kode referral salah!"; 
+        $error = "Kode Akses Salah!"; 
     }
 }
 
@@ -26,6 +26,16 @@ if (isset($_GET['logout'])) {
 // Logika Pengambilan Data Database
 $detail_tgl = isset($_GET['detail']) ? mysqli_real_escape_string($koneksi, $_GET['detail']) : null;
 $query = ($akses_warta) ? ($detail_tgl ? mysqli_query($koneksi, "SELECT * FROM warta_jemaat WHERE tanggal = '$detail_tgl'") : mysqli_query($koneksi, "SELECT DISTINCT tanggal FROM warta_jemaat ORDER BY tanggal DESC")) : null;
+
+// Logika Ekstra: Ambil file PDF satu kali saja untuk diletakkan di header detail
+$pdf_file = '';
+if ($detail_tgl && $akses_warta) {
+    $q_pdf = mysqli_query($koneksi, "SELECT file_pdf FROM warta_jemaat WHERE tanggal = '$detail_tgl' AND file_pdf != '' LIMIT 1");
+    if ($q_pdf && mysqli_num_rows($q_pdf) > 0) {
+        $r_pdf = mysqli_fetch_assoc($q_pdf);
+        $pdf_file = $r_pdf['file_pdf'];
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -40,7 +50,7 @@ $query = ($akses_warta) ? ($detail_tgl ? mysqli_query($koneksi, "SELECT * FROM w
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700;1,900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Tautan CSS Eksternal -->
+    <!-- Tautan CSS Eksternal (Gunakan versioning time agar anti-cache browser) -->
     <link rel="stylesheet" href="assets/css/style-beranda.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="assets/css/style_warta.css?v=<?php echo time(); ?>">
 </head>
@@ -55,20 +65,18 @@ $query = ($akses_warta) ? ($detail_tgl ? mysqli_query($koneksi, "SELECT * FROM w
 
 <?php include 'navbar.php'; ?>
 
-<!-- Premium Header (Diperbaiki Spasi dan Ketebalan Teksnya) -->
+<!-- Premium Header Area -->
 <section class="page-header-premium text-center z-2 mt-5 pt-5">
     <div class="container mt-3">
         <div data-aos="fade-down" data-aos-duration="800">
-            <span class="badge rounded-pill px-3 py-2 small mb-3 fw-bold tracking-widest" 
-            style="letter-spacing: 2px; background-color: rgba(111, 66, 193, 0.1); color: #6f42c1;">
-            <i class="bi bi-journal-bookmark-fill me-2"></i>INFORMASI DIGITAL
+            <span class="badge rounded-pill px-3 py-2 small mb-3 fw-bold tracking-widest label-badge-purple">
+                <i class="bi bi-journal-bookmark-fill me-2"></i>INFORMASI DIGITAL
             </span>      
         </div>
-        <!-- Menambahkan fw-bolder dan Inline Font-Family agar judul dijamin tebal -->
-        <h1 class="main-title-aesthetic fw-bolder mb-3 text-dark" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="100" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+        <h1 class="main-title-aesthetic fw-bolder mb-3 text-dark head-title-warta">
             Warta Jemaat
         </h1>
-        <p class="text-muted fw-medium mb-0" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+        <p class="text-muted fw-medium mb-0 subtitle-warta">
             Pusat Informasi Pelayanan dan Jadwal Ibadah GMIM Imanuel Bahu
         </p>
     </div>
@@ -76,12 +84,12 @@ $query = ($akses_warta) ? ($detail_tgl ? mysqli_query($koneksi, "SELECT * FROM w
 
 <div class="container pb-5 mb-5 position-relative z-2 mt-4">
     <?php if (!$akses_warta): ?>
-        <!-- Tampilan Halaman Terkunci -->
+        <!-- Tampilan Halaman Terkunci (Verifikasi Kode) -->
         <div class="row justify-content-center" data-aos="zoom-in" data-aos-delay="300">
             <div class="col-md-5 glass-card p-5 text-center mt-2">
                 <i class="bi bi-shield-lock text-purple fs-1 mb-3 d-block"></i>
-                <h5 class="fw-bold my-3">Area Jemaat Terbatas</h5>
-                <p class="text-muted small mb-4">Silakan masukkan kode akses untuk melihat dokumen warta jemaat.</p>
+                <h5 class="fw-bold my-3">Area Terbatas Jemaat</h5>
+                <p class="text-muted small mb-4">Warta Jemaat bersifat internal. Silakan masukkan kode akses jemaat yang dapat diperoleh melalui panduan website Imanuel Bahu atau melalui pelayan khusus.</p>
                 <form method="POST">
                     <input type="text" name="kode_referral" class="form-control mb-3 text-center rounded-pill py-2" placeholder="Masukkan Kode Akses..." required>
                     <button type="submit" name="btn_akses" class="btn btn-purple w-100 py-2 fw-bold">Verifikasi Akses</button>
@@ -91,25 +99,38 @@ $query = ($akses_warta) ? ($detail_tgl ? mysqli_query($koneksi, "SELECT * FROM w
         </div>
         
     <?php else: ?>
-        <!-- Tampilan Header Jika Akses Diberikan -->
+        <!-- Navigasi Atas Menu Setelah Akses Terbuka -->
         <div class="d-flex justify-content-between align-items-center mb-4 mt-3" data-aos="fade-in">
-            <h4 class="fw-bold m-0"><i class="bi bi-collection-play text-primary me-2"></i> <?php echo $detail_tgl ? 'Detail Warta Digital' : 'Arsip Warta Jemaat'; ?></h4>
+            <h4 class="fw-bold m-0 text-dark"><i class="bi bi-collection-play text-primary me-2"></i> <?php echo $detail_tgl ? 'Detail Warta Digital' : 'Galeri Warta Jemaat'; ?></h4>
             <a href="warta-jemaat.php?logout=1" class="btn btn-outline-danger btn-sm rounded-pill px-4 fw-bold shadow-sm">
                 <i class="bi bi-box-arrow-right me-1"></i> Tutup Akses
             </a>
         </div>
 
         <?php if ($detail_tgl): ?>
-            <!-- Tampilan Mode Detail -->
-            <a href="warta-jemaat.php" class="btn btn-dark rounded-pill px-4 py-2 fw-semibold shadow-sm mb-4 d-inline-block" data-aos="fade-right">
-                <i class="bi bi-arrow-left me-2"></i> Kembali ke Daftar
-            </a>
+            <!-- ==============================================
+                 TAMPILAN MODE DETAIL (PETUGAS IBADAH 3 SESI)
+                 ============================================== -->
+            
+            <!-- Posisi Baru Tombol Unduh PDF (Berseberangan dengan tombol Kembali) -->
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+                <a href="warta-jemaat.php" class="btn btn-dark rounded-pill px-4 py-2 fw-semibold shadow-sm" data-aos="fade-right">
+                    <i class="bi bi-arrow-left me-2"></i> Kembali ke Galeri
+                </a>
+                
+                <?php if(!empty($pdf_file)): ?>
+                    <a href="admin/assets/document_warta/<?php echo htmlspecialchars($pdf_file); ?>" target="_blank" class="btn btn-purple rounded-pill px-4 py-2 fw-bold shadow-sm" data-aos="fade-left">
+                        <i class="bi bi-cloud-arrow-down-fill me-2"></i> Buka / Unduh Dokumen Warta (PDF)
+                    </a>
+                <?php endif; ?>
+            </div>
+            
             <div class="row g-4">
                 <?php while($row = mysqli_fetch_assoc($query)): ?>
                 <div class="col-md-4" data-aos="fade-up">
                     <div class="glass-card p-4 h-100 text-center position-relative">
                         
-                        <!-- Menampilkan Gambar Khadim -->
+                        <!-- Wadah Foto Khadim -->
                         <?php if(!empty($row['foto_khadim'])): ?>
                             <img src="admin/assets/images-khadim/<?php echo htmlspecialchars($row['foto_khadim']); ?>" class="khadim-img mb-4 mx-auto d-block" alt="Foto Khadim <?php echo htmlspecialchars($row['nama_khadim']); ?>">
                         <?php else: ?>
@@ -119,23 +140,15 @@ $query = ($akses_warta) ? ($detail_tgl ? mysqli_query($koneksi, "SELECT * FROM w
                         <?php endif; ?>
                         
                         <h5 class="fw-bold text-purple mb-3"><?php echo htmlspecialchars($row['sesi_ibadah']); ?></h5>
-                        <hr style="opacity: 0.1;">
+                        <hr class="divider-line">
                         
-                        <div class="text-start mt-3">
+                        <!-- Rincian Tugas Khadim -->
+                        <div class="text-start mt-3 data-petugas-block">
                             <p class="mb-2"><small class="text-muted d-block">Nama Khadim</small><strong><i class="bi bi-person-badge me-2 text-purple"></i> <?php echo htmlspecialchars($row['nama_khadim']); ?></strong></p>
                             <p class="mb-2"><small class="text-muted d-block">Penerima Jemaat</small><strong><i class="bi bi-people me-2 text-purple"></i> <?php echo htmlspecialchars($row['penerima_jemaat']); ?></strong></p>
                             <p class="mb-2"><small class="text-muted d-block">Doa & Pembacaan</small><strong><i class="bi bi-book-half me-2 text-purple"></i> <?php echo htmlspecialchars($row['doa_pembacaan']); ?></strong></p>
                             <p class="mb-3"><small class="text-muted d-block">Puji-pujian</small><strong><i class="bi bi-music-note-beamed me-2 text-purple"></i> <?php echo htmlspecialchars($row['puji_pujian']); ?></strong></p>
                         </div>
-                        
-                        <!-- Link Unduh PDF -->
-                        <?php if(!empty($row['file_pdf'])): ?>
-                            <div class="mt-4 pt-3 border-top" style="border-color: rgba(0,0,0,0.05) !important;">
-                                <a href="admin/assets/document_warta/<?php echo htmlspecialchars($row['file_pdf']); ?>" target="_blank" class="btn btn-sm btn-purple w-100 py-2 fw-bold shadow-sm">
-                                    <i class="bi bi-cloud-arrow-down-fill me-2"></i> Unduh PDF Warta
-                                </a>
-                            </div>
-                        <?php endif; ?>
                         
                     </div>
                 </div>
@@ -143,19 +156,52 @@ $query = ($akses_warta) ? ($detail_tgl ? mysqli_query($koneksi, "SELECT * FROM w
             </div>
             
         <?php else: ?>
-            <!-- Tampilan Mode Daftar Tanggal -->
-            <div class="glass-card p-4 shadow-sm" data-aos="fade-up" data-aos-delay="200">
+            <!-- ==============================================
+                 TAMPILAN MODE DAFTAR UTAMA (GRID ARSIP GALERI)
+                 ============================================== -->
+            <div class="row g-4" data-aos="fade-up" data-aos-delay="200">
                 <?php if(mysqli_num_rows($query) > 0): ?>
-                    <div class="list-group list-group-flush">
-                        <?php while($row = mysqli_fetch_assoc($query)): ?>
-                        <div class="list-group-item d-flex justify-content-between align-items-center p-3 mb-2 border-0 rounded" style="background-color: transparent;">
-                            <span class="fw-bold fs-5 text-dark"><i class="bi bi-calendar-event-fill text-purple me-3"></i> <?php echo date('l, d F Y', strtotime($row['tanggal'])); ?></span>
-                            <a href="warta-jemaat.php?detail=<?php echo $row['tanggal']; ?>" class="btn btn-purple rounded-pill px-4 py-2 fw-bold shadow-sm">Buka Digital</a>
-                        </div>
-                        <?php endwhile; ?>
+                    <?php while($row = mysqli_fetch_assoc($query)): ?>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                        
+                        <a href="warta-jemaat.php?detail=<?php echo $row['tanggal']; ?>" class="text-decoration-none card-gallery-link">
+                            <div class="glass-card h-100 d-flex flex-column overflow-hidden warta-card-hover p-0">
+                                
+                                <!-- Bagian Atas: Cover Desain Warta Jemaat -->
+                                <div class="warta-cover-wrapper">
+                                    <img src="assets/images/cover_warta_default.png" alt="Cover Majalah Warta Jemaat" class="w-100 h-100 object-fit-cover">
+                                    
+                                    <!-- Lapisan Overlay Ungu dan Efek Hover Tombol -->
+                                    <div class="warta-overlay">
+                                        <span class="btn btn-light rounded-pill fw-bold text-purple px-4 shadow-sm">
+                                            <i class="bi bi-book-half me-2"></i>Buka Warta
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Bagian Bawah: Penanda Edisi Tanggal Otomatis -->
+                                <div class="p-4 text-center bg-white wrapper-bottom-card">
+                                    <span class="badge bg-purple-soft text-purple mb-2 px-3 py-2 rounded-pill">
+                                        <i class="bi bi-calendar-event me-1"></i> Edisi Mingguan
+                                    </span>
+                                    <h6 class="fw-bolder text-dark mb-0 fs-5 mt-2 title-date-warta">
+                                        <?php echo date('d F Y', strtotime($row['tanggal'])); ?>
+                                    </h6>
+                                </div>
+
+                            </div>
+                        </a>
+                        
                     </div>
+                    <?php endwhile; ?>
                 <?php else: ?>
-                    <p class="text-center text-muted my-4">Belum ada arsip warta yang dipublikasikan.</p>
+                    <!-- Penanganan Jika Tidak Ada Data Sama Sekali di Database -->
+                    <div class="col-12">
+                        <div class="glass-card p-5 text-center">
+                            <i class="bi bi-inbox fs-1 text-muted mb-3 d-block"></i>
+                            <p class="text-muted fs-5 m-0">Belum ada arsip warta yang dipublikasikan.</p>
+                        </div>
+                    </div>
                 <?php endif; ?>
             </div>
         <?php endif; ?>

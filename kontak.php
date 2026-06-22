@@ -90,7 +90,7 @@ include 'koneksi.php';
             Kontak Pelayanan
         </h1>
         <p class="text-muted fw-medium mb-0" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
-            Sampaikan saran, pertanyaan, atau permohonan pelayanan melalui form di bawah ini.
+            Sampaikan Saran, Pertanyaan, atau Permohonan Pelayanan Melalui Form Di Bawah Ini.
         </p>
     </div>
 </section>

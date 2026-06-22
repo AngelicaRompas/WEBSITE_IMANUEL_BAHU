@@ -1,7 +1,30 @@
+/* =========================================
+   STYLE DASAR & KOMPONEN UMUM
+========================================= */
 body { 
     font-family: 'Plus Jakarta Sans', sans-serif; 
-    /* background: #f8fafc; dihapus agar aurora terlihat */
 }
+
+/* =========================================
+   STYLE HEADER (Disamakan dengan Menu Keuangan)
+========================================= */
+.page-header-premium {
+    padding-top: 6rem;
+    padding-bottom: 3rem;
+    position: relative;
+}
+
+.main-title-aesthetic, .head-title-warta {
+    font-family: 'Playfair Display', serif !important;
+    font-size: clamp(3rem, 5vw, 4rem) !important;
+    font-weight: 900 !important;
+    color: #0f172a !important;
+    letter-spacing: -1px !important;
+}
+
+/* =========================================
+   STYLE CARD & GLASSMORPHISM
+========================================= */
 .glass-card { 
     background: rgba(255, 255, 255, 0.85); 
     backdrop-filter: blur(12px); 
@@ -9,26 +32,34 @@ body {
     border-radius: 20px; 
     box-shadow: 0 8px 32px rgba(111, 66, 193, 0.08); 
 }
+
 .btn-purple { 
     background: #6f42c1; 
     color: white; 
     border-radius: 50px; 
     transition: 0.3s;
 }
+
 .btn-purple:hover { 
     background: #5a369e; 
     color: white; 
     transform: translateY(-2px);
 }
+
 .list-group-item { 
     border: none; 
     transition: 0.3s; 
 }
+
 .list-group-item:hover { 
     transform: translateX(5px); 
     background: rgba(111, 66, 193, 0.05); 
     border-radius: 10px;
 }
+
+/* =========================================
+   STYLE FOTO KHADIM & TAMPILAN DETAIL
+========================================= */
 .khadim-img { 
     width: 180px; 
     height: 240px; 
@@ -37,7 +68,80 @@ body {
     border: 5px solid #f3effb; 
     box-shadow: 0 8px 20px rgba(111, 66, 193, 0.15);
 }
+
 .icon-placeholder {
     font-size: 6rem; 
     color: #adb5bd;
+}
+
+/* =========================================
+   STYLE KARTU GALERI WARTA (GRID)
+========================================= */
+.warta-card-hover {
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    border: none;
+}
+
+.warta-card-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(111, 66, 193, 0.15) !important;
+}
+
+.warta-cover-wrapper {
+    position: relative;
+    overflow: hidden;
+    background-color: #f3effb;
+    height: 180px; /* Ukuran tinggi cover kartu */
+}
+
+.warta-cover-wrapper img {
+    transition: transform 0.6s ease;
+}
+
+.warta-card-hover:hover .warta-cover-wrapper img {
+    transform: scale(1.08);
+}
+
+.warta-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to bottom, rgba(111, 66, 193, 0.1), rgba(111, 66, 193, 0.8));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.warta-card-hover:hover .warta-overlay {
+    opacity: 1;
+}
+
+/* =========================================
+   UTILITY CLASSES (WARNA, BADGE, TEXT)
+========================================= */
+.bg-purple-soft { 
+    background-color: rgba(111, 66, 193, 0.1); 
+}
+
+.text-purple { 
+    color: #6f42c1 !important; 
+}
+
+.label-badge-purple { 
+    letter-spacing: 2px; 
+    background-color: rgba(111, 66, 193, 0.1); 
+    color: #6f42c1; 
+}
+
+.divider-line { 
+    opacity: 0.1; 
+}
+
+.wrapper-bottom-card { 
+    border-radius: 0 0 20px 20px; 
+}
+
+.wrapper-download-btn { 
+    border-color: rgba(0,0,0,0.05) !important; 
 }

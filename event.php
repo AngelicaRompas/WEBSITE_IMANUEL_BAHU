@@ -35,7 +35,7 @@ $queryPast = mysqli_query($koneksi, "SELECT * FROM events WHERE DATE(tanggal) < 
                 <i class="bi bi-calendar-event me-2"></i>AGENDA JEMAAT
             </span>    
         </div>
-        <h1 class="main-title-aesthetic mb-3" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="100">Acara Kita</h1>
+        <h1 class="main-title-aesthetic mb-3" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="100">Kegiatan Pelayanan Jemaat</h1>
     </div>
 </section>
 

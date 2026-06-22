@@ -22,7 +22,7 @@ if (isset($_POST['login'])) {
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Login Admin - GMIM Imanuel Bahu</title>
+    <title>DASHBOARD ADMIN GMIM IMANUEL BAHU</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
@@ -45,7 +45,7 @@ if (isset($_POST['login'])) {
         .aurora-blob {
             position: fixed; border-radius: 50%; filter: blur(100px); opacity: 0.28; z-index: -1;
         }
-        .blob-blue { top: -10%; left: 10%; width: 40vw; height: 40vw; background: #0d6efd; }
+        .blob-blue { top: -10%; left: 10%; width: 40vw; height: 40vw; background: #6f42c1; }
         .blob-soft { bottom: -10%; right: -5%; width: 50vw; height: 50vw; background: #e0eafc; }
 
         /* Kartu Login Glassmorphism */
@@ -71,10 +71,10 @@ if (isset($_POST['login'])) {
             <div class="text-center mb-3">
                 <i class="bi bi-house-heart-fill text-primary" style="font-size: 3rem;"></i>
             </div>
-            <h3 class="text-center fw-bold mb-4">Login Admin</h3>
+            <h3 class="text-center fw-bold mb-4">DASHBOARD ADMIN GMIM IMANUEL BAHU</h3>
             
             <?php if(isset($error)) : ?>
-                <div class="alert alert-danger text-center shadow-sm">Username atau password salah!</div>
+                <div class="alert alert-danger text-center shadow-sm">Username atau Password <Samp></Samp>Salah!</div>
             <?php endif; ?>
 
             <form method="POST">

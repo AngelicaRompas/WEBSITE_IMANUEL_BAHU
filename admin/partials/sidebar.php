@@ -11,7 +11,7 @@
         </div>
 
         <h5 class="fw-bold text-white mb-1">
-            Admin Panel
+            Dashboard Admin
         </h5>
 
         <small class="text-light opacity-75">

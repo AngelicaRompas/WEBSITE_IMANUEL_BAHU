@@ -226,12 +226,8 @@ Renungan Jemaat
 
 </h1>
 
-<p class="text-muted fw-medium mb-0"
-data-aos="fade-up"
-data-aos-delay="200">
-
-Arsip Renungan Harian dan Renungan Tematik Interaktif GMIM Imanuel Bahu
-
+<p class="text-muted fw-medium mb-0" data-aos="fade-up" data-aos-delay="200">
+Renungan Harian Keluarga dan Renungan Tematik GMIM Imanuel Bahu.
 </p>
 
 </div>
