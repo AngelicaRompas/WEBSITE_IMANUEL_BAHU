@@ -1,6 +1,4 @@
 <?php
-// admin_event.php
-// File ini dapat langsung dimasukkan atau di-include ke dalam dashboard utama admin Anda
 ?>
 
 <link rel="stylesheet" href="assets/css/style-adminEvent.css">
