@@ -104,7 +104,7 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
-    flex-shrink: 0; /* FIX: Mencegah ikon menjadi gepeng saat teks di HP memanjang */
+    flex-shrink: 0;
 }
 
 /* =========================
@@ -133,15 +133,12 @@ body {
         padding-top: 1rem;
     }
 
-    /* FIX LAYOUT: Jika Anda punya class pembungkus konten utama (misal: .main-content atau .wrapper),
-       pastikan margin kiri pembatas sidebar desktop dinetralkan menjadi 0 agar tidak kosong melompong di HP */
     .admin-main-content, .main-content, #main-content {
         margin-left: 0 !important;
         padding-left: 10px !important;
         padding-right: 10px !important;
     }
     
-    /* Mengamankan seluruh tabel data CRUD admin agar bisa digeser mulus di HP */
     .table-responsive {
         border-radius: 16px;
         border: 1px solid rgba(111, 66, 193, 0.1);
@@ -152,7 +149,7 @@ body {
 /* Mode Smartphone Genggam */
 @media (max-width: 576px) {
     .welcome-card {
-        padding: 1.75rem 1.5rem !important; /* Spasi dalam disesuaikan agar teks muat banyak */
+        padding: 1.75rem 1.5rem !important;
         border-radius: 24px;
     }
 
@@ -185,8 +182,53 @@ body {
         font-size: 0.85rem;
     }
     
-    /* Mengatur jarak antar baris card statistik saat menumpuk vertikal di HP */
     .row.g-4 > [class*='col-'] {
         margin-bottom: 0.25rem;
+    }
+}
+
+/* ==========================================================================
+   FORCE RESET GRID OVERFLOW - REVISI SINKRONISASI TOTAL GRID
+   ========================================================================== */
+.container-fluid {
+    width: 100% !important;
+    overflow-x: hidden !important;
+}
+
+.container-fluid > .row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    width: 100% !important;
+    overflow-x: hidden !important;
+}
+
+.welcome-card, .dashboard-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Reset total saat dibuka lewat perangkat smartphone atau tablet kecil */
+@media (max-width: 991.98px) {
+    .admin-main-box {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        margin-left: 0 !important;
+    }
+}
+
+/* FIX FIX: Menyertakan kurung penutup media query desktop dengan benar */
+@media (min-width: 992px) {
+    .admin-main-box {
+        margin-left: 16.666667% !important;
+        width: 83.333333% !important;
+        max-width: 83.333333% !important;
+        flex: 0 0 83.333333% !important;
+        overflow-x: hidden !important;
+        box-sizing: border-box !important;
+        display: block !important;
     }
 }

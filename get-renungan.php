@@ -41,7 +41,7 @@ if(mysqli_num_rows($query) > 0){
 
     <div class="small text-muted w-100 mt-2">
         <i class="bi bi-stars me-1"></i>
-        Data sinkron dari database
+        Semoga Renungan Ini Menjadi Berkat, Tuhan Yesus Memberkati.
     </div>
     ';
 }else{

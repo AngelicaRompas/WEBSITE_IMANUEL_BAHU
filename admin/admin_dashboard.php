@@ -1,14 +1,19 @@
 <?php
 session_start();
 
+// FIX KEAMANAN 1: Proteksi Session Hijacking dengan regenerasi ID session secara aman
 if (!isset($_SESSION['admin_imanuel'])) {
     header("Location: ../login.php");
     exit;
+} else {
+    // Memperbarui kunci ID session setiap kali halaman dimuat ulang
+    session_regenerate_id(true);
 }
 
 include '../koneksi.php';
 
-// FIX KECIL: Memajukan deklarasi waktu ke baris atas agar dibaca siap pakai oleh blok data di bawahnya
+// Menetapkan waktu zona lokal (opsional untuk akurasi data)
+date_default_timezone_set('Asia/Makassar'); 
 $today = date('Y-m-d');
 
 /* =========================
@@ -30,48 +35,30 @@ if($queryStat){
    DATA BERANDA ADMIN
 ========================= */
 $totalEvent = mysqli_fetch_assoc(
-    mysqli_query(
-        $koneksi,
-        "SELECT COUNT(*) as total FROM events"
-    )
+    mysqli_query($koneksi, "SELECT COUNT(*) as total FROM events")
 );
 
 $totalRenungan = mysqli_fetch_assoc(
-    mysqli_query(
-        $koneksi,
-        "SELECT COUNT(*) as total FROM renungan_harian"
-    )
+    mysqli_query($koneksi, "SELECT COUNT(*) as total FROM renungan_harian")
 );
 
 $totalStruktur = mysqli_fetch_assoc(
-    mysqli_query(
-        $koneksi,
-        "SELECT COUNT(*) as total FROM struktur_organisasi"
-    )
+    mysqli_query($koneksi, "SELECT COUNT(*) as total FROM struktur_organisasi")
 );
 
 $totalNavigasi = mysqli_fetch_assoc(
-    mysqli_query(
-        $koneksi,
-        "SELECT COUNT(*) as total FROM navigasi"
-    )
+    mysqli_query($koneksi, "SELECT COUNT(*) as total FROM navigasi")
 );
 
 /* =========================
    DATA TAMBAHAN
 ========================= */
 $dataSejarah = mysqli_fetch_assoc(
-    mysqli_query(
-        $koneksi,
-        "SELECT konten FROM profil WHERE jenis='sejarah'"
-    )
+    mysqli_query($koneksi, "SELECT konten FROM profil WHERE jenis='sejarah'")
 );
 
 $dataSaldo = mysqli_fetch_assoc(
-    mysqli_query(
-        $koneksi,
-        "SELECT saldo_akhir FROM warta_keuangan ORDER BY id DESC LIMIT 1"
-    )
+    mysqli_query($koneksi, "SELECT saldo_akhir FROM warta_keuangan ORDER BY id DESC LIMIT 1")
 );
 
 $saldoSebelumnya = $dataSaldo['saldo_akhir'] ?? 0;
@@ -99,7 +86,7 @@ $kolomBerikutnya = (
     <?php include 'partials/header.php'; ?>
 
     <link rel="stylesheet" href="assets/css/style_admin.css">
-    <link rel="stylesheet" href="assets/style_sidebar.css">
+    <link rel="stylesheet" href="assets/css/style_sidebar.css">
 </head>
 
 <body>
@@ -124,14 +111,15 @@ $kolomBerikutnya = (
 
         <?php include 'partials/sidebar.php'; ?>
 
-        <div class="col-12 col-lg-10 p-4 p-md-5">
+        <!-- FIX VISUAL KEDUA: Menambahkan max-width inline untuk mencegah kebocoran grid pembungkus ke kanan -->
+        <div class="col-12 col-lg-10 p-4 p-md-5 admin-main-box" style="margin-left: auto; max-width: calc(100% - 260px); width: calc(100% - 260px); overflow-x: hidden; box-sizing: border-box;">
 
             <?php include 'partials/alert.php'; ?>
 
             <div class="tab-content" id="v-pills-tabContent">
 
                 <!-- ========================================================
-                     SECTION VIEW INCLUDE - DISELESARAKAN KE LOWERCASE FILE NAME
+                     SECTION VIEW INCLUDE - PASTIKAN FILE BERADA DI FOLDER SECTIONS
                      ======================================================== -->
 
                 <div class="tab-pane fade show active" id="beranda-admin" role="tabpanel">
