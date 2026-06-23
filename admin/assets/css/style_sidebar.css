@@ -10,19 +10,36 @@
 }
 
 .admin-sidebar {
-    min-height: 100vh;
+    height: 100vh; /* FIX: Mengunci tinggi agar pas setinggi frame layar browser */
     position: fixed;
     top: 0;
     left: 0;
     width: 260px;
     z-index: 100;
-    /* FIX: Memastikan jika menu admin sangat banyak, sidebar di desktop bisa di-scroll dengan mulus */
+    
+    /* FIX UTAMA: Mengaktifkan scroll internal jika isi menu melebihi batas bawah monitor */
     overflow-y: auto; 
+    overflow-x: hidden;
+    
+    /* Sentuhan Premium: Desain scrollbar modern tipis semi-transparan */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+}
+
+/* Modifikasi Scrollbar Webkit (Chrome/Edge/Safari) agar bergaya minimalis */
+.admin-sidebar::-webkit-scrollbar {
+    width: 5px;
+}
+.admin-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+.admin-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
 }
 
 .admin-offcanvas {
     width: 280px !important;
-    /* FIX: Memastikan menu offcanvas di HP bisa di-scroll vertikal jika menu melebihi tinggi HP */
     overflow-y: auto; 
 }
 
@@ -64,12 +81,12 @@
     border: 1px solid transparent;
     display: flex;
     align-items: center;
-    gap: 12px; /* Memberikan jarak konsisten antara ikon menu dan teks */
+    gap: 12px;
 }
 
 .nav-link-admin i {
     font-size: 1.2rem;
-    flex-shrink: 0; /* Mencegah ikon mengecil jika teks menu panjang */
+    flex-shrink: 0;
 }
 
 .nav-link-admin:hover {
@@ -81,7 +98,7 @@
 .nav-link-admin.active {
     background: rgba(255, 255, 255, 0.18) !important;
     color: #fff !important;
-    border-left: 4px solid #ffffff; /* Indikator garis aktif premium di sisi kiri */
+    border-left: 4px solid #ffffff;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
@@ -92,14 +109,13 @@
     transition: transform 0.3s ease;
     font-size: 0.8rem;
     opacity: 0.8;
-    margin-left: auto; /* Memaksa posisi ikon chevron berada di ujung kanan menu */
+    margin-left: auto;
 }
 
 [data-bs-toggle="collapse"][aria-expanded="true"] i.bi-chevron-down {
     transform: rotate(180deg);
 }
 
-/* Penataan sub-menu bertingkat di dalam collapse */
 .collapse-menu-wrapper {
     padding-left: 8px;
     margin-bottom: 4px;
@@ -107,7 +123,7 @@
 
 .collapse .nav-link-admin {
     margin-bottom: 4px;
-    padding-left: 2.5rem !important; /* Efek indentasi yang jelas dan rapi */
+    padding-left: 2.5rem !important;
     font-size: 0.9rem;
     font-weight: 500;
     background: rgba(0, 0, 0, 0.12) !important;
@@ -121,14 +137,12 @@
    STRATEGI RESPONSIVE BREAKPOINTS
    ========================================================================== */
 @media (min-width: 992px) {
-    /* Menu Mobile Topbar disembunyikan jika dibuka di PC/Laptop */
     .admin-mobile-topbar {
         display: none !important;
     }
 }
 
 @media (max-width: 991.98px) {
-    /* FIX: Menyembunyikan sidebar bawaan desktop agar tidak menumpuk rusak di HP */
     .admin-sidebar {
         display: none !important;
     }
@@ -137,7 +151,6 @@
         padding-top: 1rem;
     }
     
-    /* Sentuhan ukuran font link navigasi saat berada di offcanvas HP */
     .nav-link-admin {
         padding: 10px 14px;
         font-size: 0.95rem;
