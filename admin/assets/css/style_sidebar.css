@@ -1,0 +1,145 @@
+/* ==========================================================================
+   SIDEBAR & OFFCANVAS BASE (ANTI-ACCORDION CRASH & SCROLLABLE)
+   ========================================================================== */
+.admin-sidebar,
+.admin-offcanvas {
+    background: linear-gradient(180deg, #4c1d95 0%, #6d28d9 45%, #7c3aed 100%);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.admin-sidebar {
+    min-height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    z-index: 100;
+    /* FIX: Memastikan jika menu admin sangat banyak, sidebar di desktop bisa di-scroll dengan mulus */
+    overflow-y: auto; 
+}
+
+.admin-offcanvas {
+    width: 280px !important;
+    /* FIX: Memastikan menu offcanvas di HP bisa di-scroll vertikal jika menu melebihi tinggi HP */
+    overflow-y: auto; 
+}
+
+/* ==========================================================================
+   TOPBAR & LOGO AREA
+   ========================================================================== */
+.admin-mobile-topbar {
+    background: linear-gradient(90deg, #4c1d95, #7c3aed);
+    position: sticky;
+    top: 0;
+    z-index: 1040;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.admin-logo {
+    width: 65px;
+    height: 65px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.6rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
+}
+
+/* ==========================================================================
+   NAVIGATION LINKS (PREMIUM TOUCH)
+   ========================================================================== */
+.nav-link-admin {
+    border-radius: 14px !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-weight: 600;
+    padding: 12px 16px;
+    margin-bottom: 6px;
+    transition: all 0.25s ease;
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Memberikan jarak konsisten antara ikon menu dan teks */
+}
+
+.nav-link-admin i {
+    font-size: 1.2rem;
+    flex-shrink: 0; /* Mencegah ikon mengecil jika teks menu panjang */
+}
+
+.nav-link-admin:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #fff !important;
+    transform: translateX(5px);
+}
+
+.nav-link-admin.active {
+    background: rgba(255, 255, 255, 0.18) !important;
+    color: #fff !important;
+    border-left: 4px solid #ffffff; /* Indikator garis aktif premium di sisi kiri */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================================================================
+   DROPDOWN (COLLAPSE) STYLING MULTI-LEVEL
+   ========================================================================== */
+[data-bs-toggle="collapse"] i.bi-chevron-down {
+    transition: transform 0.3s ease;
+    font-size: 0.8rem;
+    opacity: 0.8;
+    margin-left: auto; /* Memaksa posisi ikon chevron berada di ujung kanan menu */
+}
+
+[data-bs-toggle="collapse"][aria-expanded="true"] i.bi-chevron-down {
+    transform: rotate(180deg);
+}
+
+/* Penataan sub-menu bertingkat di dalam collapse */
+.collapse-menu-wrapper {
+    padding-left: 8px;
+    margin-bottom: 4px;
+}
+
+.collapse .nav-link-admin {
+    margin-bottom: 4px;
+    padding-left: 2.5rem !important; /* Efek indentasi yang jelas dan rapi */
+    font-size: 0.9rem;
+    font-weight: 500;
+    background: rgba(0, 0, 0, 0.12) !important;
+}
+
+.collapse .nav-link-admin:hover {
+    background: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* ==========================================================================
+   STRATEGI RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+@media (min-width: 992px) {
+    /* Menu Mobile Topbar disembunyikan jika dibuka di PC/Laptop */
+    .admin-mobile-topbar {
+        display: none !important;
+    }
+}
+
+@media (max-width: 991.98px) {
+    /* FIX: Menyembunyikan sidebar bawaan desktop agar tidak menumpuk rusak di HP */
+    .admin-sidebar {
+        display: none !important;
+    }
+    
+    .tab-content {
+        padding-top: 1rem;
+    }
+    
+    /* Sentuhan ukuran font link navigasi saat berada di offcanvas HP */
+    .nav-link-admin {
+        padding: 10px 14px;
+        font-size: 0.95rem;
+    }
+}

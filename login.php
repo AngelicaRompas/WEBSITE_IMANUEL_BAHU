@@ -22,78 +22,65 @@ if (isset($_POST['login'])) {
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>DASHBOARD ADMIN GMIM IMANUEL BAHU</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin GMIM Imanuel Bahu - Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <style>
-        body { 
-            background-color: #f8fafc; 
-            min-height: 100vh; 
-            display: flex; 
-            align-items: center; 
-            position: relative;
-            overflow: hidden; 
-        }
-
-        /* Tekstur & Aurora dari Beranda */
-        .digital-grid {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2;
-            background-image: linear-gradient(rgba(13, 110, 253, 0.04) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(13, 110, 253, 0.04) 1px, transparent 1px);
-            background-size: 40px 40px; 
-        }
-        .aurora-blob {
-            position: fixed; border-radius: 50%; filter: blur(100px); opacity: 0.28; z-index: -1;
-        }
-        .blob-blue { top: -10%; left: 10%; width: 40vw; height: 40vw; background: #6f42c1; }
-        .blob-soft { bottom: -10%; right: -5%; width: 50vw; height: 50vw; background: #e0eafc; }
-
-        /* Kartu Login Glassmorphism */
-        .login-card { 
-            width: 100%; max-width: 400px; margin: auto; 
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            border-radius: 20px; 
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style-login.css?v=<?php echo time(); ?>">
 </head>
 <body>
 
+<!-- Elemen Dekoratif Latar Belakang -->
 <div class="digital-grid"></div>
 <div class="aurora-blob blob-blue"></div>
 <div class="aurora-blob blob-soft"></div>
 
+<!-- FIX: Mengembalikan pembungkus utama yang sempat terhapus -->
 <div class="container">
     <div class="card login-card border-0">
         <div class="card-body p-5">
+            
+            <!-- Bagian Atas: Lingkaran Logo -->
             <div class="text-center mb-3">
-                <i class="bi bi-house-heart-fill text-primary" style="font-size: 3rem;"></i>
+                <div class="login-logo-container">
+                    <img src="assets/images/logo_gereja_imanuel.png" alt="Logo GMIM" class="login-logo" 
+                         onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block';">
+                    <i id="logo-fallback" class="bi bi-church text-primary" style="font-size: 2.2rem; display: none;"></i>
+                </div>
             </div>
-            <h3 class="text-center fw-bold mb-4">DASHBOARD ADMIN GMIM IMANUEL BAHU</h3>
+            
+            <h3 class="text-center fw-bold mb-4 login-title">DASHBOARD ADMIN<br>GMIM IMANUEL BAHU</h3>
             
             <?php if(isset($error)) : ?>
-                <div class="alert alert-danger text-center shadow-sm">Username atau Password <Samp></Samp>Salah!</div>
+                <div class="alert alert-danger text-center shadow-sm py-2 small fw-semibold rounded-3">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>Username atau Password Salah!
+                </div>
             <?php endif; ?>
 
             <form method="POST">
                 <div class="mb-3">
-                    <label class="form-label fw-bold small">Username</label>
-                    <input type="text" name="username" class="form-control" placeholder="Masukkan username" required>
+                    <label class="form-label fw-bold small text-secondary">Username</label>
+                    <input type="text" name="username" class="form-control form-control-login" placeholder="Masukkan username" autocomplete="off" required>
                 </div>
                 <div class="mb-4">
-                    <label class="form-label fw-bold small">Password</label>
-                    <input type="password" name="password" class="form-control" placeholder="Masukkan password" required>
+                    <label class="form-label fw-bold small text-secondary">Password</label>
+                    <input type="password" name="password" class="form-control form-control-login" placeholder="Masukkan password" required>
                 </div>
-                <button type="submit" name="login" class="btn btn-primary w-100 py-2 rounded-pill fw-bold shadow-sm">Masuk</button>
+                <button type="submit" name="login" class="btn btn-purple-login w-100 py-2.5 rounded-pill fw-bold shadow-sm">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Masuk Aplikasi
+                </button>
             </form>
+            
             <div class="text-center mt-4">
-                <a href="index.php" class="text-decoration-none text-muted small">← Kembali ke Beranda</a>
+                <a href="index.php" class="text-decoration-none text-muted small link-back">
+                    <i class="bi bi-arrow-left me-1"></i> Kembali ke Beranda
+                </a>
             </div>
-        </div>
-    </div>
-</div>
+            
+        </div> <!-- Tutup card-body -->
+    </div> <!-- Tutup login-card -->
+</div> <!-- Tutup container -->
 
 </body>
 </html>

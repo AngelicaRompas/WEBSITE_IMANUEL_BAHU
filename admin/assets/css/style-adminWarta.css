@@ -1,0 +1,95 @@
+    /* ========================================================
+       CSS INTERNAL - MANAJEMEN WARTA DIGITAL (RESPONSIVE)
+       ======================================================== */
+    
+    .section-header {
+        font-weight: 800;
+        color: #1e293b;
+        font-size: clamp(1.2rem, 3vw, 1.6rem);
+        margin-bottom: 1.5rem;
+    }
+
+    .card-custom {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(111, 66, 193, 0.08);
+        border-radius: 22px;
+        box-shadow: 0 10px 30px rgba(111, 66, 193, 0.03);
+    }
+
+    /* Form Input Kontrol Premium */
+    .form-control-custom {
+        border-radius: 12px;
+        padding: 11px 16px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: rgba(255, 255, 255, 0.6);
+        transition: all 0.3s ease;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 0.95rem;
+    }
+
+    .form-control-custom:focus {
+        background: #fff;
+        border-color: #6f42c1;
+        box-shadow: 0 0 0 4px rgba(111, 66, 193, 0.12);
+    }
+
+    /* Kotak Sesi Schedulle Petugas */
+    .session-box-purple {
+        background-color: #fcfaff !important;
+        border-left: 5px solid #6f42c1 !important;
+        border-radius: 16px;
+        box-shadow: 0 4px 15px rgba(111, 66, 193, 0.02);
+        transition: transform 0.2s;
+    }
+    
+    .session-box-purple:hover {
+        transform: scale(1.005);
+    }
+
+    .text-purple-premium {
+        color: #6f42c1 !important;
+    }
+
+    /* Kustomisasi Tombol Ungu */
+    .btn-purple-admin {
+        background: #6f42c1;
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 12px 32px;
+        font-weight: 700;
+        transition: all 0.3s ease;
+    }
+
+    .btn-purple-admin:hover {
+        background: #5a369e;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 22px rgba(111, 66, 193, 0.25);
+    }
+
+    /* Optimisasi Responsivitas untuk Layar Kecil (Mobile) */
+    @media (max-width: 767.98px) {
+        .card-custom {
+            padding: 1.25rem !important;
+            border-radius: 18px;
+        }
+
+        .session-box-purple {
+            padding: 1.25rem 1rem !important;
+            border-radius: 14px;
+        }
+
+        .btn-purple-admin {
+            width: 100%; /* Tombol menyimpan otomatis melebar penuh di HP */
+            text-align: center;
+            padding: 12px 16px;
+        }
+        
+        .form-label {
+            font-size: 0.82rem;
+            margin-bottom: 4px;
+        }
+    }

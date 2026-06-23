@@ -1,0 +1,172 @@
+/* ========================================================
+       CSS INTERNAL - MANAJEMEN EVENT & AGENDA (RESPONSIVE)
+       ======================================================== */
+    
+    .section-title-admin {
+        font-weight: 800;
+        color: #1e293b;
+        font-size: clamp(1.2rem, 3vw, 1.6rem);
+    }
+
+    .card-custom {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(111, 66, 193, 0.08);
+        border-radius: 22px;
+        box-shadow: 0 10px 30px rgba(111, 66, 193, 0.03);
+    }
+
+    /* Kustomisasi Form Kontrol Premium */
+    .form-control-custom, .form-select-custom {
+        border-radius: 12px;
+        padding: 11px 16px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: rgba(255, 255, 255, 0.6);
+        transition: all 0.3s ease;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 0.95rem;
+    }
+
+    .form-control-custom:focus, .form-select-custom:focus {
+        background: #fff;
+        border-color: #6f42c1;
+        box-shadow: 0 0 0 4px rgba(111, 66, 193, 0.12);
+        outline: none;
+    }
+
+    /* Override Nav Pills ke Tema Ungu */
+    .nav-pills-purple-admin {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        padding: 5px;
+        border-radius: 50px;
+    }
+    
+    .nav-pills-purple-admin .nav-link {
+        color: #64748b;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.25s ease;
+    }
+    
+    .nav-pills-purple-admin .nav-link.active {
+        background-color: #6f42c1 !important;
+        color: white !important;
+        box-shadow: 0 6px 15px rgba(111, 66, 193, 0.2);
+    }
+
+    /* Varian Tombol Ungu */
+    .btn-purple-admin {
+        background: #6f42c1;
+        color: white;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-purple-admin:hover {
+        background: #5a369e;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(111, 66, 193, 0.25);
+    }
+
+    /* Tombol Aksi Lingkaran di Tabel */
+    .btn-circle-action {
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50% !important;
+        transition: all 0.2s ease;
+    }
+    
+    .btn-circle-action:hover {
+        transform: scale(1.1);
+    }
+    
+    .btn-outline-purple-action {
+        border: 1px solid rgba(111, 66, 193, 0.3);
+        color: #6f42c1;
+    }
+    .btn-outline-purple-action:hover {
+        background: #6f42c1;
+        color: white;
+    }
+
+    /* Penataan Gaya Tabel Event */
+    .table-custom-event thead th {
+        background-color: rgba(111, 66, 193, 0.05);
+        color: #1e293b;
+        font-weight: 700;
+        font-size: 0.88rem;
+        padding: 14px;
+        border-bottom: 2px solid rgba(111, 66, 193, 0.1);
+    }
+    
+    .table-custom-event tbody td {
+        padding: 14px;
+        font-size: 0.92rem;
+    }
+
+    /* Badge Kombinasi Warna */
+    .badge-purple-soft {
+        background-color: rgba(111, 66, 193, 0.1);
+        color: #6f42c1;
+        font-weight: 600;
+    }
+
+    /* Efek Angkat Ringan untuk Badge Dokumentasi Interaktif */
+    .badge-clickable {
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .badge-clickable:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(111, 66, 193, 0.15);
+        opacity: 0.9;
+    }
+
+    /* Desain Pop Up Modal */
+    .modal-content-custom {
+        border-radius: 24px !important;
+        border: none;
+        box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+    }
+
+    /* Optimisasi Responsivitas Mobile */
+    @media (max-width: 767.98px) {
+        .header-wrapper-flex {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 15px;
+        }
+
+        .header-wrapper-flex .btn-purple-admin {
+            width: 100%;
+            text-align: center;
+            padding: 12px;
+        }
+
+        .nav-pills-purple-admin {
+            display: flex;
+            width: 100%;
+        }
+        
+        .nav-pills-purple-admin .nav-item {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .nav-pills-purple-admin .nav-link {
+            padding: 10px 5px !important;
+            font-size: 0.82rem;
+        }
+
+        .table-custom-event tbody td {
+            padding: 10px 8px;
+            font-size: 0.85rem;
+        }
+    }

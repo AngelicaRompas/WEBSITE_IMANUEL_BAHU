@@ -1,0 +1,129 @@
+    /* ========================================================
+       CSS INTERNAL - MANAJEMEN KAS KEUANGAN (RESPONSIVE)
+       ======================================================== */
+    
+    .section-header-keu {
+        font-weight: 800;
+        color: #1e293b;
+        font-size: clamp(1.2rem, 3vw, 1.6rem);
+    }
+
+    .card-custom {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(111, 66, 193, 0.08);
+        border-radius: 22px;
+        box-shadow: 0 10px 30px rgba(111, 66, 193, 0.03);
+    }
+
+    /* Kartu Saldo Utama Ungu Premium */
+    .balance-card-premium {
+        background: linear-gradient(135deg, #6f42c1 0%, #4f46e5 100%);
+        border-radius: 24px;
+        box-shadow: 0 15px 35px rgba(111, 66, 193, 0.18);
+        color: white;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .balance-card-premium::before {
+        content: '';
+        position: absolute;
+        width: 260px;
+        height: 260px;
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 50%;
+        top: -100px;
+        right: -60px;
+        z-index: -1;
+    }
+
+    /* Kustomisasi Form Kontrol & Dropdown */
+    .form-control-custom, .form-select-custom {
+        border-radius: 12px;
+        padding: 11px 16px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: rgba(255, 255, 255, 0.6);
+        transition: all 0.3s ease;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 0.95rem;
+    }
+
+    .form-control-custom:focus, .form-select-custom:focus {
+        background: #fff;
+        border-color: #6f42c1;
+        box-shadow: 0 0 0 4px rgba(111, 66, 193, 0.12);
+        outline: none;
+    }
+
+    /* Penataan Gaya Tabel Kas */
+    .table-custom-keu th {
+        background-color: rgba(111, 66, 193, 0.05) !important;
+        color: #1e293b;
+        font-weight: 700;
+        font-size: 0.88rem;
+        padding: 14px;
+        border-bottom: 2px solid rgba(111, 66, 193, 0.1) !important;
+    }
+    
+    .table-custom-keu td {
+        padding: 14px;
+        font-size: 0.92rem;
+    }
+
+    /* Varian Tombol Ungu */
+    .btn-purple-admin {
+        background: #6f42c1;
+        color: white;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-purple-admin:hover {
+        background: #5a369e;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(111, 66, 193, 0.25);
+    }
+
+    .text-purple-premium {
+        color: #6f42c1 !important;
+    }
+
+    .modal-content-custom {
+        border-radius: 24px !important;
+        border: none;
+        box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+    }
+
+    /* Optimisasi Responsivitas Mobile */
+    @media (max-width: 767.98px) {
+        .header-wrapper-flex {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 15px;
+        }
+
+        .header-wrapper-flex .d-flex {
+            width: 100%;
+        }
+
+        .header-wrapper-flex form, .header-wrapper-flex .btn {
+            flex: 1;
+        }
+
+        .balance-card-premium {
+            padding: 1.5rem !important;
+        }
+
+        .balance-card-premium h2 {
+            font-size: 1.6rem !important;
+        }
+
+        .table-custom-keu td {
+            padding: 12px 8px;
+            font-size: 0.85rem;
+        }
+    }
