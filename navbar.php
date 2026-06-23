@@ -3,6 +3,19 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 } 
+
+// Logika Adaptif Jalur Folder Publik (Mencegah Pecah Path)
+$is_admin_folder = strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false;
+$root_prefix = $is_admin_folder ? '../' : '';
+
+/* =========================================================
+   FIX JALUR ABSOLUT: Menghindari Error Tautan Ganda / XAMPP
+   ========================================================= */
+if ($_SERVER['HTTP_HOST'] == 'localhost:8081' || $_SERVER['HTTP_HOST'] == 'localhost') {
+    $base_url = '/WEBSITE_IMANUEL/';
+} else {
+    $base_url = '/';
+}
 ?>
 
 <style>
@@ -137,13 +150,13 @@ if (session_status() === PHP_SESSION_NONE) {
         width: 100% !important; 
         justify-content: center !important; 
     }
-}
+} /* FIX: Menutup tag @media mobile dengan benar */
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow-sm" style="background-color: #6f42c1;">
     <div class="container">
-        <a class="navbar-brand d-flex align-items-center fw-bold" href="index.php">
-            <img src="assets/images/logo_gereja_imanuel.png" alt="Logo GMIM" width="55" height="55" class="me-3">
+        <a class="navbar-brand d-flex align-items-center fw-bold" href="<?php echo $root_prefix; ?>index.php">
+            <img src="<?php echo $root_prefix; ?>assets/images/logo_gereja_imanuel.png" alt="Logo GMIM" width="55" height="55" class="me-3">
             <div class="brand-container">
                 <span class="brand-text d-block" style="letter-spacing: 1px;">GMIM IMANUEL BAHU</span>
             </div>
@@ -156,26 +169,26 @@ if (session_status() === PHP_SESSION_NONE) {
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto align-items-center">
                 
-                <li class="nav-item"><a class="nav-link px-3 fw-bold text-white" href="index.php">Beranda</a></li>
+                <li class="nav-item"><a class="nav-link px-3 fw-bold text-white" href="<?php echo $root_prefix; ?>index.php">Beranda</a></li>
                 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle px-3 fw-bold text-white" href="#" role="button" data-bs-toggle="dropdown">Profil</a>
                     <ul class="dropdown-menu shadow border-0 animate slideIn">
-                        <li><a class="dropdown-item fw-semibold" href="visi-misi.php">Visi Misi</a></li>
-                        <li><a class="dropdown-item fw-semibold" href="sejarah.php">Sejarah Gereja</a></li>
-                        <li><a class="dropdown-item fw-semibold" href="data-jemaat.php">Data Jemaat</a></li>
+                        <li><a class="dropdown-item fw-semibold" href="<?php echo $root_prefix; ?>visi-misi.php">Visi Misi</a></li>
+                        <li><a class="dropdown-item fw-semibold" href="<?php echo $root_prefix; ?>sejarah.php">Sejarah Gereja</a></li>
+                        <li><a class="dropdown-item fw-semibold" href="<?php echo $root_prefix; ?>data-jemaat.php">Data Jemaat</a></li>
                     </ul>
                 </li>
 
-                <li class="nav-item"><a class="nav-link px-3 fw-bold text-white" href="event.php">Event</a></li>
+                <li class="nav-item"><a class="nav-link px-3 fw-bold text-white" href="<?php echo $root_prefix; ?>event.php">Event</a></li>
                 
-                <li class="nav-item"><a class="nav-link px-3 fw-bold text-white" href="warta-jemaat.php">Warta Jemaat</a></li>
+                <li class="nav-item"><a class="nav-link px-3 fw-bold text-white" href="<?php echo $root_prefix; ?>warta-jemaat.php">Warta Jemaat</a></li>
 
-                <li class="nav-item"><a class="nav-link px-3 fw-bold text-white" href="warta-keuangan.php">Keuangan</a></li>
+                <li class="nav-item"><a class="nav-link px-3 fw-bold text-white" href="<?php echo $root_prefix; ?>warta-keuangan.php">Keuangan</a></li>
 
-                <li class="nav-item"><a class="nav-link px-3 fw-bold text-white" href="renungan.php">Renungan</a></li>
+                <li class="nav-item"><a class="nav-link px-3 fw-bold text-white" href="<?php echo $root_prefix; ?>renungan.php">Renungan</a></li>
 
-                <li class="nav-item"><a class="nav-link px-3 fw-bold text-white" href="kontak.php">Kontak</a></li>
+                <li class="nav-item"><a class="nav-link px-3 fw-bold text-white" href="<?php echo $root_prefix; ?>kontak.php">Kontak</a></li>
                 
                 <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
                     <?php if (isset($_SESSION['admin_imanuel'])): ?>
@@ -184,19 +197,34 @@ if (session_status() === PHP_SESSION_NONE) {
                                 <i class="bi bi-person-check-fill me-1"></i> Admin
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
-                                <li><a class="dropdown-item fw-semibold" href="admin/admin_dashboard.php">Dashboard</a></li>
+                                <li><a class="dropdown-item fw-semibold" href="<?php echo $base_url; ?>admin/admin_dashboard.php">Dashboard</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item text-danger fw-bold" href="admin/logout.php">Logout</a></li>
+                                <li><a class="dropdown-item text-danger fw-bold" href="#" onclick="jalankanLogout(event)">Logout</a></li>
                             </ul>
                         </div>
                     <?php else: ?>
-                        <a class="btn btn-outline-light rounded-pill px-4 fw-bold shadow-sm" href="login.php">Login Admin</a>
+                        <a class="btn btn-outline-light rounded-pill px-4 fw-bold shadow-sm" href="<?php echo $base_url; ?>login.php">Login Admin</a>
                     <?php endif; ?>
                 </li>
-
                 
             </ul>
         </div>
     </div>
 </nav>
 
+<script>
+function jalankanLogout(event) {
+    event.preventDefault();
+    
+    // Mengambil domain & port saat ini (misal: localhost:8081 atau imanuelbahu.org)
+    const host = window.location.host;
+    
+    if (host.includes('localhost')) {
+        // Jika di localhost, arahkan mutlak ke folder projek XAMPP
+        window.location.href = window.location.protocol + '//' + host + '/WEBSITE_IMANUEL/admin/logout.php';
+    } else {
+        // Jika di hosting live, langsung tembak ke folder admin domain utama
+        window.location.href = window.location.protocol + '//' + host + '/admin/logout.php';
+    }
+}
+</script>

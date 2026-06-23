@@ -65,60 +65,7 @@
         </div>
     </div>
 
-    <!-- 2. GRID 4 KARTU STATISTIK COUNTER DATA (MENYONTEK VARIABEL DASHBOARD UTAMA) -->
-    <!-- Kartu A: Total Event -->
-    <div class="col-sm-6 col-xl-3">
-        <div class="card dashboard-card p-4 d-flex align-items-center flex-row gap-3">
-            <div class="dashboard-icon bg-purple-soft">
-                <i class="bi bi-calendar-event-fill"></i>
-            </div>
-            <div>
-                <h2 class="fw-bold text-dark mb-0"><?php echo $totalEvent['total'] ?? 0; ?></h2>
-                <p class="text-muted small mb-0">Total Event</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Kartu B: Renungan RHK -->
-    <div class="col-sm-6 col-xl-3">
-        <div class="card dashboard-card p-4 d-flex align-items-center flex-row gap-3">
-            <div class="dashboard-icon bg-indigo-soft">
-                <i class="bi bi-book-half"></i>
-            </div>
-            <div>
-                <h2 class="fw-bold text-dark mb-0"><?php echo $totalRenungan['total'] ?? 0; ?></h2>
-                <p class="text-muted small mb-0">Renungan RHK</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Kartu C: Struktur Pelayan -->
-    <div class="col-sm-6 col-xl-3">
-        <div class="card dashboard-card p-4 d-flex align-items-center flex-row gap-3">
-            <div class="dashboard-icon bg-pink-soft">
-                <i class="bi bi-diagram-3-fill"></i>
-            </div>
-            <div>
-                <h2 class="fw-bold text-dark mb-0"><?php echo $totalStruktur['total'] ?? 0; ?></h2>
-                <p class="text-muted small mb-0">Struktur Pelsus</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Kartu D: Titik Indoor Navigasi -->
-    <div class="col-sm-6 col-xl-3">
-        <div class="card dashboard-card p-4 d-flex align-items-center flex-row gap-3">
-            <div class="dashboard-icon bg-violet-soft">
-                <i class="bi bi-compass-fill"></i>
-            </div>
-            <div>
-                <h2 class="fw-bold text-dark mb-0"><?php echo $totalNavigasi['total'] ?? 0; ?></h2>
-                <p class="text-muted small mb-0">Titik Navigasi</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- 3. KARTU AYAT FIRMAN TUHAN -->
+    <!-- 2. KARTU AYAT FIRMAN TUHAN -->
     <div class="col-12 mt-2">
         <div class="dashboard-card verse-card-admin p-4 p-md-5 text-center position-relative overflow-hidden" 
              style="background: linear-gradient(135deg, #ffffff 0%, #f3effb 100%);">
