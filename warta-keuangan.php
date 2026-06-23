@@ -6,7 +6,7 @@ include 'koneksi.php';
 $halaman_ini = basename($_SERVER['PHP_SELF']);
 
 // 1. Logika Verifikasi Kode Referral Keuangan
-$kode_valid = ['JEMAAT2026', 'IMANUELBAHU', 'PELAYANAN'];
+$kode_valid = ['JEMAAT2026', 'IMANUELBAHU', 'PELAYANAN', 'WARTAIMANUEL'];
 $akses_keuangan = isset($_SESSION['akses_keuangan']) && $_SESSION['akses_keuangan'] === true;
 
 if (isset($_POST['btn_akses'])) {

@@ -2,7 +2,7 @@
 session_start();
 include 'koneksi.php'; 
 
-$kode_valid = ['JEMAAT2026', 'IMANUELBAHU', 'PELAYANAN'];
+$kode_valid = ['JEMAAT2026', 'IMANUELBAHU', 'PELAYANAN', 'WARTAIMANUEL'];
 $akses_warta = isset($_SESSION['akses_warta']) && $_SESSION['akses_warta'] === true;
 
 // Logika Verifikasi Kode Referral

@@ -62,7 +62,7 @@ include 'koneksi.php';
                     <div class="icon-circle-purple me-3"><i class="bi bi-envelope-at-fill"></i></div>
                     <div>
                         <h6 class="fw-bold mb-1">Email Resmi</h6>
-                        <p class="text-muted small mb-0">admin@imanuelbahu.org</p>
+                        <p class="text-muted small mb-0">gerejagmimimanuelbahu@gmail.com</p>
                     </div>
                 </div>
 
