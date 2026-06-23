@@ -1,93 +1,123 @@
+/* ========================================================
+   STYLE VISI MISI JEMAAT (PREMIUM & RESPONSIVE)
+   ======================================================== */
 .page-header-premium {
-            padding-top: 6rem;
-            padding-bottom: 3rem;
-            position: relative;
-        }
-        
-        .main-title-aesthetic {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(3rem, 6vw, 4.5rem);
-            font-weight: 900;
-            color: #000000;
-            letter-spacing: -1px;
-            line-height: 1;
-        }
-        
-        .sub-title-aesthetic {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: clamp(1rem, 2vw, 1.25rem);
-            font-weight: 600;
-            color: #6f42c1;
-            letter-spacing: 0.5px;
-        }
+    padding-top: 6rem;
+    padding-bottom: 3rem;
+    position: relative;
+}
 
-        .church-highlight {
-            color: #6f42c1;
-            font-weight: 800;
-            position: relative;
-            display: inline-block;
-        }
+.main-title-aesthetic {
+    font-family: 'Playfair Display', serif;
+    /* FIX: Mengubah batas minimum dari 3rem menjadi 2rem agar pas di layar HP */
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    font-weight: 900;
+    color: #000000;
+    letter-spacing: -1px;
+    line-height: 1.1;
+}
 
-        /* Ornamen Garis Minimalis di Bawah Judul */
-        .premium-divider {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        .premium-divider .line {
-            height: 1px;
-            width: 80px;
-            background: linear-gradient(90deg, transparent, #6f42c1, transparent);
-        }
-        .premium-divider .dot {
-            width: 6px;
-            height: 6px;
-            background-color: #6f42c1;
-            border-radius: 50%;
-            margin: 0 10px;
-            box-shadow: 0 0 8px #6f42c1;
-        }
+.sub-title-aesthetic {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 600;
+    color: #6f42c1;
+    letter-spacing: 0.5px;
+}
 
-        /* Styling List Misi */
-        .mission-list {
-            list-style: none;
-            padding-left: 0;
-        }
-        .mission-list li {
-            position: relative;
-            padding-left: 2.5rem;
-            margin-bottom: 1.5rem;
-            font-weight: 500;
-            color: #334155;
-            font-size: 1.05rem;
-            transition: transform 0.2s ease;
-        }
-        .mission-list li:hover {
-            transform: translateX(3px);
-        }
-        .mission-list li i {
-            position: absolute;
-            left: 0;
-            top: 2px;
-            color: #6f42c1;
-            font-size: 1.3rem;
-        }
-        
-        .visi-text-callout {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(1.8rem, 3vw, 2.4rem);
-            line-height: 1.4;
-            color: #0f172a;
-        }
+.church-highlight {
+    color: #6f42c1;
+    font-weight: 800;
+    position: relative;
+    display: inline-block;
+}
 
-        @media (min-width: 992px) {
-            .divider-vertical {
-                border-right: 1px dashed rgba(111, 66, 193, 0.25);
-                padding-right: 3.5rem;
-            }
-            .mission-content {
-                padding-left: 3.5rem;
-            }
-        }
+/* Ornamen Garis Minimalis di Bawah Judul */
+.premium-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.premium-divider .line {
+    height: 1px;
+    width: 80px;
+    background: linear-gradient(90deg, transparent, #6f42c1, transparent);
+}
+.premium-divider .dot {
+    width: 6px;
+    height: 6px;
+    background-color: #6f42c1;
+    border-radius: 50%;
+    margin: 0 10px;
+    box-shadow: 0 0 8px #6f42c1;
+}
+
+/* Styling List Misi */
+.mission-list {
+    list-style: none;
+    padding-left: 0;
+}
+.mission-list li {
+    position: relative;
+    padding-left: 2.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+    color: #334155;
+    font-size: 1.05rem;
+    transition: transform 0.2s ease;
+}
+.mission-list li:hover {
+    transform: translateX(3px);
+}
+.mission-list li i {
+    position: absolute;
+    left: 0;
+    top: 2px;
+    color: #6f42c1;
+    font-size: 1.3rem;
+}
+
+.visi-text-callout {
+    font-family: 'Playfair Display', serif;
+    /* FIX: Menyesuaikan minimum clamp agar teks isi visi proporsional di HP */
+    font-size: clamp(1.35rem, 3vw, 2.4rem);
+    line-height: 1.5;
+    color: #0f172a;
+}
+
+/* ========================================================
+   STRATEGI MEDIA QUERIES RESPONSIVE
+   ======================================================== */
+
+/* Tampilan Desktop & Tablet Lebar (Side-by-Side) */
+@media (min-width: 992px) {
+    .divider-vertical {
+        border-right: 1px dashed rgba(111, 66, 193, 0.25);
+        padding-right: 3.5rem;
+    }
+    .mission-content {
+        padding-left: 3.5rem;
+    }
+}
+
+/* Tampilan Khusus Mobile / HP (Menumpuk Vertikal secara Rapi) */
+@media (max-width: 991.98px) {
+    .page-header-premium {
+        padding-top: 4rem; /* Mengurangi ruang kosong atas di HP */
+        padding-bottom: 2rem;
+    }
+    
+    /* Memberikan jarak pemisah yang aman antara blok Visi dan blok Misi saat menumpuk */
+    .divider-vertical {
+        margin-bottom: 3rem;
+        padding-bottom: 2.5rem;
+        border-bottom: 1px dashed rgba(111, 66, 193, 0.2); /* Mengubah garis vertikal menjadi garis pembatas horizontal di HP */
+    }
+    
+    .mission-list li {
+        padding-left: 2rem; /* Sedikit menghemat ruang horizontal di HP */
+        font-size: 1rem;
+    }
+}

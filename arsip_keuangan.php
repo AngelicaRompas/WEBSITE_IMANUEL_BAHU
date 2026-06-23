@@ -7,7 +7,16 @@ $is_modal = isset($_GET['is_modal']);
 $bulan = isset($_GET['bulan']) ? (int)$_GET['bulan'] : date('m');
 $tahun = isset($_GET['tahun']) ? (int)$_GET['tahun'] : date('Y');
 
-$query = mysqli_query($koneksi, "SELECT * FROM warta_keuangan WHERE MONTH(tanggal) = '$bulan' AND YEAR(tanggal) = '$tahun' ORDER BY tanggal ASC");
+// 1. Tangkap Parameter Kategori dari GET
+$kategori_filter = isset($_GET['kategori']) ? mysqli_real_escape_string($koneksi, $_GET['kategori']) : 'all';
+
+// Susun Query Berdasarkan Filter Periode dan Kategori
+$whereClause = "WHERE MONTH(tanggal) = '$bulan' AND YEAR(tanggal) = '$tahun'";
+if ($kategori_filter !== 'all' && !empty($kategori_filter)) {
+    $whereClause .= " AND kategori = '$kategori_filter'";
+}
+
+$query = mysqli_query($koneksi, "SELECT * FROM warta_keuangan $whereClause ORDER BY tanggal ASC, id ASC");
 $nama_bulan = date('F', mktime(0, 0, 0, $bulan, 1));
 ?>
 
@@ -16,6 +25,7 @@ $nama_bulan = date('F', mktime(0, 0, 0, $bulan, 1));
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arsip Laporan Keuangan <?php echo $nama_bulan . ' ' . $tahun; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
@@ -26,11 +36,9 @@ $nama_bulan = date('F', mktime(0, 0, 0, $bulan, 1));
     
     /* PENGATURAN CETAK (PRINT) AGAR RAPI */
     @media print {
-        /* Sembunyikan semua elemen selain container utama */
         body * { visibility: hidden; }
         .table-glass-container, .table-glass-container * { visibility: visible; }
         
-        /* Posisikan tabel di pojok kiri atas saat print */
         .table-glass-container { 
             position: absolute; 
             left: 0; 
@@ -40,14 +48,11 @@ $nama_bulan = date('F', mktime(0, 0, 0, $bulan, 1));
             background: #ffffff !important; 
         }
 
-        /* Hilangkan tombol agar tidak ikut tercetak */
         .btn, .d-flex div { display: none !important; }
 
-        /* Pastikan tabel memenuhi lebar kertas */
         .table { width: 100% !important; border-collapse: collapse !important; }
         .table th, .table td { border: 1px solid #000 !important; padding: 8px !important; }
         
-        /* Judul laporan */
         h3 { color: #000 !important; font-size: 18px !important; margin-bottom: 20px !important; }
     }
 </style>
@@ -58,43 +63,56 @@ $nama_bulan = date('F', mktime(0, 0, 0, $bulan, 1));
 <?php endif; ?>
 
     <div class="table-glass-container">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h3 class="fw-bold"><i class="bi bi-archive me-2"></i>Arsip: <?php echo $nama_bulan . ' ' . $tahun; ?></h3>
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+            <h3 class="fw-bold m-0"><i class="bi bi-archive me-2"></i>Arsip: <?php echo $nama_bulan . ' ' . $tahun; ?></h3>
             
             <div>
-            <a href="print_keuangan.php?bulan=<?php echo $bulan; ?>&tahun=<?php echo $tahun; ?>"
-            class="btn btn-dark rounded-pill px-4 py-2 fw-semibold shadow-sm"
-            target="_blank">
-            <i class="bi bi-file-earmark-pdf-fill me-2"></i>Download PDF</a>
+                <!-- Meneruskan parameter kategori ke link download PDF -->
+                <a href="print_keuangan.php?bulan=<?php echo $bulan; ?>&tahun=<?php echo $tahun; ?>&kategori=<?php echo urlencode($kategori_filter); ?>"
+                class="btn btn-dark rounded-pill px-4 py-2 fw-semibold shadow-sm"
+                target="_blank">
+                <i class="bi bi-file-earmark-pdf-fill me-2"></i>Download PDF</a>
 
                 <?php if(!$is_modal): ?>
-                    <a href="warta-keuangan.php" class="btn btn-outline-primary ms-2"><i class="bi bi-arrow-left"></i> Kembali</a>
+                    <a href="warta-keuangan.php" class="btn btn-outline-primary ms-2 rounded-pill"><i class="bi bi-arrow-left"></i> Kembali</a>
                 <?php endif; ?>
             </div>
         </div>
 
-        <div class="table-responsive">
-            <table class="table table-hover table-striped table-bordered align-middle table-custom">
-                <thead>
-                    <tr class="text-center bg-light">
-                        <th>Tanggal</th>
-                        <th>Pemasukan</th>
-                        <th>Pengeluaran</th>
-                        <th>Saldo</th>
-                        <th>Keterangan</th>
+        <div class="table-responsive rounded-4 overflow-hidden border">
+            <table class="table table-hover table-striped table-bordered align-middle table-custom mb-0 bg-white">
+                <thead class="table-light">
+                    <tr class="text-center text-nowrap">
+                        <th class="py-3">Tanggal</th>
+                        <th class="py-3">Kategori</th>
+                        <th class="py-3">Pemasukan</th>
+                        <th class="py-3">Pengeluaran</th>
+                        <th class="py-3">Saldo</th>
+                        <th class="py-3">Keterangan</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php if(mysqli_num_rows($query) > 0): while($data = mysqli_fetch_assoc($query)): ?>
                     <tr>
-                        <td class="text-center"><?php echo date('d/m/Y', strtotime($data['tanggal'])); ?></td>
-                        <td class="text-end text-success fw-bold">Rp <?php echo number_format($data['total_pemasukan'], 0, ',', '.'); ?></td>
-                        <td class="text-end text-danger fw-bold">Rp <?php echo number_format($data['total_pengeluaran'], 0, ',', '.'); ?></td>
-                        <td class="text-end fw-bold">Rp <?php echo number_format($data['saldo_akhir'], 0, ',', '.'); ?></td>
-                        <td><?php echo nl2br(htmlspecialchars($data['keterangan'])); ?></td>
+                        <td class="text-center text-nowrap"><?php echo date('d/m/Y', strtotime($data['tanggal'])); ?></td>
+                        <td class="text-center text-nowrap">
+                            <!-- Label Badge Kategori -->
+                            <span class="badge <?php echo ($data['kategori'] == 'Pengeluaran') ? 'bg-danger-subtle text-danger border border-danger-subtle' : 'bg-success-subtle text-success border border-success-subtle'; ?> rounded-pill px-3 py-1">
+                                <?php echo htmlspecialchars($data['kategori'] ?? '-'); ?>
+                            </span>
+                        </td>
+                        <td class="text-end text-success fw-bold text-nowrap">Rp <?php echo number_format($data['total_pemasukan'], 0, ',', '.'); ?></td>
+                        <td class="text-end text-danger fw-bold text-nowrap">Rp <?php echo number_format($data['total_pengeluaran'], 0, ',', '.'); ?></td>
+                        <td class="text-end fw-bold text-nowrap">Rp <?php echo number_format($data['saldo_akhir'], 0, ',', '.'); ?></td>
+                        <td style="min-width: 200px;"><?php echo nl2br(htmlspecialchars($data['keterangan'])); ?></td>
                     </tr>
                     <?php endwhile; else: ?>
-                    <tr><td colspan="5" class="text-center py-4">Tidak ada data untuk periode ini.</td></tr>
+                    <tr>
+                        <td colspan="6" class="text-center py-5 text-muted">
+                            <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                            Tidak ada data keuangan untuk filter dan periode ini.
+                        </td>
+                    </tr>
                     <?php endif; ?>
                 </tbody>
             </table>

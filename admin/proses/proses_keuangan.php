@@ -27,6 +27,10 @@ function sinkronisasi_saldo_total($koneksi) {
 if (isset($_POST['simpan_keuangan'])) {
     $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
     $tanggal = mysqli_real_escape_string($koneksi, $_POST['tanggal']);
+    
+    // 1. Tangkap input kategori baru dari form modal
+    $kategori = mysqli_real_escape_string($koneksi, $_POST['kategori']);
+    
     $keterangan = htmlspecialchars($_POST['keterangan']);
     $in = intval(str_replace(['.', ','], '', $_POST['total_pemasukan'])); 
     $out = intval(str_replace(['.', ','], '', $_POST['total_pengeluaran']));
@@ -34,13 +38,15 @@ if (isset($_POST['simpan_keuangan'])) {
     $koneksi->begin_transaction();
     try {
         if ($id > 0) {
-            $stmt = $koneksi->prepare("UPDATE warta_keuangan SET tanggal=?, total_pemasukan=?, total_pengeluaran=?, keterangan=? WHERE id=?");
-            $stmt->bind_param("siisi", $tanggal, $in, $out, $keterangan, $id);
+            // 2. Perbarui query UPDATE dengan menambahkan kategori
+            $stmt = $koneksi->prepare("UPDATE warta_keuangan SET tanggal=?, kategori=?, total_pemasukan=?, total_pengeluaran=?, keterangan=? WHERE id=?");
+            $stmt->bind_param("ssiisi", $tanggal, $kategori, $in, $out, $keterangan, $id);
             $stmt->execute();
             $stmt->close();
         } else {
-            $stmt = $koneksi->prepare("INSERT INTO warta_keuangan (tanggal, total_pemasukan, total_pengeluaran, keterangan) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("siis", $tanggal, $in, $out, $keterangan);
+            // 3. Perbarui query INSERT dengan menambahkan kategori
+            $stmt = $koneksi->prepare("INSERT INTO warta_keuangan (tanggal, kategori, total_pemasukan, total_pengeluaran, keterangan) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param("ssiis", $tanggal, $kategori, $in, $out, $keterangan);
             $stmt->execute();
             $stmt->close();
         }
@@ -55,7 +61,7 @@ if (isset($_POST['simpan_keuangan'])) {
     exit;
 }
 
-// PROSES HAPUS (Tetap sama, sudah benar)
+// PROSES HAPUS
 if (isset($_GET['aksi']) && $_GET['aksi'] == 'hapus' && isset($_GET['id'])) {
     $id = intval($_GET['id']);
     $koneksi->begin_transaction();

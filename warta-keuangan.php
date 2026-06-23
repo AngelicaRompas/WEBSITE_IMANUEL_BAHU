@@ -2,7 +2,7 @@
 session_start();
 include 'koneksi.php'; 
 
-// Deteksi nama file ini secara otomatis (apapun nama file yang Anda simpan)
+// Deteksi nama file ini secara otomatis
 $halaman_ini = basename($_SERVER['PHP_SELF']);
 
 // 1. Logika Verifikasi Kode Referral Keuangan
@@ -12,7 +12,6 @@ $akses_keuangan = isset($_SESSION['akses_keuangan']) && $_SESSION['akses_keuanga
 if (isset($_POST['btn_akses'])) {
     if (in_array(strtoupper(trim($_POST['kode_referral'])), $kode_valid)) {
         $_SESSION['akses_keuangan'] = true;
-        // Redirect otomatis ke file ini
         header("Location: " . $halaman_ini); 
         exit;
     } else { 
@@ -20,30 +19,34 @@ if (isset($_POST['btn_akses'])) {
     }
 }
 
-// Logika Keluar (Logout)
 if (isset($_GET['logout'])) { 
     unset($_SESSION['akses_keuangan']); 
-    // Redirect otomatis ke file ini saat logout
     header("Location: " . $halaman_ini); 
     exit; 
 }
 
-// 2. Query Data HANYA dijalankan jika akses diberikan (Untuk menghemat resource server)
+// 2. Query Data (Hanya berjalan jika akses terbuka)
 if ($akses_keuangan) {
-    // Logika Header: Total Keseluruhan
+    // Total Kumulatif Kas
     $queryTotal = mysqli_query($koneksi, "SELECT SUM(total_pemasukan) as total_masuk, SUM(total_pengeluaran) as total_keluar FROM warta_keuangan");
     $totalData = mysqli_fetch_assoc($queryTotal);
+
+    // Menangkap Parameter Filter Kategori dari URL (Default: 'all')
+    $kategori_filter = isset($_GET['kategori']) ? mysqli_real_escape_string($koneksi, $_GET['kategori']) : 'all';
+    $sql_kategori = ($kategori_filter !== 'all') ? " AND kategori = '$kategori_filter'" : "";
 
     // Logika Filter Bulan Berjalan
     $bulan_ini = date('m');
     $tahun_ini = date('Y');
-    $query = mysqli_query($koneksi, "SELECT * FROM warta_keuangan WHERE MONTH(tanggal) = '$bulan_ini' AND YEAR(tanggal) = '$tahun_ini' ORDER BY tanggal ASC");
+    
+    // Eksekusi Query Utama yang sudah disisipi filter Kategori
+    $query = mysqli_query($koneksi, "SELECT * FROM warta_keuangan WHERE MONTH(tanggal) = '$bulan_ini' AND YEAR(tanggal) = '$tahun_ini' $sql_kategori ORDER BY tanggal ASC, id ASC");
 
-    // Ambil Saldo Kas Abadi Terbaru
-    $querySaldo = mysqli_query($koneksi, "SELECT saldo_akhir FROM warta_keuangan ORDER BY id DESC LIMIT 1");
+    // Saldo Kas Abadi Terakhir
+    $querySaldo = mysqli_query($koneksi, "SELECT saldo_akhir FROM warta_keuangan ORDER BY tanggal DESC, id DESC LIMIT 1");
     $dataSaldo = mysqli_fetch_assoc($querySaldo);
     
-    // Ambil Data Transaksi Paling Terakhir
+    // Data Transaksi Terakhir
     $queryTop = mysqli_query($koneksi, "SELECT * FROM warta_keuangan ORDER BY id DESC LIMIT 1");
     $dataTop = mysqli_fetch_assoc($queryTop);
 }
@@ -62,7 +65,7 @@ if ($akses_keuangan) {
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700;1,900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="assets/css/style-beranda.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="assets/css/style_keuangan.css">
+    <link rel="stylesheet" href="assets/css/style_keuangan.css?v=<?php echo time(); ?>">
 </head>
 <body>
 
@@ -94,11 +97,12 @@ if ($akses_keuangan) {
 <div class="container pb-5 mb-5 position-relative z-2">
     
     <?php if (!$akses_keuangan): ?>
+        <!-- FORM LOCK AKSES -->
         <div class="row justify-content-center" data-aos="zoom-in" data-aos-delay="300">
             <div class="col-md-5 glass-card p-5 text-center mt-4">
                 <i class="bi bi-shield-lock text-purple fs-1 mb-3 d-block"></i>
                 <h5 class="fw-bold my-3">Area Terbatas Jemaat</h5>
-                <p class="text-muted small mb-4">Laporan keuangan bersifat internal. Silakan masukkan kode akses jemaat yang dapat diperoelh melalui panduan website Imanuel Bahu atau melalui pelayan khusus.</p>
+                <p class="text-muted small mb-4">Laporan keuangan bersifat internal. Silakan masukkan kode akses jemaat yang dapat diperoleh melalui panduan website Imanuel Bahu atau melalui pelayan khusus.</p>
                 <form method="POST">
                     <input type="text" name="kode_referral" class="form-control mb-3 text-center rounded-pill py-2" placeholder="Masukkan Kode Akses..." required>
                     <button type="submit" name="btn_akses" class="btn btn-purple w-100 py-2 fw-bold">Verifikasi Akses</button>
@@ -108,12 +112,14 @@ if ($akses_keuangan) {
         </div>
         
     <?php else: ?>
+        <!-- DASHBOARD TERBUKA -->
         <div class="d-flex justify-content-end mb-4" data-aos="fade-in">
-            <a href="?logout=1" class="btn btn-outline-danger btn-sm rounded-pill px-4 fw-bold">
+            <a href="?logout=1" class="btn btn-outline-danger btn-sm rounded-pill px-4 fw-bold shadow-sm">
                 <i class="bi bi-box-arrow-right me-1"></i> Tutup Akses Keuangan
             </a>
         </div>
 
+        <!-- 3 KARTU RINGKASAN -->
         <div class="row g-4 mb-5">
             <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
                 <div class="saldo-card-glass p-4 border-start border-success border-4 h-100">
@@ -138,42 +144,90 @@ if ($akses_keuangan) {
             </div>
         </div>
 
+        <!-- TABEL BUKU BESAR DENGAN FILTER KATEGORI -->
         <div class="table-glass-container mb-5" data-aos="zoom-in" data-aos-delay="600">
-            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+            
+            <!-- Kontrol Atas Tabel (Responsive Stack untuk Mobile) -->
+            <div class="d-flex flex-column flex-xl-row justify-content-between align-items-xl-center gap-3 mb-4">
                 <h5 class="fw-bold text-dark m-0">
-                    <i class="bi bi-journal-album text-primary me-2"></i>
-                    Buku Besar Arsip Anggaran
+                    <i class="bi bi-journal-album text-primary me-2"></i>Buku Besar Laporan Keuangan Bulan Berjalan
                 </h5>
-                <a href="print_keuangan.php?bulan=<?php echo $bulan_ini; ?>&tahun=<?php echo $tahun_ini; ?>" target="_blank" class="btn btn-dark rounded-pill px-4 py-2 fw-semibold shadow-sm">
-                    <i class="bi bi-file-earmark-pdf-fill me-2"></i>Download PDF
-                </a>
+                
+                <div class="d-flex flex-column flex-sm-row align-items-stretch align-items-sm-center gap-2">
+                    
+                    <!-- DROPDOWN FILTER KATEGORI OTOMATIS -->
+                    <form method="GET" class="m-0 flex-grow-1">
+                        <select name="kategori" class="form-select form-select-sm rounded-pill px-3 py-2 fw-medium shadow-sm" onchange="this.form.submit()">
+                            <option value="all" <?php echo ($kategori_filter == 'all') ? 'selected' : ''; ?>>✦ Tampilkan Semua (Rekapan)</option>
+                            <optgroup label="Kategori Pemasukan">
+                                <option value="Umum" <?php echo ($kategori_filter == 'Umum') ? 'selected' : ''; ?>>Umum (Pemasukan Lainnya)</option>
+                                <option value="Persembahan Ibadah Minggu" <?php echo ($kategori_filter == 'Persembahan Ibadah Minggu') ? 'selected' : ''; ?>>Persembahan Ibadah Minggu</option>
+                                <option value="Persembahan Ibadah Kolom / BIPRA" <?php echo ($kategori_filter == 'Persembahan Ibadah Kolom / BIPRA') ? 'selected' : ''; ?>>Persembahan Ibadah Kolom / BIPRA</option>
+                                <option value="Sampul Persepuluhan" <?php echo ($kategori_filter == 'Sampul Persepuluhan') ? 'selected' : ''; ?>>Sampul Persepuluhan</option>
+                                <option value="Sampul Syukur Hut Pribadi" <?php echo ($kategori_filter == 'Sampul Syukur Hut Pribadi') ? 'selected' : ''; ?>>Sampul Syukur Hut Pribadi</option>
+                                <option value="Sampul Syukur Hut Pernikahan" <?php echo ($kategori_filter == 'Sampul Syukur Hut Pernikahan') ? 'selected' : ''; ?>>Sampul Syukur Hut Pernikahan</option>
+                                <option value="Persembahan & Sampul Syukur Lainnya" <?php echo ($kategori_filter == 'Persembahan & Sampul Syukur Lainnya') ? 'selected' : ''; ?>>Persembahan & Sampul Syukur Lainnya</option>
+                                <option value="Persembahan Bulanan Keluarga" <?php echo ($kategori_filter == 'Persembahan Bulanan Keluarga') ? 'selected' : ''; ?>>Persembahan Bulanan Keluarga</option>
+                            </optgroup>
+                            <optgroup label="Kategori Pengeluaran">
+                                <option value="Pengeluaran" <?php echo ($kategori_filter == 'Pengeluaran') ? 'selected' : ''; ?>>Pengeluaran</option>
+                            </optgroup>
+                        </select>
+                    </form>
+
+                    <!-- Tombol PDF (Meneruskan parameter kategori yang sedang dipilih) -->
+                    <a href="print_keuangan.php?bulan=<?php echo $bulan_ini; ?>&tahun=<?php echo $tahun_ini; ?>&kategori=<?php echo urlencode($kategori_filter); ?>" target="_blank" class="btn btn-dark rounded-pill px-4 py-2 fw-semibold shadow-sm text-nowrap text-center">
+                        <i class="bi bi-file-earmark-pdf-fill me-2"></i>Download PDF
+                    </a>
+
+                </div>
             </div>
 
-            <div class="table-responsive rounded-4 overflow-hidden">
+            <!-- TABEL RESPONSIVE UTAMA -->
+            <div class="table-responsive rounded-4 overflow-hidden shadow-sm">
                 <table class="table table-hover table-striped table-bordered align-middle mb-0">
                     <thead class="table-light">
-                        <tr class="text-center">
-                            <th>No</th><th>Tanggal Ibadah</th><th>Pemasukan</th><th>Pengeluaran</th><th>Saldo</th><th>Keterangan</th>
+                        <tr class="text-center text-nowrap">
+                            <th class="py-3">No</th>
+                            <th>Tanggal Ibadah</th>
+                            <th>Kategori Arus Kas</th>
+                            <th>Pemasukan</th>
+                            <th>Pengeluaran</th>
+                            <th>Saldo Terakhir</th>
+                            <th>Keterangan / Alokasi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if(mysqli_num_rows($query) > 0): $no=1; while($data = mysqli_fetch_assoc($query)): ?>
                         <tr>
-                            <td class="text-center"><?php echo $no++; ?></td>
-                            <td class="text-center"><?php echo date('d/m/Y', strtotime($data['tanggal'])); ?></td>
-                            <td class="text-end text-success fw-bold">Rp <?php echo number_format($data['total_pemasukan'], 0, ',', '.'); ?></td>
-                            <td class="text-end text-danger fw-bold">Rp <?php echo number_format($data['total_pengeluaran'], 0, ',', '.'); ?></td>
-                            <td class="text-end fw-bold">Rp <?php echo number_format($data['saldo_akhir'], 0, ',', '.'); ?></td>
-                            <td><?php echo nl2br(htmlspecialchars($data['keterangan'])); ?></td>
+                            <td class="text-center fw-medium"><?php echo $no++; ?></td>
+                            <td class="text-center text-nowrap"><?php echo date('d/m/Y', strtotime($data['tanggal'])); ?></td>
+                            <td class="text-center text-nowrap">
+                                <!-- Menampilkan Badge Kategori -->
+                                <span class="badge <?php echo ($data['kategori'] == 'Pengeluaran') ? 'bg-danger-subtle text-danger border border-danger-subtle' : 'bg-success-subtle text-success border border-success-subtle'; ?> px-3 py-1 rounded-pill fw-bold small">
+                                    <?php echo htmlspecialchars($data['kategori'] ?? 'Umum'); ?>
+                                </span>
+                            </td>
+                            <td class="text-end text-success fw-bold text-nowrap">Rp <?php echo number_format($data['total_pemasukan'], 0, ',', '.'); ?></td>
+                            <td class="text-end text-danger fw-bold text-nowrap">Rp <?php echo number_format($data['total_pengeluaran'], 0, ',', '.'); ?></td>
+                            <td class="text-end fw-bold text-nowrap">Rp <?php echo number_format($data['saldo_akhir'], 0, ',', '.'); ?></td>
+                            <td style="min-width: 220px;"><?php echo nl2br(htmlspecialchars($data['keterangan'])); ?></td>
                         </tr>
                         <?php endwhile; else: ?>
-                        <tr><td colspan="6" class="text-center py-4 text-muted">Belum ada data warta keuangan untuk bulan ini.</td></tr>
+                        <tr>
+                            <td colspan="7" class="text-center py-5 text-muted">
+                                <i class="bi bi-funnel fs-2 d-block mb-2 text-black-50"></i>
+                                Belum ada transaksi untuk kategori <strong>"<?php echo htmlspecialchars($kategori_filter == 'all' ? 'Semua Kategori' : $kategori_filter); ?>"</strong> di bulan ini.
+                            </td>
+                        </tr>
                         <?php endif; ?>
                     </tbody>
                 </table>
             </div>
+
         </div>
 
+        <!-- RIWAYAT TAHUNAN -->
         <div class="table-glass-container" data-aos="zoom-in" data-aos-delay="200">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h5 class="fw-bold text-dark m-0"><i class="bi bi-calendar-event text-primary me-2"></i>Riwayat Laporan Tahunan</h5>

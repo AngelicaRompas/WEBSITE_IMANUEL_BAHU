@@ -1,18 +1,32 @@
 /* ==========================================================================
-   EVENT PAGE STYLES - GMIM IMANUEL BAHU (OPTIMIZED)
+   EVENT PAGE STYLES - GMIM IMANUEL BAHU (FULL RESPONSIVE & PURPLE THEME)
    ========================================================================== */
 
 /* Global Reset & Layout */
-body { overflow-x: hidden; }
+body { 
+    overflow-x: hidden; 
+}
 
 /* Header & Typography */
-.page-header-premium { padding-top: 4rem; padding-bottom: 2rem; position: relative; }
-.main-title-aesthetic { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; color: #0f172a; letter-spacing: -1px; }
+.page-header-premium { 
+    padding-top: 6rem; 
+    padding-bottom: 3rem; 
+    position: relative; 
+}
+.main-title-aesthetic { 
+    font-family: 'Playfair Display', serif; 
+    font-size: clamp(2rem, 5vw, 4rem); 
+    font-weight: 900; 
+    color: #0f172a; 
+    letter-spacing: -1px; 
+    line-height: 1.1;
+}
 
 /* Upcoming Event Cards */
 .event-card-glass { 
     background: rgba(255, 255, 255, 0.75); 
     backdrop-filter: blur(16px); 
+    -webkit-backdrop-filter: blur(16px);
     border: 1px solid rgba(255, 255, 255, 1); 
     border-radius: 20px; 
     overflow: hidden; 
@@ -20,25 +34,45 @@ body { overflow-x: hidden; }
     transition: all 0.3s ease; 
     width: 100%; 
 }
-.event-card-glass:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(13, 110, 253, 0.12); }
-.img-event { height: 220px; width: 100%; object-fit: cover; transition: transform 0.5s ease; }
-.event-card-glass:hover .img-event { transform: scale(1.05); }
+/* FIX: Mengubah bayangan biru (rgba 13, 110, 253) menjadi ungu lembut */
+.event-card-glass:hover { 
+    transform: translateY(-8px); 
+    box-shadow: 0 20px 40px rgba(111, 66, 193, 0.15); 
+}
+.img-event { 
+    height: 220px; 
+    width: 100%; 
+    object-fit: cover; 
+    transition: transform 0.5s ease; 
+}
+.event-card-glass:hover .img-event { 
+    transform: scale(1.04); 
+}
 
-/* Tabs */
+/* Tabs Kategori Event */
+.nav-pills {
+    gap: 8px;
+}
 .nav-pills .nav-link { 
     border-radius: 50rem; 
-    padding: 10px 25px; 
+    padding: 10px 24px; 
     color: #475569; 
     font-weight: 600; 
     transition: all 0.3s; 
-    background: rgba(255,255,255,0.6); 
-    border: 1px solid rgba(13, 110, 253, 0.1); 
-    margin: 0 5px; 
+    background: rgba(255,255,255,0.7); 
+    /* FIX: Mengubah border biru menjadi ungu transparan */
+    border: 1px solid rgba(111, 66, 193, 0.1); 
+    margin: 0; 
     white-space: nowrap; 
 }
-.nav-pills .nav-link.active { background: #6f42c1; color: white; box-shadow: 0 8px 20px rgba(13, 110, 253, 0.25); }
+/* FIX: Menyelaraskan efek aktif dan bayangan menjadi ungu */
+.nav-pills .nav-link.active { 
+    background: #6f42c1; 
+    color: white; 
+    box-shadow: 0 8px 20px rgba(111, 66, 193, 0.25); 
+}
 
-/* Archived Event Cards */
+/* Archived Event Cards (Arsip) */
 .event-card-archived { 
     background: #ffffff; 
     border-radius: 24px; 
@@ -47,35 +81,113 @@ body { overflow-x: hidden; }
     border: 1px solid rgba(0,0,0,0.05); 
     width: 100%; 
 }
-.event-card-archived:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(111, 66, 193, 0.15) !important; }
-.img-event-archived { height: 200px; width: 100%; object-fit: cover; border-radius: 18px; filter: grayscale(30%); transition: 0.4s; }
-.event-card-archived:hover .img-event-archived { filter: grayscale(0%); }
+.event-card-archived:hover { 
+    transform: translateY(-6px); 
+    box-shadow: 0 20px 40px rgba(111, 66, 193, 0.12) !important; 
+}
+.img-event-archived { 
+    height: 200px; 
+    width: 100%; 
+    object-fit: cover; 
+    border-radius: 18px; 
+    filter: grayscale(25%); 
+    transition: 0.4s; 
+}
+.event-card-archived:hover .img-event-archived { 
+    filter: grayscale(0%); 
+}
 
 /* Buttons & Utilities */
-.btn-doc { background: #f1f5f9; color: #475569; font-weight: 600; border-radius: 12px; transition: 0.3s; }
-.btn-doc:hover { background: #6f42c1; color: white; }
-.hover-zoom { transition: transform 0.3s ease; }
-.hover-zoom:hover { transform: scale(1.05); }
+.btn-doc { 
+    background: #f1f5f9; 
+    color: #475569; 
+    font-weight: 600; 
+    border-radius: 12px; 
+    transition: 0.3s; 
+}
+.btn-doc:hover { 
+    background: #6f42c1; 
+    color: white; 
+}
+.hover-zoom { 
+    transition: transform 0.3s ease; 
+}
+.hover-zoom:hover { 
+    transform: scale(1.03); 
+}
 .border-primary { border-color: #6f42c1 !important; }
 .text-primary { color: #6f42c1 !important; }
 
 /* MODAL MODERN RESPONSIVE */
-/* Memastikan Modal tidak melebar di layar HP */
-.modal-content { border-radius: 20px !important; }
-.modal-body img { max-width: 100%; }
-
-@media (max-width: 768px) {
-    .main-title-aesthetic { font-size: 2.2rem; }
-    .nav-pills .nav-link { padding: 8px 15px; font-size: 0.85rem; }
-    
-    /* Membuat Grid Galeri lebih rapat di mobile */
-    .col-3 { width: 33.33%; } 
-    
-    /* Sesuaikan padding modal agar tidak terlalu rapat di pinggir layar */
-    .modal-body { padding: 1.5rem !important; }
+.modal-content { 
+    border-radius: 24px !important; 
+    border: none;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+}
+.modal-body img { 
+    max-width: 100%; 
+    height: auto;
+    border-radius: 12px;
 }
 
-@media (max-width: 576px) {
-    /* Galeri di HP bisa dibuat lebih besar (2 kolom) */
-    .col-3 { width: 50%; }
+/* ==========================================================================
+   OPTIMISASI MEDIA QUERIES MOBILE (SMARTPHONE)
+   ========================================================================== */
+@media (max-width: 767.98px) {
+    .page-header-premium { 
+        padding-top: 4rem; 
+        padding-bottom: 2rem; 
+    }
+    
+    .main-title-aesthetic { 
+        font-size: clamp(1.8rem, 6vw, 2.5rem); 
+    }
+    
+    /* FIX: Membuat tab kategori bisa di-swipe geser kiri-kanan secara mulus di layar HP */
+    .nav-pills {
+        display: flex !important;
+        overflow-x: auto !important;
+        flex-wrap: nowrap !important;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 8px; /* Ruang napas scroll */
+    }
+    .nav-pills::-webkit-scrollbar {
+        display: none; /* Sembunyikan scrollbar agar minimalis */
+    }
+    .nav-pills .nav-link { 
+        padding: 8px 18px; 
+        font-size: 0.85rem; 
+    }
+    
+    /* FIX: Mengatur ulang tinggi gambar di HP agar tidak gepeng/terlalu pendek */
+    .img-event {
+        height: 200px !important;
+    }
+    .img-event-archived {
+        height: 180px !important;
+    }
+    
+    /* Menata grid galeri foto kustom Anda agar seimbang */
+    .col-3 { 
+        width: 50% !important; /* Di bawah 768px langsung kunci ke 2 kolom */
+    } 
+    
+    .modal-body { 
+        padding: 1.25rem !important; 
+    }
+    
+    /* Spasi baris vertikal antar card saat menumpuk di HP */
+    .row.g-4 > [class*='col-'] {
+        margin-bottom: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Untuk HP dengan layar sangat ramping */
+    .col-3 { 
+        width: 100% !important; /* Menjadi 1 kolom penuh agar foto terlihat jelas */
+    }
+    .img-event {
+        height: 180px !important;
+    }
 }

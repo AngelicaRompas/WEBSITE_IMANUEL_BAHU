@@ -1,5 +1,5 @@
 /* =========================================
-   STYLE DASAR & KOMPONEN UMUM
+   STYLE DASAR & KOMKOMPENEN UMUM
 ========================================= */
 body { 
     font-family: 'Plus Jakarta Sans', sans-serif; 
@@ -16,10 +16,12 @@ body {
 
 .main-title-aesthetic, .head-title-warta {
     font-family: 'Playfair Display', serif !important;
-    font-size: clamp(3rem, 5vw, 4rem) !important;
+    /* Mengubah batas bawah clamp dari 3rem ke 1.8rem agar fleksibel di layar kecil */
+    font-size: clamp(1.8rem, 5vw, 4rem) !important;
     font-weight: 900 !important;
     color: #0f172a !important;
     letter-spacing: -1px !important;
+    line-height: 1.2;
 }
 
 /* =========================================
@@ -28,6 +30,7 @@ body {
 .glass-card { 
     background: rgba(255, 255, 255, 0.85); 
     backdrop-filter: blur(12px); 
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(111, 66, 193, 0.15); 
     border-radius: 20px; 
     box-shadow: 0 8px 32px rgba(111, 66, 193, 0.08); 
@@ -144,4 +147,42 @@ body {
 
 .wrapper-download-btn { 
     border-color: rgba(0,0,0,0.05) !important; 
+}
+
+/* =========================================
+   OPTIMISASI KHUSUS RESPONSIVE MOBILE (NEW)
+========================================= */
+@media (max-width: 767.98px) {
+    .page-header-premium {
+        padding-top: 4rem; /* Mengurangi padding kosong atas di smartphone */
+        padding-bottom: 2rem;
+    }
+
+    .main-title-aesthetic, .head-title-warta {
+        font-size: clamp(1.8rem, 6vw, 2.5rem) !important; /* Batas font proposional di HP */
+    }
+
+    .glass-card {
+        padding: 1.25rem !important; /* Mengoptimalkan ruang padding dalam kartu agar teks luas */
+        border-radius: 16px;
+    }
+
+    .khadim-img {
+        width: 140px; /* Skala ulang gambar khadim agar seimbang di layar portrait */
+        height: 190px;
+        border-width: 4px;
+    }
+
+    .icon-placeholder {
+        font-size: 4.5rem;
+    }
+    
+    .warta-cover-wrapper {
+        height: 160px; /* Penyesuaian tinggi cover desain majalah di HP */
+    }
+
+    /* Penataan spasi vertikal antar kolom grid bootstrap saat menumpuk */
+    .row.g-4 > [class*='col-'] {
+        margin-bottom: 0.5rem;
+    }
 }

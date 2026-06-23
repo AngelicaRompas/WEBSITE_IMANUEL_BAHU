@@ -3,7 +3,9 @@
    TEMA: Glassmorphism, Clean, Digital Aesthetic
    ======================================================== */
 
-:root { --bs-primary: #6f42c1; }
+:root { 
+    --bs-primary: #6f42c1; 
+}
 
 body {
     background-color: #f8fafc;
@@ -23,14 +25,14 @@ body {
 
 /* Digital Grid */
 .digital-grid {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
     background-image: linear-gradient(rgba(111, 66, 193, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(111, 66, 193, 0.04) 1px, transparent 1px);
     background-size: 40px 40px; pointer-events: none;
 }
 
 /* Aurora Blobs */
 .aurora-container {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
     overflow: hidden; pointer-events: none;
 }
 .aurora-blob {
@@ -106,14 +108,51 @@ body {
     object-fit: cover;
 }
 
-/* Responsive Mobile Adjustments */
+/* ========================================================
+   RESPONSIVE MOBILE ADJUSTMENTS (OPTIMIZED)
+   ======================================================== */
 @media (max-width: 767px) {
-    .hero-title { font-size: 1.8rem !important; margin-bottom: 1rem !important; padding: 0 10px; }
-    .church-name-aesthetic { font-size: 2.1rem !important; white-space: nowrap; display: block; margin-top: 5px; }
-    .hero-section { padding-top: 2rem !important; padding-bottom: 2rem !important; }
-    .row.g-4 > [class*='col-'] { margin-bottom: 1.5rem; }
-    .glass-card { padding: 1.5rem !important; }
-    .glass-card [style*="height: 320px"] { height: 250px !important; }
-    h2 { font-size: 1.5rem !important; }
-    .container-fluid { padding-left: 20px !important; padding-right: 20px !important; }
+    .hero-title { 
+        font-size: clamp(1.8rem, 6vw, 2.4rem) !important; 
+        margin-bottom: 1.2rem !important; 
+        padding: 0; 
+        line-height: 1.2;
+    }
+    
+    /* FIX: Hapus white-space nowrap agar teks membungkus rapi di layar kecil */
+    .church-name-aesthetic { 
+        font-size: clamp(2rem, 7vw, 2.6rem) !important; 
+        white-space: normal !important; 
+        display: inline-block; 
+        margin-top: 5px; 
+        word-break: break-word;
+    }
+    
+    .hero-section { 
+        padding-top: 3rem !important; 
+        padding-bottom: 3rem !important; 
+        min-height: auto;
+    }
+    
+    .row.g-4 > [class*='col-'] { 
+        margin-bottom: 1rem; 
+    }
+    
+    .glass-card { 
+        padding: 1.25rem !important; 
+        border-radius: 16px;
+    }
+    
+    .glass-card [style*="height: 320px"] { 
+        height: 220px !important; 
+    }
+    
+    h2 { 
+        font-size: clamp(1.4rem, 5vw, 1.8rem) !important; 
+    }
+    
+    .container-fluid { 
+        padding-left: 15px !important; 
+        padding-right: 15px !important; 
+    }
 }

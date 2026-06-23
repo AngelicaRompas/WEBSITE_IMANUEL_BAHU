@@ -9,7 +9,6 @@ $saldoTerakhir = $dataSaldo['saldo_akhir'] ?? 0;
     <i class="bi bi-cash-coin me-2"></i>Manajemen Laporan Keuangan Kas Jemaat
 </h4>
 
-<!-- Statistik Ringkas -->
 <div class="row mb-4">
     <div class="col-md-12">
         <div class="card border-0 shadow-sm text-white p-4 rounded-4 d-flex flex-row justify-content-between align-items-center" 
@@ -23,7 +22,6 @@ $saldoTerakhir = $dataSaldo['saldo_akhir'] ?? 0;
     </div>
 </div>
 
-<!-- Tabel Riwayat -->
 <div class="card border-0 shadow-sm rounded-4 p-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-list-ul me-2 text-primary"></i>Riwayat Pembukuan</h5>
@@ -49,6 +47,7 @@ $saldoTerakhir = $dataSaldo['saldo_akhir'] ?? 0;
             <thead class="bg-light">
                 <tr>
                     <th class="ps-3">Tanggal</th>
+                    <th>Kategori</th>
                     <th>Keterangan</th>
                     <th class="text-end">Masuk</th>
                     <th class="text-end">Keluar</th>
@@ -65,6 +64,11 @@ $saldoTerakhir = $dataSaldo['saldo_akhir'] ?? 0;
                 ?>
                 <tr class="border-bottom">
                     <td class="ps-3 fw-bold text-muted"><?php echo date('d M Y', strtotime($data['tanggal'])); ?></td>
+                    <td>
+                        <span class="badge <?php echo ($data['kategori'] == 'Pengeluaran') ? 'bg-danger-subtle text-danger' : 'bg-success-subtle text-success'; ?> px-2 py-1 rounded-pill">
+                            <?php echo htmlspecialchars($data['kategori'] ?? 'Tidak Diketahui'); ?>
+                        </span>
+                    </td>
                     <td><?php echo htmlspecialchars($data['keterangan']); ?></td>
                     <td class="text-end text-success fw-bold">Rp <?php echo number_format($data['total_pemasukan'],0,',','.'); ?></td>
                     <td class="text-end text-danger fw-bold">Rp <?php echo number_format($data['total_pengeluaran'],0,',','.'); ?></td>
@@ -82,7 +86,6 @@ $saldoTerakhir = $dataSaldo['saldo_akhir'] ?? 0;
     </div>
 </div>
 
-<!-- Modal -->
 <div class="modal fade" id="modalKeuangan" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content rounded-4 border-0 shadow">
@@ -93,24 +96,48 @@ $saldoTerakhir = $dataSaldo['saldo_akhir'] ?? 0;
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body p-4">
-                    <div class="mb-3">
-                        <label class="fw-bold small">Tanggal Transaksi</label>
-                        <input type="date" name="tanggal" id="edit_tanggal" class="form-control rounded-3" value="<?php echo date('Y-m-d'); ?>" required>
-                    </div>
+                    
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
-                            <label class="fw-bold small text-success">Pemasukan (Rp)</label>
+                            <label class="fw-bold small">Tanggal Transaksi</label>
+                            <input type="date" name="tanggal" id="edit_tanggal" class="form-control rounded-3" value="<?php echo date('Y-m-d'); ?>" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="fw-bold small">Kategori Arus Kas</label>
+                            <select name="kategori" id="edit_kategori" class="form-select rounded-3" required>
+                                <option value="" disabled selected>-- Pilih Kategori --</option>
+                                <optgroup label="Pemasukan">
+                                    <option value="Umum">Umum (Pemasukan Lainnya)</option>
+                                    <option value="Persembahan Ibadah Minggu">Persembahan Ibadah Minggu</option>
+                                    <option value="Persembahan Ibadah Kolom / BIPRA">Persembahan Ibadah Kolom / BIPRA</option>
+                                    <option value="Sampul Persepuluhan">Sampul Persepuluhan</option>
+                                    <option value="Sampul Syukur Hut Pribadi">Sampul Syukur Hut Pribadi</option>
+                                    <option value="Sampul Syukur Hut Pernikahan">Sampul Syukur Hut Pernikahan</option>
+                                    <option value="Persembahan & Sampul Syukur Lainnya">Persembahan & Sampul Syukur Lainnya</option>
+                                    <option value="Persembahan Bulanan Keluarga">Persembahan Bulanan Keluarga</option>
+                                </optgroup>
+                                <optgroup label="Pengeluaran">
+                                    <option value="Pengeluaran">Pengeluaran</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="fw-bold small text-success">Jumlah Pemasukan (Rp)</label>
                             <input type="text" name="total_pemasukan" id="disp_pemasukan" class="form-control rounded-3" oninput="formatRupiahDanHitung()">
                         </div>
                         <div class="col-md-6">
-                            <label class="fw-bold small text-danger">Pengeluaran (Rp)</label>
+                            <label class="fw-bold small text-danger">Jumlah Pengeluaran (Rp)</label>
                             <input type="text" name="total_pengeluaran" id="disp_pengeluaran" class="form-control rounded-3" oninput="formatRupiahDanHitung()">
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="fw-bold small">Keterangan / Alokasi</label>
-                        <textarea name="keterangan" id="edit_keterangan" class="form-control rounded-3" rows="3"></textarea>
+                        <label class="fw-bold small">Keterangan / Rincian</label>
+                        <textarea name="keterangan" id="edit_keterangan" class="form-control rounded-3" rows="3" required></textarea>
                     </div>
+                    
                     <input type="hidden" name="total_pemasukan" id="real_pemasukan">
                     <input type="hidden" name="total_pengeluaran" id="real_pengeluaran">
                 </div>
@@ -133,9 +160,18 @@ document.querySelectorAll('.edit-keu').forEach(btn => {
             document.getElementById('edit_id').value = data.id;
             let tgl = (data.tanggal && data.tanggal !== "0000-00-00") ? data.tanggal : '<?php echo date('Y-m-d'); ?>';
             document.getElementById('edit_tanggal').value = tgl;
+            
+            // Set Kategori pada dropdown
+            if(data.kategori) {
+                document.getElementById('edit_kategori').value = data.kategori;
+            } else {
+                document.getElementById('edit_kategori').value = '';
+            }
+
             document.getElementById('disp_pemasukan').value = data.total_pemasukan.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
             document.getElementById('disp_pengeluaran').value = data.total_pengeluaran.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
             document.getElementById('edit_keterangan').value = data.keterangan;
+            
             new bootstrap.Modal(document.getElementById('modalKeuangan')).show();
         });
     });
@@ -143,6 +179,7 @@ document.querySelectorAll('.edit-keu').forEach(btn => {
 
 function resetModal() {
     document.getElementById('edit_id').value = '';
+    document.getElementById('edit_kategori').value = '';
     document.getElementById('disp_pemasukan').value = '';
     document.getElementById('disp_pengeluaran').value = '';
     document.getElementById('edit_keterangan').value = '';

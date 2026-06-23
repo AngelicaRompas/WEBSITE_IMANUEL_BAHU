@@ -1,50 +1,105 @@
+/* ========================================================
+   HEADER & TYPOGRAPHY STYLE
+   ======================================================== */
 .page-header-premium {
-            padding-top: 6rem;
-            padding-bottom: 3rem;
-            position: relative;
-        }
-        .main-title-aesthetic {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(3rem, 5vw, 4rem);
-            font-weight: 900;
-            color: #0f172a;
-            letter-spacing: -1px;
-        }
-        
-        /* Card Style yang identik dengan Warta */
-        .glass-card-custom {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 1);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-            transition: all 0.3s ease;
-        }
-        .glass-card-custom:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(111, 66, 193, 0.12) !important;
-        }
-        
-        .icon-circle-purple {
-            width: 50px; height: 50px;
-            border-radius: 15px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem;
-            background: rgba(111, 66, 193, 0.1); 
-            color: #6f42c1;
-        }
+    padding-top: 6rem;
+    padding-bottom: 3rem;
+    position: relative;
+}
 
-        .form-control-aesthetic {
-            border-radius: 12px;
-            padding: 12px 20px;
-            border: 1px solid rgba(0,0,0,0.08);
-            background: rgba(255,255,255,0.5);
-            transition: all 0.3s ease;
-        }
+.main-title-aesthetic {
+    font-family: 'Playfair Display', serif;
+    /* FIX: Batas bawah clamp diturunkan dari 3rem ke 1.8rem agar proporsional di HP */
+    font-size: clamp(1.8rem, 5vw, 4rem);
+    font-weight: 900;
+    color: #0f172a;
+    letter-spacing: -1px;
+    line-height: 1.2;
+}
 
-        .form-control-aesthetic:focus {
-            background: #fff;
-            border-color: #6f42c1;
-            box-shadow: 0 0 0 4px rgba(111, 66, 193, 0.1);
-        }
+/* ========================================================
+   CARD STYLE (IDENTIK WARTA/KEUANGAN)
+   ======================================================== */
+.glass-card-custom {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 1);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s ease;
+}
+
+.glass-card-custom:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(111, 66, 193, 0.12) !important;
+}
+
+.icon-circle-purple {
+    width: 50px; 
+    height: 50px;
+    border-radius: 15px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    font-size: 1.5rem;
+    background: rgba(111, 66, 193, 0.1); 
+    color: #6f42c1;
+    flex-shrink: 0; /* Menjaga ikon tidak mengkerut saat teks info di HP sangat panjang */
+}
+
+/* ========================================================
+   AESTHETIC FORM CONTROL STYLE
+   ======================================================== */
+.form-control-aesthetic {
+    border-radius: 12px;
+    padding: 12px 20px;
+    border: 1px solid rgba(0,0,0,0.08);
+    background: rgba(255,255,255,0.5);
+    transition: all 0.3s ease;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.form-control-aesthetic:focus {
+    background: #fff;
+    border-color: #6f42c1;
+    box-shadow: 0 0 0 4px rgba(111, 66, 193, 0.1);
+}
+
+/* ========================================================
+   MEDIA QUERIES OPTIMISASI KHUSUS MOBILE (NEW)
+   ======================================================== */
+@media (max-width: 767.98px) {
+    .page-header-premium {
+        padding-top: 4rem; /* Mengurangi ruang kosong atas di HP */
+        padding-bottom: 2rem;
+    }
+
+    .glass-card-custom {
+        padding: 1.25rem !important; /* Sedikit merapatkan padding agar teks input lebih luas */
+        border-radius: 16px;
+    }
+
+    .form-control-aesthetic {
+        padding: 10px 16px; /* Menyesuaikan tinggi input box agar pas dengan keyboard smartphone */
+        font-size: 0.92rem;
+    }
+
+    .icon-circle-purple {
+        width: 44px; /* Sedikit memperkecil diameter lingkaran ikon di HP */
+        height: 44px;
+        font-size: 1.25rem;
+        border-radius: 12px;
+    }
+    
+    /* Memastikan jika ada embed peta (Google Maps) di dalam card, tingginya ikut proporsional */
+    .glass-card-custom iframe {
+        height: 250px !important; 
+        border-radius: 12px !important;
+    }
+
+    /* Mengatur spasi vertikal antar kolom (Form vs Peta/Info) saat runtuh menumpuk di HP */
+    .row.g-4 > [class*='col-'] {
+        margin-bottom: 0.5rem;
+    }
+}

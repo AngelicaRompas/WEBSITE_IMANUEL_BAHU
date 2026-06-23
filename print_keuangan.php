@@ -6,29 +6,38 @@ date_default_timezone_set('Asia/Makassar');
 $bulan_ini = $_GET['bulan'] ?? date('m');
 $tahun_ini = $_GET['tahun'] ?? date('Y');
 
+// 1. Tangkap Parameter Kategori
+$kategori_filter = isset($_GET['kategori']) ? mysqli_real_escape_string($koneksi, $_GET['kategori']) : 'all';
+
+// Susun Query Berdasarkan Filter
+$whereClause = "WHERE MONTH(tanggal) = '$bulan_ini' AND YEAR(tanggal) = '$tahun_ini'";
+if ($kategori_filter !== 'all' && !empty($kategori_filter)) {
+    $whereClause .= " AND kategori = '$kategori_filter'";
+}
+
+// 2. Query Utama dengan Filter
 $query = mysqli_query($koneksi,"
-SELECT * FROM warta_keuangan
-WHERE MONTH(tanggal) = '$bulan_ini'
-AND YEAR(tanggal) = '$tahun_ini'
-ORDER BY tanggal ASC
+    SELECT * FROM warta_keuangan
+    $whereClause
+    ORDER BY tanggal ASC, id ASC
 ");
 
+// 3. Query Total dengan Filter (Agar summary card sesuai kategori yang dicetak)
 $queryTotal = mysqli_query($koneksi,"
-SELECT
-SUM(total_pemasukan) as total_masuk,
-SUM(total_pengeluaran) as total_keluar
-FROM warta_keuangan
-WHERE MONTH(tanggal) = '$bulan_ini'
-AND YEAR(tanggal) = '$tahun_ini'
+    SELECT
+    SUM(total_pemasukan) as total_masuk,
+    SUM(total_pengeluaran) as total_keluar
+    FROM warta_keuangan
+    $whereClause
 ");
 
 $totalData = mysqli_fetch_assoc($queryTotal);
 
 $querySaldo = mysqli_query($koneksi,"
-SELECT saldo_akhir
-FROM warta_keuangan
-ORDER BY id DESC
-LIMIT 1
+    SELECT saldo_akhir
+    FROM warta_keuangan
+    ORDER BY tanggal DESC, id DESC
+    LIMIT 1
 ");
 
 $dataSaldo = mysqli_fetch_assoc($querySaldo);
@@ -88,6 +97,13 @@ body{
     font-size:18px;
     font-weight:600;
     color:#475569;
+}
+
+.header-text h3 {
+    margin: 5px 0 0;
+    font-size: 14px;
+    font-weight: normal;
+    color: #64748b;
 }
 
 .info-cetak{
@@ -184,6 +200,16 @@ tbody tr:nth-child(even){
     font-weight:bold;
 }
 
+.badge-kategori {
+    background-color: #f1f5f9;
+    color: #475569;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    border: 1px solid #e2e8f0;
+    display: inline-block;
+}
+
 .footer{
     margin-top:50px;
     display:flex;
@@ -251,6 +277,7 @@ tbody tr:nth-child(even){
         <h1>LAPORAN KEUANGAN JEMAAT</h1>
         <h2>GMIM Imanuel Bahu</h2>
         <h2><?php echo strtoupper($nama_bulan); ?></h2>
+        <h3>Kategori: <?php echo ($kategori_filter === 'all') ? 'Semua Kategori (Rekapan)' : htmlspecialchars($kategori_filter); ?></h3>
     </div>
 
     <div class="info-cetak">
@@ -277,7 +304,7 @@ tbody tr:nth-child(even){
     </div>
 
     <div class="card saldo">
-        <h4>Saldo Akhir</h4>
+        <h4>Saldo Kas Abadi</h4>
         <p>
             Rp <?php echo number_format($dataSaldo['saldo_akhir'] ?? 0,0,',','.'); ?>
         </p>
@@ -292,10 +319,11 @@ tbody tr:nth-child(even){
 <thead>
 <tr>
     <th width="5%">No</th>
-    <th width="12%">Tanggal</th>
-    <th width="18%">Pemasukan</th>
-    <th width="18%">Pengeluaran</th>
-    <th width="18%">Saldo</th>
+    <th width="10%">Tanggal</th>
+    <th width="15%">Kategori</th>
+    <th width="15%">Pemasukan</th>
+    <th width="15%">Pengeluaran</th>
+    <th width="15%">Saldo</th>
     <th>Keterangan</th>
 </tr>
 </thead>
@@ -304,9 +332,7 @@ tbody tr:nth-child(even){
 
 <?php
 if(mysqli_num_rows($query) > 0):
-
 $no = 1;
-
 while($data = mysqli_fetch_assoc($query)):
 ?>
 
@@ -318,6 +344,10 @@ while($data = mysqli_fetch_assoc($query)):
 
 <td class="text-center">
     <?php echo date('d/m/Y', strtotime($data['tanggal'])); ?>
+</td>
+
+<td class="text-center">
+    <span class="badge-kategori"><?php echo htmlspecialchars($data['kategori'] ?? '-'); ?></span>
 </td>
 
 <td class="text-end text-success">
@@ -346,8 +376,8 @@ else:
 ?>
 
 <tr>
-<td colspan="6" class="text-center">
-    Tidak ada data keuangan.
+<td colspan="7" class="text-center" style="padding: 30px;">
+    Tidak ada data keuangan untuk filter yang dipilih.
 </td>
 </tr>
 
@@ -381,14 +411,11 @@ Laporan keuangan ini dihasilkan secara otomatis oleh Sistem Informasi Pelayanan 
 
 <script>
 window.onload = function(){
-
     setTimeout(() => {
         window.print();
     }, 700);
-
 };
 </script>
 
 </body>
 </html>
-```
