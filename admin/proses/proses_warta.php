@@ -19,7 +19,16 @@ if (isset($_POST['upload_warta'])) {
     
     if ($ekstensi == 'pdf') {
         $nama_file_baru = "warta_" . $tanggal . "_" . uniqid() . ".pdf";
-        $folder_tujuan  = "../../assets/document_warta/" . $nama_file_baru;
+        
+        // Menentukan direktori tujuan upload PDF
+        $dir_pdf = "../../assets/document_warta/";
+        
+        // FIX INTERNAL JALUR: Jika folder 'document_warta' belum ada, buat otomatis
+        if (!is_dir($dir_pdf)) {
+            mkdir($dir_pdf, 0755, true);
+        }
+        
+        $folder_tujuan = $dir_pdf . $nama_file_baru;
 
         if (move_uploaded_file($file_tmp, $folder_tujuan)) {
             
@@ -38,10 +47,17 @@ if (isset($_POST['upload_warta'])) {
                     $f_tmp  = $_FILES["foto_sesi_$sesi"]['tmp_name'];
                     $f_ext  = strtolower(pathinfo($f_name, PATHINFO_EXTENSION));
                     $foto_khadim = "foto_" . $sesi . "_" . uniqid() . "." . $f_ext;
-                    move_uploaded_file($f_tmp, "../../admin/assets/images-khadim/" . $foto_khadim);
+                    
+                    // Folder tujuan gambar khadim (mundur satu tingkat ke admin/assets/images-khadim/)
+                    $dir_foto = "../assets/images-khadim/";
+                    if (!is_dir($dir_foto)) {
+                        mkdir($dir_foto, 0755, true);
+                    }
+                    
+                    move_uploaded_file($f_tmp, $dir_foto . $foto_khadim);
                 }
                 
-                // Masukkan ke database
+                // Masukkan ke database warta_jemaat
                 $query = "INSERT INTO warta_jemaat (
                             tanggal, tema_mingguan, pembacaan_alkitab, 
                             sesi_ibadah, nama_khadim, foto_khadim, penerima_jemaat, 
@@ -55,18 +71,18 @@ if (isset($_POST['upload_warta'])) {
                 mysqli_query($koneksi, $query);
             }
 
-            // Arahkan ke dashboard dengan pesan sukses yang sudah terdaftar di sistem alert Anda
+            // Sukses dialihkan kembali ke halaman kelola warta
             header("Location: ../admin_dashboard.php?pesan=sukses_warta&tab=edit-warta");
             exit;
             
         } else {
-            // Jika gagal upload PDF
-            header("Location: ../admin_dashboard.php?pesan=error&tab=edit-warta");
+            // Gagal eksekusi move_uploaded_file PDF
+            header("Location: ../admin_dashboard.php?pesan=error_upload&tab=edit-warta");
             exit;
         }
     } else {
-        // Jika file bukan PDF
-        header("Location: ../admin_dashboard.php?pesan=error&tab=edit-warta");
+        // Ekstensi dokumen bukan PDF
+        header("Location: ../admin_dashboard.php?pesan=error_ekstensi&tab=edit-warta");
         exit;
     }
 } else {

@@ -112,14 +112,14 @@ if ($detail_tgl && $akses_warta) {
                  TAMPILAN MODE DETAIL (PETUGAS IBADAH 3 SESI)
                  ============================================== -->
             
-            <!-- Posisi Baru Tombol Unduh PDF (Berseberangan dengan tombol Kembali) -->
             <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
                 <a href="warta-jemaat.php" class="btn btn-dark rounded-pill px-4 py-2 fw-semibold shadow-sm" data-aos="fade-right">
                     <i class="bi bi-arrow-left me-2"></i> Kembali ke Galeri
                 </a>
                 
                 <?php if(!empty($pdf_file)): ?>
-                    <a href="admin/assets/document_warta/<?php echo htmlspecialchars($pdf_file); ?>" target="_blank" class="btn btn-purple rounded-pill px-4 py-2 fw-bold shadow-sm" data-aos="fade-left">
+                    <!-- FIX: Menghapus awalan 'admin/' karena folder target berada di root luar -->
+                    <a href="assets/document_warta/<?php echo htmlspecialchars($pdf_file); ?>" target="_blank" class="btn btn-purple rounded-pill px-4 py-2 fw-bold shadow-sm" data-aos="fade-left">
                         <i class="bi bi-cloud-arrow-down-fill me-2"></i> Buka / Unduh Dokumen Warta (PDF)
                     </a>
                 <?php endif; ?>
@@ -167,11 +167,8 @@ if ($detail_tgl && $akses_warta) {
                         <a href="warta-jemaat.php?detail=<?php echo $row['tanggal']; ?>" class="text-decoration-none card-gallery-link">
                             <div class="glass-card h-100 d-flex flex-column overflow-hidden warta-card-hover p-0">
                                 
-                                <!-- Bagian Atas: Cover Desain Warta Jemaat -->
                                 <div class="warta-cover-wrapper">
                                     <img src="assets/images/cover_warta_default.png" alt="Cover Majalah Warta Jemaat" class="w-100 h-100 object-fit-cover">
-                                    
-                                    <!-- Lapisan Overlay Ungu dan Efek Hover Tombol -->
                                     <div class="warta-overlay">
                                         <span class="btn btn-light rounded-pill fw-bold text-purple px-4 shadow-sm">
                                             <i class="bi bi-book-half me-2"></i>Buka Warta
@@ -179,7 +176,6 @@ if ($detail_tgl && $akses_warta) {
                                     </div>
                                 </div>
                                 
-                                <!-- Bagian Bawah: Penanda Edisi Tanggal Otomatis -->
                                 <div class="p-4 text-center bg-white wrapper-bottom-card">
                                     <span class="badge bg-purple-soft text-purple mb-2 px-3 py-2 rounded-pill">
                                         <i class="bi bi-calendar-event me-1"></i> Edisi Mingguan
@@ -195,7 +191,6 @@ if ($detail_tgl && $akses_warta) {
                     </div>
                     <?php endwhile; ?>
                 <?php else: ?>
-                    <!-- Penanganan Jika Tidak Ada Data Sama Sekali di Database -->
                     <div class="col-12">
                         <div class="glass-card p-5 text-center">
                             <i class="bi bi-inbox fs-1 text-muted mb-3 d-block"></i>
