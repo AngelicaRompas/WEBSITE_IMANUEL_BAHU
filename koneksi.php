@@ -3,7 +3,7 @@
 $host     = "localhost";
 $username = "root";
 $password = "";
-$database = "web_imanuel_bahu";
+$database = "fix_db_website_gib";
 $port     = 3307; // Sesuaikan dengan port MySQL Anda yang sedang berjalan
 
 // Membuat koneksi ke database

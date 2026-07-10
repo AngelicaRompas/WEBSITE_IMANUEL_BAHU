@@ -8,6 +8,10 @@ if (!isset($_SESSION['admin_imanuel'])) {
 
 include '../koneksi.php';
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 $today = date('Y-m-d');
 
 /* =========================
@@ -187,63 +191,166 @@ $kolomBerikutnya = (
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
-
 /* =========================
-   ACTIVE TAB
+   ACTIVE TAB ROUTER
 ========================= */
-
 window.addEventListener('DOMContentLoaded', () => {
 
     const urlParams = new URLSearchParams(window.location.search);
+
     const tabId = urlParams.get('tab') || 'beranda-admin';
+    const subtab = urlParams.get('subtab');
+
     const targetPane = document.getElementById(tabId);
+
     const targetBtn = document.querySelector(
-        `[data-bs-target="#${tabId}"]`
+        `[data-bs-target="#${tabId}"], [href="#${tabId}"]`
     );
 
-    if(targetPane && targetBtn){
-        document.querySelectorAll('.tab-pane') .forEach(el => el.classList.remove('show','active'));
-        document.querySelectorAll('.nav-link-admin') .forEach(el => el.classList.remove('active'));
-        targetPane.classList.add('show','active');
-        targetBtn.classList.add('active');
+    // =========================
+    // TAB UTAMA
+    // =========================
+    if (targetPane) {
+
+        document.querySelectorAll('#v-pills-tabContent > .tab-pane')
+            .forEach(el => el.classList.remove('show', 'active'));
+
+        document.querySelectorAll('.nav-link-admin')
+            .forEach(el => el.classList.remove('active'));
+
+        targetPane.classList.add('show', 'active');
+
+        if (targetBtn) {
+
+            targetBtn.classList.add('active');
+
+            // buka collapse parent jika submenu
+            const parentCollapse = targetBtn.closest('.collapse');
+
+            if (parentCollapse) {
+
+                bootstrap.Collapse
+                    .getOrCreateInstance(parentCollapse, {
+                        toggle: false
+                    })
+                    .show();
+
+                const toggleBtn = document.querySelector(
+                    `[data-bs-target="#${parentCollapse.id}"]`
+                );
+
+                if (toggleBtn) {
+                    toggleBtn.classList.add('active');
+                }
+
+            }
+
+        }
+
     }
+
+    // =========================
+    // KHUSUS SUBTAB KEUANGAN
+    // =========================
+    if (tabId === "edit-keuangan") {
+
+        let targetSubtab = subtab || "minggu";
+
+        const subtabButton = document.querySelector(
+            `[data-bs-target="#sub-keuangan-${targetSubtab}"]`
+        );
+
+        if (subtabButton) {
+
+            bootstrap.Tab
+                .getOrCreateInstance(subtabButton)
+                .show();
+
+        }
+
+    }
+
 });
 
+
 /* =========================
-   AUTO CLOSE MOBILE MENU
+   SIMPAN TAB AKTIF
 ========================= */
 
 document.querySelectorAll('.nav-link-admin').forEach(button => {
 
     button.addEventListener('click', () => {
 
-        const target = button.getAttribute('data-bs-target');
+        const target =
+            button.getAttribute('data-bs-target') ||
+            button.getAttribute('href');
 
-        if(target){
+        if (!target) return;
 
-            const tabId = target.replace('#','');
-            const url = new URL(window.location);
-            url.searchParams.set('tab', tabId);
-            url.searchParams.delete('pesan');
-            window.history.replaceState(
-                {},
-                '',
-                url.toString()
-            );
+        const tabId = target.replace('#', '');
+
+        const url = new URL(window.location);
+
+        url.searchParams.set('tab', tabId);
+
+        url.searchParams.delete('pesan');
+
+        // Bersihkan parameter khusus keuangan jika pindah menu
+        if (tabId !== 'edit-keuangan') {
+
+            url.searchParams.delete('tgl_keuangan');
+            url.searchParams.delete('subtab');
+
         }
 
-        const sidebar =
-        bootstrap.Offcanvas.getInstance(
-            document.getElementById('mobileSidebar')
-        );
-        if(sidebar){
-            sidebar.hide();
+        window.history.replaceState({}, '', url);
+
+        // tutup sidebar mobile
+        const sidebarElement =
+            document.getElementById('mobileSidebar');
+
+        if (sidebarElement) {
+
+            bootstrap.Offcanvas
+                .getOrCreateInstance(sidebarElement)
+                .hide();
+
         }
+
     });
 
 });
 
+
+/* =========================
+   SIMPAN SUBTAB KEUANGAN
+========================= */
+
+document.addEventListener("shown.bs.tab", function(e){
+
+    const target = e.target.getAttribute("data-bs-target");
+
+    if(!target) return;
+
+    if(target === "#sub-keuangan-minggu" ||
+       target === "#sub-keuangan-kolom"){
+
+        const url = new URL(window.location);
+
+        url.searchParams.set(
+            "subtab",
+            target === "#sub-keuangan-minggu"
+                ? "minggu"
+                : "kolom"
+        );
+
+        window.history.replaceState({}, "", url);
+
+    }
+
+});
 </script>
 </body>
 </html>

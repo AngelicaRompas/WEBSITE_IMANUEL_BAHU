@@ -212,4 +212,4 @@ if ($detail_tgl && $akses_warta) {
     AOS.init({ once: true, offset: 80 });
 </script>
 </body>
-</html>
+</html> 
