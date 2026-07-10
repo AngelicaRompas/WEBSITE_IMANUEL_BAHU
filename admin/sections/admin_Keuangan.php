@@ -23,7 +23,7 @@ $subtab = $_GET['subtab'] ?? 'minggu';
 
     <li class="nav-item" role="presentation">
         <button
-            class="nav-link tab-digital fw-bold px-4 py-2-5 rounded-3 d-flex align-items-center gap-2 <?= $subtab=='minggu' ? 'active' : '' ?>"
+            class="nav-link tab-digital fw-bold px-4 py-2-5 rounded-3 d-flex align-items-center gap-2 <?= $subtab == 'minggu' ? 'active' : '' ?>"
             id="tab-minggu-btn"
             data-bs-toggle="pill"
             data-bs-target="#sub-keuangan-minggu"
@@ -35,32 +35,43 @@ $subtab = $_GET['subtab'] ?? 'minggu';
     </li>
 
     <li class="nav-item" role="presentation">
-        <!-- UBAH TEKS MENU: Menjadi Penyetoran Kolom & Sinkronisasi Aksesibilitas ARIA -->
         <button
-            class="nav-link tab-digital fw-bold px-4 py-2-5 rounded-3 d-flex align-items-center gap-2 <?= $subtab=='kolom' ? 'active' : '' ?>"
+            class="nav-link tab-digital fw-bold px-4 py-2-5 rounded-3 d-flex align-items-center gap-2 <?= $subtab == 'kolom' ? 'active' : '' ?>"
             id="tab-kolom-btn"
             data-bs-toggle="pill"
             data-bs-target="#sub-keuangan-kolom"
             type="button"
             role="tab"
             aria-controls="sub-keuangan-kolom"
-            aria-selected="<?= $subtab=='kolom' ? 'true' : 'false' ?>">
+            aria-selected="<?= $subtab == 'kolom' ? 'true' : 'false' ?>">
             <i class="bi bi-grid-3x3-gap-fill fs-5"></i>
             Penyetoran Kolom
         </button>
     </li>
 
     <li class="nav-item" role="presentation">
-        <button class="nav-link tab-digital fw-bold px-4 py-2-5 rounded-3 d-flex align-items-center gap-2 <?= $subtab=='sampul' ? 'active' : '' ?>" id="tab-sampul-btn" data-bs-toggle="pill" data-bs-target="#sub-keuangan-sampul" type="button" role="tab">
-            <i class="bi bi-envelope-paper-fill fs-5"></i> Sampul - Sampul
+        <button 
+            class="nav-link tab-digital fw-bold px-4 py-2-5 rounded-3 d-flex align-items-center gap-2 <?= $subtab == 'sampul' ? 'active' : '' ?>" 
+            id="tab-sampul-btn" 
+            data-bs-toggle="pill" 
+            data-bs-target="#sub-keuangan-sampul" 
+            type="button" 
+            role="tab">
+            <i class="bi bi-envelope-paper-fill fs-5"></i> 
+            Sampul - Sampul
         </button>
     </li>
-</ul>
 
     <li class="nav-item" role="presentation">
-        <button class="nav-link tab-digital fw-bold px-4 py-2-5 rounded-3 d-flex align-items-center gap-2 disabled" type="button" style="opacity:.5;">
-            <i class="bi bi-folder-plus fs-5"></i>
-            Form Lanjutan
+        <button 
+            class="nav-link tab-digital fw-bold px-4 py-2-5 rounded-3 d-flex align-items-center gap-2 <?= $subtab == 'khusus' ? 'active' : '' ?>" 
+            id="tab-khusus-btn" 
+            data-bs-toggle="pill" 
+            data-bs-target="#sub-keuangan-khusus" 
+            type="button" 
+            role="tab">
+            <i class="bi bi-stars fs-5"></i> 
+            Ibadah Khusus
         </button>
     </li>
 </ul>
@@ -68,46 +79,45 @@ $subtab = $_GET['subtab'] ?? 'minggu';
 <div class="tab-content" id="pills-tabContentKeuangan">
 
     <!-- KONTEN SUB-TAB 1: IBADAH MINGGU -->
-    <div class="tab-pane fade <?= $subtab=='minggu' ? 'show active' : '' ?>" id="sub-keuangan-minggu" role="tabpanel">
+    <div class="tab-pane fade <?= $subtab == 'minggu' ? 'show active' : '' ?>" id="sub-keuangan-minggu" role="tabpanel">
         <?php include 'admin_keuangan_minggu.php'; ?>
     </div>
 
     <!-- KONTEN SUB-TAB 2: PENYETORAN KOLOM -->
-    <div class="tab-pane fade <?= $subtab=='kolom' ? 'show active' : '' ?>" id="sub-keuangan-kolom" role="tabpanel">
+    <div class="tab-pane fade <?= $subtab == 'kolom' ? 'show active' : '' ?>" id="sub-keuangan-kolom" role="tabpanel">
         <?php include 'admin_keuangan_kolom.php'; ?>
     </div>
 
-     <!-- KONTEN SUB-TAB 3: PENYETORAN PERSEPULUUHAN -->
-    <div class="tab-pane fade <?= $subtab=='persepuluhan' ? 'show active' : '' ?>" id="sub-keuangan-sampul" role="tabpanel">
+    <!-- KONTEN SUB-TAB 3: PENYETORAN SAMPUL -->
+    <div class="tab-pane fade <?= $subtab == 'sampul' ? 'show active' : '' ?>" id="sub-keuangan-sampul" role="tabpanel">
         <?php include 'admin_keuangan_sampul.php'; ?>
     </div>
-</div>
+
+    <!-- KONTEN SUB-TAB 4: PENYETORAN IBADAH KHUSUS -->
+    <div class="tab-pane fade <?= $subtab == 'khusus' ? 'show active' : '' ?>" id="sub-keuangan-khusus" role="tabpanel">
+        <?php include 'admin_keuangan_khusus.php'; ?>
+    </div>
 
 </div>
 
 <style>
-.tab-digital{
-    color:#64748b!important;
-    background:transparent!important;
-    transition:.3s;
-    border:1px solid transparent;
+.tab-digital {
+    color: #64748b !important;
+    background: transparent !important;
+    transition: .3s;
+    border: 1px solid transparent;
 }
-.tab-digital:hover:not(.disabled){
-    background:rgba(147,51,234,.08)!important;
-    color:#4b1a8a!important;
+.tab-digital:hover:not(.disabled) {
+    background: rgba(147, 51, 234, .08) !important;
+    color: #4b1a8a !important;
 }
-.tab-digital.active{
-    background:linear-gradient(135deg,#4b1a8a,#2e0854)!important;
-    color:#fff!important;
-    box-shadow:0 4px 12px rgba(75,26,138,.25);
+.tab-digital.active {
+    background: linear-gradient(135deg, #4b1a8a, #2e0854) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 12px rgba(75, 26, 138, .25);
 }
-.py-2-5{
-    padding-top:.65rem;
-    padding-bottom:.65rem;
+.py-2-5 {
+    padding-top: .65rem;
+    padding-bottom: .65rem;
 }
-
-.tab-digital{ color:#64748b!important; background:transparent!important; transition:.3s; border:1px solid transparent; }
-.tab-digital:hover:not(.disabled){ background:rgba(147,51,234,.08)!important; color:#4b1a8a!important; }
-.tab-digital.active{ background:linear-gradient(135deg,#4b1a8a,#2e0854)!important; color:#fff!important; box-shadow:0 4px 12px rgba(75,26,138,.25); }
-.py-2-5{ padding-top:.65rem; padding-bottom:.65rem; }
 </style>
