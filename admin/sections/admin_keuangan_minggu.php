@@ -172,6 +172,17 @@ if ($cek_data) {
 @media (max-width: 768px) {
     .style-tgl-box { max-width: 100% !important; }
 }
+
+/* Hilangkan spinner untuk Form Ibadah Minggu */
+.digital-input-box input[type="number"]::-webkit-outer-spin-button,
+.digital-input-box input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.digital-input-box input[type="number"] {
+    -moz-appearance: textfield;
+}
+
 </style>
 
 <script>
