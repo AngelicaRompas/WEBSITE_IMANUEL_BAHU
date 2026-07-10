@@ -74,6 +74,19 @@ $subtab = $_GET['subtab'] ?? 'minggu';
             Ibadah Khusus
         </button>
     </li>
+
+    <li class="nav-item" role="presentation">
+        <button 
+            class="nav-link tab-digital fw-bold px-4 py-2-5 rounded-3 d-flex align-items-center gap-2 <?= $subtab == 'pengeluaran' ? 'active' : '' ?>" 
+            id="tab-pengeluaran-btn" 
+            data-bs-toggle="pill" 
+            data-bs-target="#sub-keuangan-pengeluaran" 
+            type="button" 
+            role="tab">
+            <i class="bi bi-cart-dash-fill fs-5"></i> 
+            Pengeluaran
+        </button>
+    </li>
 </ul>
 
 <div class="tab-content" id="pills-tabContentKeuangan">
@@ -88,14 +101,19 @@ $subtab = $_GET['subtab'] ?? 'minggu';
         <?php include 'admin_keuangan_kolom.php'; ?>
     </div>
 
-    <!-- KONTEN SUB-TAB 3: PENYETORAN SAMPUL -->
+    <!-- KONTEN SUB-TAB 3: SAMPUL - SAMPUL -->
     <div class="tab-pane fade <?= $subtab == 'sampul' ? 'show active' : '' ?>" id="sub-keuangan-sampul" role="tabpanel">
         <?php include 'admin_keuangan_sampul.php'; ?>
     </div>
 
-    <!-- KONTEN SUB-TAB 4: PENYETORAN IBADAH KHUSUS -->
+    <!-- KONTEN SUB-TAB 4: IBADAH KHUSUS -->
     <div class="tab-pane fade <?= $subtab == 'khusus' ? 'show active' : '' ?>" id="sub-keuangan-khusus" role="tabpanel">
         <?php include 'admin_keuangan_khusus.php'; ?>
+    </div>
+
+    <!-- KONTEN SUB-TAB 5: PENGELUARAN -->
+    <div class="tab-pane fade <?= $subtab == 'pengeluaran' ? 'show active' : '' ?>" id="sub-keuangan-pengeluaran" role="tabpanel">
+        <?php include 'admin_keuangan_pengeluaran.php'; ?>
     </div>
 
 </div>
