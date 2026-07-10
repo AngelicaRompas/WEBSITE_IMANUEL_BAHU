@@ -19,7 +19,7 @@ if ($cek_data) {
                 <i class="bi bi-grid-3x3-gap-fill text-warning fs-4"></i>
             </div>
             <div>
-                <h5 class="fw-bold mb-0" style="letter-spacing: 0.5px; color: #ffffff;">Penyetoran Ibadah Kolom</h5>
+                <h5 class="fw-bold mb-0" style="letter-spacing: 0.5px; color: #ffffff;">Penyetoran Kolom</h5>
                 <small style="color: rgba(255, 255, 255, 0.75);">Pencatatan kas digital untuk kolom 1 sampai 28</small>
             </div>
         </div>
@@ -40,10 +40,11 @@ if ($cek_data) {
             <input type="hidden" name="tanggal" value="<?php echo $tanggal_pilih; ?>">
 
             <div class="table-responsive rounded-3 border border-light-subtle">
-                <table class="table table-hover align-middle mb-0 text-center custom-digital-table" style="min-width: 1200px;">
+                <!-- Ditambahkan lebar min-width agar pas dengan kolom awal bln -->
+                <table class="table table-hover align-middle mb-0 text-center custom-digital-table" style="min-width: 1300px;">
                     <thead class="bg-light text-secondary text-uppercase fw-bold" style="font-size: 0.75rem; letter-spacing: 0.8px;">
                         <tr>
-                            <th class="py-3 text-start ps-4" style="width: 8%;">Kolom</th>
+                            <th class="py-3 text-start ps-4" style="width: 7%;">Kolom</th>
                             <th class="py-3">Pers Kolom</th>
                             <th class="py-3">PKB</th>
                             <th class="py-3">WKI</th>
@@ -52,7 +53,8 @@ if ($cek_data) {
                             <th class="py-3">ASM</th>
                             <th class="py-3">PDP</th>
                             <th class="py-3">PEM</th>
-                            <th class="py-3 text-end pe-4" style="width: 12%;">Jumlah</th>
+                            <th class="py-3">Awal Bln</th> <!-- Kolom Baru -->
+                            <th class="py-3 text-end pe-4" style="width: 11%;">Jumlah</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -66,8 +68,10 @@ if ($cek_data) {
                             $val_asm     = isset($data_existing[$k]) ? floatval($data_existing[$k]['asm']) : 0;
                             $val_pdp     = isset($data_existing[$k]) ? floatval($data_existing[$k]['pdp']) : 0;
                             $val_pem     = isset($data_existing[$k]) ? floatval($data_existing[$k]['pem']) : 0;
+                            $val_awal_bln= isset($data_existing[$k]) ? floatval($data_existing[$k]['awal_bln']) : 0; // Data Baru
                             
-                            $row_total = $val_pers + $val_pkb + $val_wki + $val_pemuda + $val_remaja + $val_asm + $val_pdp + $val_pem;
+                            // Kalkulasi total baris termasuk awal bulan
+                            $row_total = $val_pers + $val_pkb + $val_wki + $val_pemuda + $val_remaja + $val_asm + $val_pdp + $val_pem + $val_awal_bln;
                         ?>
                         <tr class="kolom-row border-bottom border-light-subtle" data-kolom="<?php echo $k; ?>">
                             <td class="text-start ps-4 fw-bold text-dark py-2">
@@ -85,6 +89,7 @@ if ($cek_data) {
                             <td><input type="number" name="asm[]" class="form-control table-input-digital input-kolom-hitung asm-input" value="<?php echo $val_asm; ?>" min="0"></td>
                             <td><input type="number" name="pdp[]" class="form-control table-input-digital input-kolom-hitung pdp-input" value="<?php echo $val_pdp; ?>" min="0"></td>
                             <td><input type="number" name="pem[]" class="form-control table-input-digital input-kolom-hitung pem-input" value="<?php echo $val_pem; ?>" min="0"></td>
+                            <td><input type="number" name="awal_bln[]" class="form-control table-input-digital input-kolom-hitung awal-bln-input" value="<?php echo $val_awal_bln; ?>" min="0"></td> <!-- Input Baru -->
                             
                             <td class="text-end pe-4 font-monospace fw-bold text-dark">
                                 <input type="text" class="form-control text-end fw-bold text-dark border-0 p-0 bg-transparent row-total-output" value="<?php echo number_format($row_total, 0, ',', '.'); ?>" readonly style="outline: none; box-shadow: none;">
@@ -103,6 +108,7 @@ if ($cek_data) {
                             <td id="total-asm-all" class="font-monospace text-muted small text-end px-2">Rp 0</td>
                             <td id="total-pdp-all" class="font-monospace text-muted small text-end px-2">Rp 0</td>
                             <td id="total-pem_all" class="font-monospace text-muted small text-end px-2">Rp 0</td>
+                            <td id="total-awal-bln-all" class="font-monospace text-muted small text-end px-2">Rp 0</td> <!-- Total Footer Baru -->
                             <td class="text-end pe-4 py-3 font-monospace text-purple-premium text-end" id="total-kolom-grand-all" style="font-size: 1.05rem; text-shadow: 0 0 10px rgba(124, 58, 237, 0.1);">Rp 0</td>
                         </tr>
                     </tbody>
@@ -138,17 +144,12 @@ if ($cek_data) {
     box-shadow: 0 0 0 3px rgba(75, 26, 138, 0.15) !important;
 }
 
-/* =======================================================
-   KUNCI FIX: MENGHILANGKAN FITUR NAIK TURUN ANGKA (SPINNER)
-======================================================= */
-/* Untuk Chrome, Safari, Edge, dan Opera */
+/* MENYEMBUNYIKAN FITUR PANAH NAIK TURUN (SPINNER) */
 .table-input-digital::-webkit-outer-spin-button,
 .table-input-digital::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-
-/* Untuk Firefox */
 .table-input-digital[type=number] {
     -moz-appearance: textfield;
 }
@@ -160,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const tglKolomInput = document.getElementById("tanggal_keuangan_kolom_tampilan");
 
     function hitungMajuKolom() {
-        let gPers = 0, gPkb = 0, gWki = 0, gPemuda = 0, gRemaja = 0, gAsm = 0, gPdp = 0, gPem = 0, gGrand = 0;
+        let gPers = 0, gPkb = 0, gWki = 0, gPemuda = 0, gRemaja = 0, gAsm = 0, gPdp = 0, gPem = 0, gAwalBln = 0, gGrand = 0;
         const rows = document.querySelectorAll(".kolom-row");
 
         rows.forEach(row => {
@@ -172,12 +173,13 @@ document.addEventListener("DOMContentLoaded", function () {
             const asm = parseFloat(row.querySelector(".asm-input").value) || 0;
             const pdp = parseFloat(row.querySelector(".pdp-input").value) || 0;
             const pem = parseFloat(row.querySelector(".pem-input").value) || 0;
+            const awalBln = parseFloat(row.querySelector(".awal-bln-input").value) || 0; // JS Ambil Data Baru
 
-            const totalBaris = pers + pkb + wki + pemuda + remaja + asm + pdp + pem;
+            const totalBaris = pers + pkb + wki + pemuda + remaja + asm + pdp + pem + awalBln;
             row.querySelector(".row-total-output").value = totalBaris.toLocaleString('id-ID');
 
             gPers += pers; gPkb += pkb; gWki += wki; gPemuda += pemuda;
-            gRemaja += remaja; gAsm += asm; gPdp += pdp; gPem += pem;
+            gRemaja += remaja; gAsm += asm; gPdp += pdp; gPem += pem; gAwalBln += awalBln;
             gGrand += totalBaris;
         });
 
@@ -189,6 +191,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("total-asm-all").innerText = "Rp " + gAsm.toLocaleString('id-ID');
         document.getElementById("total-pdp-all").innerText = "Rp " + gPdp.toLocaleString('id-ID');
         document.getElementById("total-pem_all").innerText = "Rp " + gPem.toLocaleString('id-ID');
+        document.getElementById("total-awal-bln-all").innerText = "Rp " + gAwalBln.toLocaleString('id-ID'); // Footer Render Baru
         document.getElementById("total-kolom-grand-all").innerText = "Rp " + gGrand.toLocaleString('id-ID');
     }
 

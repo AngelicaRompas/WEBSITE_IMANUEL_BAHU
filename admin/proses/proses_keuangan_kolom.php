@@ -19,6 +19,7 @@ if (isset($_POST['simpan_keuangan_kolom'])) {
     $asm_arr      = $_POST['asm'];
     $pdp_arr      = $_POST['pdp'];
     $pem_arr      = $_POST['pem'];
+    $awal_bln_arr = $_POST['awal_bln']; // Tangkap Array Baru
 
     foreach ($kolom_arr as $i => $no_kolom) {
         $no_kolom  = intval($no_kolom);
@@ -30,29 +31,29 @@ if (isset($_POST['simpan_keuangan_kolom'])) {
         $asm       = !empty($asm_arr[$i]) ? floatval($asm_arr[$i]) : 0;
         $pdp       = !empty($pdp_arr[$i]) ? floatval($pdp_arr[$i]) : 0;
         $pem       = !empty($pem_arr[$i]) ? floatval($pem_arr[$i]) : 0;
+        $awal_bln  = !empty($awal_bln_arr[$i]) ? floatval($awal_bln_arr[$i]) : 0; // Bersyarat (Jika kosong = 0)
         
-        $jumlah_kolom = $pers + $pkb + $wki + $pemuda + $remaja + $asm + $pdp + $pem;
+        // Jumlah total baris kalkulasi backend
+        $jumlah_kolom = $pers + $pkb + $wki + $pemuda + $remaja + $asm + $pdp + $pem + $awal_bln;
 
-        // Cek data lama di tabel
         $cek = mysqli_query($koneksi, "SELECT id_kolom FROM keuangan_ibadah_kolom WHERE tanggal = '$tanggal' AND kolom = '$no_kolom'");
         
         if (mysqli_num_rows($cek) > 0) {
             $query = "UPDATE keuangan_ibadah_kolom SET 
                         pers_kolom = '$pers', pkb = '$pkb', wki = '$wki', 
                         pemuda = '$pemuda', remaja = '$remaja', asm = '$asm', 
-                        pdp = '$pdp', pem = '$pem', jumlah = '$jumlah_kolom' 
+                        pdp = '$pdp', pem = '$pem', awal_bln = '$awal_bln', jumlah = '$jumlah_kolom' 
                       WHERE tanggal = '$tanggal' AND kolom = '$no_kolom'";
         } else {
             $query = "INSERT INTO keuangan_ibadah_kolom (
-                        tanggal, kolom, pers_kolom, pkb, wki, pemuda, remaja, asm, pdp, pem, jumlah
+                        tanggal, kolom, pers_kolom, pkb, wki, pemuda, remaja, asm, pdp, pem, awal_bln, jumlah
                       ) VALUES (
-                        '$tanggal', '$no_kolom', '$pers', '$pkb', '$wki', '$pemuda', '$remaja', '$asm', '$pdp', '$pem', '$jumlah_kolom'
+                        '$tanggal', '$no_kolom', '$pers', '$pkb', '$wki', '$pemuda', '$remaja', '$asm', '$pdp', '$pem', '$awal_bln', '$jumlah_kolom'
                       )";
         }
         mysqli_query($koneksi, $query);
     }
 
-    // Redirect aman dengan mempertahankan status subtab kolom dan parameter tanggal
     header("Location: ../admin_dashboard.php?pesan=sukses_keuangan&tab=edit-keuangan&subtab=kolom&tgl_keuangan=$tanggal");
     exit;
 } else {
