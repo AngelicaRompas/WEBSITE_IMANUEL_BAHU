@@ -51,8 +51,8 @@ $subtab = $_GET['subtab'] ?? 'minggu';
     </li>
 
     <li class="nav-item" role="presentation">
-        <button class="nav-link tab-digital fw-bold px-4 py-2-5 rounded-3 d-flex align-items-center gap-2 <?= $subtab=='persepuluhan' ? 'active' : '' ?>" id="tab-persepuluhan-btn" data-bs-toggle="pill" data-bs-target="#sub-keuangan-persepuluhan" type="button" role="tab">
-            <i class="bi bi-envelope-paper-fill fs-5"></i> Sampul Persepuluhan
+        <button class="nav-link tab-digital fw-bold px-4 py-2-5 rounded-3 d-flex align-items-center gap-2 <?= $subtab=='sampul' ? 'active' : '' ?>" id="tab-sampul-btn" data-bs-toggle="pill" data-bs-target="#sub-keuangan-sampul" type="button" role="tab">
+            <i class="bi bi-envelope-paper-fill fs-5"></i> Sampul - Sampul
         </button>
     </li>
 </ul>
@@ -78,8 +78,8 @@ $subtab = $_GET['subtab'] ?? 'minggu';
     </div>
 
      <!-- KONTEN SUB-TAB 3: PENYETORAN PERSEPULUUHAN -->
-    <div class="tab-pane fade <?= $subtab=='persepuluhan' ? 'show active' : '' ?>" id="sub-keuangan-persepuluhan" role="tabpanel">
-        <?php include 'admin_keuangan_persepuluhan.php'; ?>
+    <div class="tab-pane fade <?= $subtab=='persepuluhan' ? 'show active' : '' ?>" id="sub-keuangan-sampul" role="tabpanel">
+        <?php include 'admin_keuangan_sampul.php'; ?>
     </div>
 </div>
 
