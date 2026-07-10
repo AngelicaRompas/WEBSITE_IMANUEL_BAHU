@@ -51,6 +51,13 @@ $subtab = $_GET['subtab'] ?? 'minggu';
     </li>
 
     <li class="nav-item" role="presentation">
+        <button class="nav-link tab-digital fw-bold px-4 py-2-5 rounded-3 d-flex align-items-center gap-2 <?= $subtab=='persepuluhan' ? 'active' : '' ?>" id="tab-persepuluhan-btn" data-bs-toggle="pill" data-bs-target="#sub-keuangan-persepuluhan" type="button" role="tab">
+            <i class="bi bi-envelope-paper-fill fs-5"></i> Sampul Persepuluhan
+        </button>
+    </li>
+</ul>
+
+    <li class="nav-item" role="presentation">
         <button class="nav-link tab-digital fw-bold px-4 py-2-5 rounded-3 d-flex align-items-center gap-2 disabled" type="button" style="opacity:.5;">
             <i class="bi bi-folder-plus fs-5"></i>
             Form Lanjutan
@@ -65,10 +72,16 @@ $subtab = $_GET['subtab'] ?? 'minggu';
         <?php include 'admin_keuangan_minggu.php'; ?>
     </div>
 
-    <!-- KONTEN SUB-TAB 2: PENYETORAN KOLOM (FIXED: Menyambungkan file tabel baru Anda) -->
+    <!-- KONTEN SUB-TAB 2: PENYETORAN KOLOM -->
     <div class="tab-pane fade <?= $subtab=='kolom' ? 'show active' : '' ?>" id="sub-keuangan-kolom" role="tabpanel">
         <?php include 'admin_keuangan_kolom.php'; ?>
     </div>
+
+     <!-- KONTEN SUB-TAB 3: PENYETORAN PERSEPULUUHAN -->
+    <div class="tab-pane fade <?= $subtab=='persepuluhan' ? 'show active' : '' ?>" id="sub-keuangan-persepuluhan" role="tabpanel">
+        <?php include 'admin_keuangan_persepuluhan.php'; ?>
+    </div>
+</div>
 
 </div>
 
@@ -92,4 +105,9 @@ $subtab = $_GET['subtab'] ?? 'minggu';
     padding-top:.65rem;
     padding-bottom:.65rem;
 }
+
+.tab-digital{ color:#64748b!important; background:transparent!important; transition:.3s; border:1px solid transparent; }
+.tab-digital:hover:not(.disabled){ background:rgba(147,51,234,.08)!important; color:#4b1a8a!important; }
+.tab-digital.active{ background:linear-gradient(135deg,#4b1a8a,#2e0854)!important; color:#fff!important; box-shadow:0 4px 12px rgba(75,26,138,.25); }
+.py-2-5{ padding-top:.65rem; padding-bottom:.65rem; }
 </style>
