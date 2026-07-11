@@ -184,7 +184,7 @@ if ($_SERVER['HTTP_HOST'] == 'localhost:8081' || $_SERVER['HTTP_HOST'] == 'local
                 
                 <li class="nav-item"><a class="nav-link px-3 fw-bold text-white" href="<?php echo $root_prefix; ?>warta-jemaat.php">Warta Jemaat</a></li>
 
-                <li class="nav-item"><a class="nav-link px-3 fw-bold text-white" href="<?php echo $root_prefix; ?>warta-keuangan.php">Keuangan</a></li>
+                <li class="nav-item"><a class="nav-link px-3 fw-bold text-white" href="<?php echo $root_prefix; ?>laporan_keuangan.php">Keuangan</a></li>
 
                 <li class="nav-item"><a class="nav-link px-3 fw-bold text-white" href="<?php echo $root_prefix; ?>renungan.php">Renungan</a></li>
 

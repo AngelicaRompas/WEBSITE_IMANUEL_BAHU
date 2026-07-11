@@ -303,12 +303,12 @@ while($g = mysqli_fetch_assoc($galeri)): ?>
                     <a href="warta-jemaat.php" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold mt-auto">Buka Warta</a>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <<div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
                 <div class="glass-card p-4 h-100 border-0 d-flex flex-column">
                     <div class="text-success mb-3" style="color: #6f42c1 !important;"><i class="bi bi-wallet2" style="font-size: 2.3rem;"></i></div>
                     <h5 class="fw-bold text-dark mb-3">Transparansi Keuangan</h5>
                     <p class="text-muted small mb-3">Laporan kas dan persembahan jemaat.</p>
-                    <a href="warta-keuangan.php" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold mt-auto">Lihat Laporan</a>
+                    <a href="laporan_keuangan.php" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold mt-auto">Lihat Laporan</a>
                 </div>
             </div>
         </div>
