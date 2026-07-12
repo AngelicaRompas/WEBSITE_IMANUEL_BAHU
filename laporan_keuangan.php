@@ -1,5 +1,5 @@
 <?php
-// laporan_keuangan.php - Halaman Publik Terintegrasi Terkoreksi
+// laporan_keuangan.php - Halaman Publik Terintegrasi Terkoreksi Penuh
 session_start();
 include 'koneksi.php';
 
@@ -25,6 +25,7 @@ if (isset($_POST['cek_kode'])) {
     }
 }
 
+// Ambil parameter filter utama
 $subtab = $_GET['subtab'] ?? 'rekapan';
 $bulan_pilih = $_GET['bulan'] ?? date('Y-m');
 ?>
@@ -51,24 +52,21 @@ $bulan_pilih = $_GET['bulan'] ?? date('Y-m');
         .btn-close-access { border: 2px solid #dc3545; color: #dc3545; font-weight: 700; border-radius: 50px; background: transparent; transition: 0.3s; font-size: 0.85rem; }
         .btn-close-access:hover { background: #dc3545; color: white; }
         .bg-glass-publik { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.5); }
-        .tab-publik { color: #64748b !important; background: transparent !important; transition: .3s; font-weight: 700; font-size: 0.9rem; border: 1px solid transparent; }
+        .tab-publik { color: #64748b !important; background: transparent !important; transition: .3s; font-weight: 700; font-size: 0.9rem; border: 1px solid transparent; text-decoration: none; display: inline-block; }
         .tab-publik:hover { background: rgba(111, 66, 193, 0.06) !important; color: #6f42c1 !important; }
         .tab-publik.active { background: #6f42c1 !important; color: #fff !important; box-shadow: 0 4px 12px rgba(111, 66, 193, 0.25); }
     </style>
 </head>
 <body>
 
-<!-- Pola Grid Digital dan Aurora Gelap Sesuai Beranda Jemaat -->
 <div class="digital-grid"></div>
 <div class="aurora-container">
     <div class="aurora-blob blob-blue"></div>
     <div class="aurora-blob blob-soft"></div>
 </div>
 
-<!-- NAVBAR TETAP DIRENDER DI ATAS DI SETIAP KONDISI -->
 <?php include 'navbar.php'; ?>
 
-<!-- HERO BANNER AREA (PERSIS SEPERTI WARTA JEMAAT) -->
 <section class="py-5 text-center position-relative" style="z-index: 2;">
     <div class="container">
         <span class="badge badge-info-digital rounded-pill px-3 py-2 text-uppercase mb-3 shadow-sm">
@@ -79,12 +77,10 @@ $bulan_pilih = $_GET['bulan'] ?? date('Y-m');
     </div>
 </section>
 
-<!-- KONTEN UTAMA DENGAN DUA KONDISI AUTENTIKASI -->
 <div class="container position-relative mb-5" style="z-index: 3;">
 
     <?php if (!isset($_SESSION['akses_publik_imanuel'])): ?>
         
-        <!-- KONDISI 1: JIKA BELUM LOGIN (TAMPILAN DIADAPTASI PERSIS DARI SCREENSHOT WARTA JEMAAT) -->
         <div class="glass-auth-card text-center my-4">
             <div class="mb-3">
                 <i class="bi bi-shield-lock text-primary" style="font-size: 2.5rem; color: #6f42c1 !important;"></i>
@@ -110,54 +106,52 @@ $bulan_pilih = $_GET['bulan'] ?? date('Y-m');
 
     <?php else: ?>
 
-        <!-- KONDISI 2: JIKA AUTENTIKASI SUDAH TERBUKA -->
         <div class="d-flex justify-content-end mb-4">
             <a href="laporan_keuangan.php?aksi=keluar" class="btn btn-sm btn-close-access px-4 py-2 d-flex align-items-center gap-2 shadow-sm">
                 <i class="bi bi-unlock-fill"></i> Tutup Akses
             </a>
         </div>
 
-        <!-- Tab Navigasi Publik Adaptif -->
-        <ul class="nav nav-pills p-2 bg-glass-publik rounded-4 gap-1 border border-white shadow-sm mb-4 overflow-x-auto flex-nowrap" id="pills-tab-publik" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='rekapan'?'active':'' ?>" data-bs-toggle="pill" data-bs-target="#pub-rekapan" type="button"><i class="bi bi-journal-text me-2"></i>Rekapan</button>
+        <!-- FIXED: Mengubah button navigasi menjadi tag <a> untuk reload file PHP subtab secara bersih -->
+        <ul class="nav nav-pills p-2 bg-glass-publik rounded-4 gap-1 border border-white shadow-sm mb-4 overflow-x-auto flex-nowrap" id="pills-tab-publik">
+            <li class="nav-item">
+                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='rekapan'?'active':'' ?>" href="laporan_keuangan.php?subtab=rekapan&bulan=<?= $bulan_pilih; ?>"><i class="bi bi-journal-text me-2"></i>Rekapan</a>
             </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='minggu'?'active':'' ?>" data-bs-toggle="pill" data-bs-target="#pub-minggu" type="button"><i class="bi bi-calendar3-event me-2"></i>Ibadah Minggu</button>
+            <li class="nav-item">
+                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='minggu'?'active':'' ?>" href="laporan_keuangan.php?subtab=minggu&bulan=<?= $bulan_pilih; ?>"><i class="bi bi-calendar3-event me-2"></i>Ibadah Minggu</a>
             </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='kolom'?'active':'' ?>" data-bs-toggle="pill" data-bs-target="#pub-kolom" type="button"><i class="bi bi-grid-3x3-gap-fill me-2"></i>Setoran Kolom</button>
+            <li class="nav-item">
+                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='kolom'?'active':'' ?>" href="laporan_keuangan.php?subtab=kolom&bulan=<?= $bulan_pilih; ?>"><i class="bi bi-grid-3x3-gap-fill me-2"></i>Setoran Kolom</a>
             </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='sampul'?'active':'' ?>" data-bs-toggle="pill" data-bs-target="#pub-sampul" type="button"><i class="bi bi-envelope-paper-heart-fill me-2"></i>Penerimaan Sampul</button>
+            <li class="nav-item">
+                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='sampul'?'active':'' ?>" href="laporan_keuangan.php?subtab=sampul&bulan=<?= $bulan_pilih; ?>"><i class="bi bi-envelope-paper-heart-fill me-2"></i>Penerimaan Sampul</a>
             </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='khusus'?'active':'' ?>" data-bs-toggle="pill" data-bs-target="#pub-khusus" type="button"><i class="bi bi-stars me-2"></i>Ibadah Khusus</button>
+            <li class="nav-item">
+                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='khusus'?'active':'' ?>" href="laporan_keuangan.php?subtab=khusus&bulan=<?= $bulan_pilih; ?>"><i class="bi bi-stars me-2"></i>Ibadah Khusus</a>
             </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='pengeluaran'?'active':'' ?>" data-bs-toggle="pill" data-bs-target="#pub-pengeluaran" type="button"><i class="bi bi-cart-dash-fill me-2"></i>Pengeluaran</button>
+            <li class="nav-item">
+                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='pengeluaran'?'active':'' ?>" href="laporan_keuangan.php?subtab=pengeluaran&bulan=<?= $bulan_pilih; ?>"><i class="bi bi-cart-dash-fill me-2"></i>Pengeluaran</a>
             </li>
         </ul>
 
-        <!-- Wadah Konten Sub-Tab -->
+        <!-- Wadah Konten Render Sub-Tab Statis Sesuai Parameter URL -->
         <div class="tab-content" id="pills-tabContentPublik">
-            <div class="tab-pane fade <?= $subtab=='rekapan'?'show active':'' ?>" id="pub-rekapan" role="tabpanel">
-                <?php include 'keuangan_rekapan.php'; ?>
-            </div>
-            <div class="tab-pane fade <?= $subtab == 'minggu' ? 'show active' : '' ?>" id="pub-minggu" role="tabpanel">
-                <?php include 'keuangan_ibadahMinggu.php'; ?>
-            </div>
-            <div class="tab-pane fade <?= $subtab=='kolom'?'show active':'' ?>" id="pub-kolom" role="tabpanel">
-                <?php include 'keuangan_kolom.php'; ?>
-            </div>
-            <div class="tab-pane fade <?= $subtab=='sampul'?'show active':'' ?>" id="pub-sampul" role="tabpanel">
-                <?php include 'keuangan_sampul.php'; ?>
-            </div>
-            <div class="tab-pane fade <?= $subtab=='khusus'?'show active':'' ?>" id="pub-khusus" role="tabpanel">
-                <div class="card p-4 border-0 shadow-sm rounded-4 text-center text-muted small bg-white">Detail Transparansi Ibadah Khusus Sedang Disiapkan...</div>
-            </div>
-            <div class="tab-pane fade <?= $subtab=='pengeluaran'?'show active':'' ?>" id="pub-pengeluaran" role="tabpanel">
-                <div class="card p-4 border-0 shadow-sm rounded-4 text-center text-muted small bg-white">Detail Transparansi Pengeluaran Sedang Disiapkan...</div>
+            <div class="tab-pane fade show active" role="tabpanel">
+                <?php 
+                if ($subtab == 'rekapan') {
+                    include 'keuangan_rekapan.php';
+                } elseif ($subtab == 'minggu') {
+                    include 'keuangan_ibadahMinggu.php';
+                } elseif ($subtab == 'kolom') {
+                    include 'keuangan_kolom.php';
+                } elseif ($subtab == 'sampul') {
+                    include 'keuangan_sampul.php';
+                } elseif ($subtab == 'khusus') {
+                    include 'keuangan_ibadahKhusus.php';
+                } elseif ($subtab == 'pengeluaran') {
+                    include 'keuangan_pengeluaran.php';
+                }
+                ?>
             </div>
         </div>
 
@@ -165,20 +159,8 @@ $bulan_pilih = $_GET['bulan'] ?? date('Y-m');
 
 </div>
 
-<!-- FOOTER TETAP DIRENDER DI PALING BAWAH DI SETIAP KONDISI -->
 <?php include 'footer.php'; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-// Sinkronisasi Tab Histori tanpa merusak Router Publik
-document.addEventListener("shown.bs.tab", function(e) {
-    const target = e.target.getAttribute("data-bs-target");
-    if(!target) return;
-    const subId = target.replace("#pub-", "");
-    const url = new URL(window.location);
-    url.searchParams.set("subtab", subId);
-    window.history.replaceState({}, "", url);
-});
-</script>
 </body>
 </html>
