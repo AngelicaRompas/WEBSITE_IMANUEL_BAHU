@@ -150,8 +150,8 @@ $bulan_pilih = $_GET['bulan'] ?? date('Y-m');
             <div class="tab-pane fade <?= $subtab=='kolom'?'show active':'' ?>" id="pub-kolom" role="tabpanel">
                 <?php include 'keuangan_kolom.php'; ?>
             </div>
-            <div class="tab-pane fade <?= $subtab=='sampul'?'show active' :'' ?>" id="pub-sampul" role="tabpanel">
-                <div class="card p-4 border-0 shadow-sm rounded-4 text-center text-muted small bg-white">Detail Transparansi Penerimaan Sampul Sedang Disiapkan...</div>
+            <div class="tab-pane fade <?= $subtab=='sampul'?'show active':'' ?>" id="pub-sampul" role="tabpanel">
+                <?php include 'keuangan_sampul.php'; ?>
             </div>
             <div class="tab-pane fade <?= $subtab=='khusus'?'show active':'' ?>" id="pub-khusus" role="tabpanel">
                 <div class="card p-4 border-0 shadow-sm rounded-4 text-center text-muted small bg-white">Detail Transparansi Ibadah Khusus Sedang Disiapkan...</div>
