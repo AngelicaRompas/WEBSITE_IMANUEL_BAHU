@@ -142,10 +142,10 @@ $bulan_pilih = $_GET['bulan'] ?? date('Y-m');
         <!-- Wadah Konten Sub-Tab -->
         <div class="tab-content" id="pills-tabContentPublik">
             <div class="tab-pane fade <?= $subtab=='rekapan'?'show active':'' ?>" id="pub-rekapan" role="tabpanel">
-                <?php include 'publik_rekapan.php'; ?>
+                <?php include 'keuangan_rekapan.php'; ?>
             </div>
-            <div class="tab-pane fade <?= $subtab=='minggu'?'show active':'' ?>" id="pub-minggu" role="tabpanel">
-                <div class="card p-4 border-0 shadow-sm rounded-4 text-center text-muted small bg-white">Detail Transparansi Ibadah Minggu Sedang Disiapkan...</div>
+            <div class="tab-pane fade <?= $subtab == 'minggu' ? 'show active' : '' ?>" id="pub-minggu" role="tabpanel">
+                <?php include 'keuangan_ibadahMinggu.php'; ?>
             </div>
             <div class="tab-pane fade <?= $subtab=='kolom'?'show active':'' ?>" id="pub-kolom" role="tabpanel">
                 <div class="card p-4 border-0 shadow-sm rounded-4 text-center text-muted small bg-white">Detail Transparansi Setoran Kolom Sedang Disiapkan...</div>

@@ -157,9 +157,9 @@ document.addEventListener("DOMContentLoaded", function() {
     if (filterBulan) {
         filterBulan.addEventListener("change", function() {
             const url = new URL(window.location);
-            url.searchParams.set("subtab", "rekapan"); // Tetap stay di subtab rekapan
+            url.searchParams.set("subtab", "rekapan"); // Tetap stay di subtab rekapan publik
             url.searchParams.set("bulan", this.value); // Ambil data bulan baru
-            url.searchParams.delete("tab");           // KUNCI: Bersihkan sisa router admin agar tidak bentrok
+            url.searchParams.delete("tab");           // Bersihkan sisa instruksi admin router
             window.location.search = url.search;
         });
     }
