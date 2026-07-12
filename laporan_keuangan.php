@@ -148,7 +148,7 @@ $bulan_pilih = $_GET['bulan'] ?? date('Y-m');
                 <?php include 'keuangan_ibadahMinggu.php'; ?>
             </div>
             <div class="tab-pane fade <?= $subtab=='kolom'?'show active':'' ?>" id="pub-kolom" role="tabpanel">
-                <div class="card p-4 border-0 shadow-sm rounded-4 text-center text-muted small bg-white">Detail Transparansi Setoran Kolom Sedang Disiapkan...</div>
+                <?php include 'keuangan_kolom.php'; ?>
             </div>
             <div class="tab-pane fade <?= $subtab=='sampul'?'show active' :'' ?>" id="pub-sampul" role="tabpanel">
                 <div class="card p-4 border-0 shadow-sm rounded-4 text-center text-muted small bg-white">Detail Transparansi Penerimaan Sampul Sedang Disiapkan...</div>
