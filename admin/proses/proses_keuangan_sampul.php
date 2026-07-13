@@ -1,5 +1,5 @@
 <?php
-// proses_keuangan_sampul.php
+// proses_keuangan_sampul.php - Eksekusi Simpan Spesifik Per Kategori
 session_start();
 if (!isset($_SESSION['admin_imanuel'])) {
     header("Location: ../login.php"); 
@@ -7,41 +7,35 @@ if (!isset($_SESSION['admin_imanuel'])) {
 }
 include '../../koneksi.php';
 
-if (isset($_POST['simpan_sampul_massal'])) {
-    $tanggal = mysqli_real_escape_string($koneksi, $_POST['tanggal']);
+if (isset($_POST['simpan_sampul_single'])) {
+    $tanggal         = mysqli_real_escape_string($koneksi, $_POST['tanggal']);
+    $kategori_target = mysqli_real_escape_string($koneksi, $_POST['kategori_target']);
     
-    // Daftar 5 kategori yang dilemparkan form
-    $daftar_kategori = ['persepuluhan', 'hut_pribadi', 'pernikahan', 'lainnya', 'bulanan_keluarga'];
+    $kolom_arr       = $_POST['kolom'] ?? [];
+    $keterangan_arr  = $_POST['keterangan'] ?? [];
+    $nominal_arr     = $_POST['nominal'] ?? [];
 
     $koneksi->begin_transaction();
     try {
-        // 1. Bersihkan seluruh rekaman data lama pada tanggal ini di tabel sampul
-        $stmt_del = $koneksi->prepare("DELETE FROM keuangan_sampul_massal WHERE tanggal = ?");
-        $stmt_del->bind_param("s", $tanggal);
+        // 1. Bersihkan HANYA data kategori terkait pada tanggal ini agar data kategori lain tetap aman
+        $stmt_del = $koneksi->prepare("DELETE FROM keuangan_sampul_massal WHERE tanggal = ? AND kategori = ?");
+        $stmt_del->bind_param("ss", $tanggal, $kategori_target);
         $stmt_del->execute();
         $stmt_del->close();
 
-        // 2. Siapkan perintah insert data kolektif
+        // 2. Lakukan penyimpanan data baris demi baris yang dikirim
         $stmt_ins = $koneksi->prepare("INSERT INTO keuangan_sampul_massal (tanggal, kategori, kolom, keterangan, nominal) VALUES (?, ?, ?, ?, ?)");
 
-        foreach ($daftar_kategori as $kat) {
-            // Cek apakah data array kategori terkait terkirim
-            if (isset($_POST[$kat . '_kolom'])) {
-                $kolom_arr       = $_POST[$kat . '_kolom'];
-                $keterangan_arr  = $_POST[$kat . '_keterangan'];
-                $nominal_arr     = $_POST[$kat . '_nominal'];
+        foreach ($keterangan_arr as $i => $ket) {
+            $keterangan = htmlspecialchars($ket);
+            $kolom_val  = $kolom_arr[$i];
+            $no_kolom   = ($kolom_val !== '') ? intval($kolom_val) : 0;
+            $nominal    = !empty($nominal_arr[$i]) ? floatval($nominal_arr[$i]) : 0;
 
-                foreach ($kolom_arr as $i => $kolom) {
-                    $no_kolom   = intval($kolom);
-                    $keterangan = htmlspecialchars($keterangan_arr[$i]);
-                    $nominal    = !empty($nominal_arr[$i]) ? floatval($nominal_arr[$i]) : 0;
-
-                    // Simpan baris hanya jika nominal di atas 0 atau keterangan tidak kosong
-                    if ($nominal > 0 || !empty($keterangan)) {
-                        $stmt_ins->bind_param("ssisd", $tanggal, $kat, $no_kolom, $keterangan, $nominal);
-                        $stmt_ins->execute();
-                    }
-                }
+            // Baris disimpan jika keterangan terisi atau nominalnya di atas 0
+            if (!empty($keterangan) || $nominal > 0) {
+                $stmt_ins->bind_param("ssisd", $tanggal, $kategori_target, $no_kolom, $keterangan, $nominal);
+                $stmt_ins->execute();
             }
         }
         
@@ -52,7 +46,7 @@ if (isset($_POST['simpan_sampul_massal'])) {
         exit;
     } catch (Exception $e) {
         $koneksi->rollback();
-        die("Gagal memproses kumpulan sampul: " . $e->getMessage());
+        die("Gagal memproses pengiriman sampul: " . $e->getMessage());
     }
 } else {
     header("Location: ../admin_dashboard.php?tab=edit-keuangan&subtab=sampul");
