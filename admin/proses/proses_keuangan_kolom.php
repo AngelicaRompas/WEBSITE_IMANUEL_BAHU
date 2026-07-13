@@ -1,14 +1,16 @@
 <?php
-// proses_keuangan_kolom.php
+// proses/proses_keuangan_kolom.php
 session_start();
 if (!isset($_SESSION['admin_imanuel'])) {
-    header("Location: ../login.php"); 
+    header("Location: ../login.php");
     exit;
 }
 include '../../koneksi.php';
 
 if (isset($_POST['simpan_keuangan_kolom'])) {
-    $tanggal = mysqli_real_escape_string($koneksi, $_POST['tanggal']);
+    $tanggal      = mysqli_real_escape_string($koneksi, $_POST['tanggal']);
+    $bulan_kolom  = mysqli_real_escape_string($koneksi, $_POST['bulan_kolom']);
+    $minggu_no    = intval($_POST['minggu_no']);
     
     $kolom_arr    = $_POST['kolom_no'];
     $pers_arr     = $_POST['pers_kolom'];
@@ -19,7 +21,7 @@ if (isset($_POST['simpan_keuangan_kolom'])) {
     $asm_arr      = $_POST['asm'];
     $pdp_arr      = $_POST['pdp'];
     $pem_arr      = $_POST['pem'];
-    $awal_bln_arr = $_POST['awal_bln']; // Tangkap Array Baru
+    $awal_bln_arr = $_POST['awal_bln'];
 
     foreach ($kolom_arr as $i => $no_kolom) {
         $no_kolom  = intval($no_kolom);
@@ -31,9 +33,8 @@ if (isset($_POST['simpan_keuangan_kolom'])) {
         $asm       = !empty($asm_arr[$i]) ? floatval($asm_arr[$i]) : 0;
         $pdp       = !empty($pdp_arr[$i]) ? floatval($pdp_arr[$i]) : 0;
         $pem       = !empty($pem_arr[$i]) ? floatval($pem_arr[$i]) : 0;
-        $awal_bln  = !empty($awal_bln_arr[$i]) ? floatval($awal_bln_arr[$i]) : 0; // Bersyarat (Jika kosong = 0)
+        $awal_bln  = !empty($awal_bln_arr[$i]) ? floatval($awal_bln_arr[$i]) : 0;
         
-        // Jumlah total baris kalkulasi backend
         $jumlah_kolom = $pers + $pkb + $wki + $pemuda + $remaja + $asm + $pdp + $pem + $awal_bln;
 
         $cek = mysqli_query($koneksi, "SELECT id_kolom FROM keuangan_ibadah_kolom WHERE tanggal = '$tanggal' AND kolom = '$no_kolom'");
@@ -54,7 +55,8 @@ if (isset($_POST['simpan_keuangan_kolom'])) {
         mysqli_query($koneksi, $query);
     }
 
-    header("Location: ../admin_dashboard.php?pesan=sukses_keuangan&tab=edit-keuangan&subtab=kolom&tgl_keuangan=$tanggal");
+    // Mengembalikan redirect menuju susunan parameter filter baru agar posisi bertahan stabil
+    header("Location: ../admin_dashboard.php?pesan=sukses_keuangan&tab=edit-keuangan&subtab=kolom&bulan_kolom=$bulan_kolom&minggu_no=$minggu_no");
     exit;
 } else {
     header("Location: ../admin_dashboard.php?tab=edit-keuangan&subtab=kolom");
