@@ -51,7 +51,7 @@ $bulan_pilih = $_GET['bulan'] ?? date('Y-m');
         .btn-purple-accent:hover { background-color: #5a32a3; color: white; transform: translateY(-1px); }
         .btn-close-access { border: 2px solid #dc3545; color: #dc3545; font-weight: 700; border-radius: 50px; background: transparent; transition: 0.3s; font-size: 0.85rem; }
         .btn-close-access:hover { background: #dc3545; color: white; }
-        .bg-glass-publik { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.5); }
+        .glass-publik { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.5); }
         .tab-publik { color: #64748b !important; background: transparent !important; transition: .3s; font-weight: 700; font-size: 0.9rem; border: 1px solid transparent; text-decoration: none; display: inline-block; }
         .tab-publik:hover { background: rgba(111, 66, 193, 0.06) !important; color: #6f42c1 !important; }
         .tab-publik.active { background: #6f42c1 !important; color: #fff !important; box-shadow: 0 4px 12px rgba(111, 66, 193, 0.25); }
@@ -112,7 +112,7 @@ $bulan_pilih = $_GET['bulan'] ?? date('Y-m');
             </a>
         </div>
 
-        <!-- FIXED: Mengubah button navigasi menjadi tag <a> untuk reload file PHP subtab secara bersih -->
+        <!-- REVISI NAVIGASI TAB MENU PUBLIK -->
         <ul class="nav nav-pills p-2 bg-glass-publik rounded-4 gap-1 border border-white shadow-sm mb-4 overflow-x-auto flex-nowrap" id="pills-tab-publik">
             <li class="nav-item">
                 <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='rekapan'?'active':'' ?>" href="laporan_keuangan.php?subtab=rekapan&bulan=<?= $bulan_pilih; ?>"><i class="bi bi-journal-text me-2"></i>Rekapan</a>
@@ -122,6 +122,10 @@ $bulan_pilih = $_GET['bulan'] ?? date('Y-m');
             </li>
             <li class="nav-item">
                 <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='kolom'?'active':'' ?>" href="laporan_keuangan.php?subtab=kolom&bulan=<?= $bulan_pilih; ?>"><i class="bi bi-grid-3x3-gap-fill me-2"></i>Setoran Kolom</a>
+            </li>
+            <!-- POSISI BARU: TAMPILAN SETELAH SETORAN KOLOM -->
+            <li class="nav-item">
+                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='bipra'?'active':'' ?>" href="laporan_keuangan.php?subtab=bipra&bulan=<?= $bulan_pilih; ?>"><i class="bi bi-diagram-3-fill me-2"></i>Penyetoran BIPRA</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='sampul'?'active':'' ?>" href="laporan_keuangan.php?subtab=sampul&bulan=<?= $bulan_pilih; ?>"><i class="bi bi-envelope-paper-heart-fill me-2"></i>Penerimaan Sampul</a>
@@ -144,6 +148,8 @@ $bulan_pilih = $_GET['bulan'] ?? date('Y-m');
                     include 'keuangan_ibadahMinggu.php';
                 } elseif ($subtab == 'kolom') {
                     include 'keuangan_kolom.php';
+                } elseif ($subtab == 'bipra') {
+                    include 'keuangan_bipra.php';
                 } elseif ($subtab == 'sampul') {
                     include 'keuangan_sampul.php';
                 } elseif ($subtab == 'khusus') {

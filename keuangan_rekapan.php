@@ -1,5 +1,5 @@
 <?php
-// publik_rekapan.php - Logika Kompilasi Buku Kas Rekapan Publik Otomatis
+// keuangan_rekapan.php - Logika Kompilasi Buku Kas Rekapan Publik Otomatis
 if (session_status() === PHP_SESSION_NONE) { session_start(); }
 include 'koneksi.php';
 
@@ -10,6 +10,24 @@ list($tahun, $bulan) = explode('-', $bulan_pilih);
 $jumlah_hari = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
 
 $buku_kas_rekapan = [];
+
+// Array nama bulan untuk konversi bulan_target digital
+$nama_bulan_target_indo = [
+    1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
+    5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus',
+    9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+];
+
+// Label deskripsi dasar komisi kategorial jemaat
+$label_bipra_base = [
+    'PKB'    => 'Penyetoran BIPRA: Pria / Kaum Bapa (PKB)',
+    'WKI'    => 'Penyetoran BIPRA: Wanita / Kaum Ibu (WKI)',
+    'PEMUDA' => 'Penyetoran BIPRA: Pelayanan Pemuda',
+    'REMAJA' => 'Penyetoran BIPRA: Pelayanan Remaja',
+    'ASM'    => 'Penyetoran BIPRA: Anak Sekolah Minggu (ASM)',
+    'LANSIA' => 'Penyetoran BIPRA: Jemaat Lansia',
+    'KPDP'   => 'Penyetoran BIPRA: Kemitraan Pria & Diaken (KPDP)'
+];
 
 // Loop menelusuri hari demi hari dari tanggal 1 sampai akhir bulan pilihan
 for ($hari = 1; $hari <= $jumlah_hari; $hari++) {
@@ -29,7 +47,27 @@ for ($hari = 1; $hari <= $jumlah_hari; $hari++) {
         $buku_kas_rekapan[] = ['tanggal' => $tanggal_loop, 'keterangan' => 'Penyetoran Kolom', 'tipe' => 'pemasukan', 'nominal' => floatval($r_kolom['total'])];
     }
 
-    // 3. Ambil & Klasifikasikan Total Sampul Massal harian berdasarkan 5 kategori spesifik
+    // 3. Ambil Data Penyetoran BIPRA Harian dengan Tambahan Keterangan Bulan Target
+    $q_bipra = mysqli_query($koneksi, "SELECT komisi, nominal, bulan_target FROM keuangan_bipra WHERE tanggal = '$tanggal_loop'");
+    while ($r_bipra = mysqli_fetch_assoc($q_bipra)) {
+        if ($r_bipra['nominal'] > 0) {
+            $base_text = $label_bipra_base[$r_bipra['komisi']] ?? 'Penyetoran BIPRA: ' . $r_bipra['komisi'];
+            $bulan_text = $nama_bulan_target_indo[intval($r_bipra['bulan_target'])] ?? '';
+            
+            // Menggabungkan nama komisi dengan keterangan bulan target
+            $label_lengkap = $base_text . ' (Bulan ' . $bulan_text . ')';
+            
+            $buku_kas_rekapan[] = [
+                'type' => 'pemasukan',
+                'tanggal' => $tanggal_loop,
+                'keterangan' => $label_lengkap,
+                'tipe' => 'pemasukan',
+                'nominal' => floatval($r_bipra['nominal'])
+            ];
+        }
+    }
+
+    // 4. Ambil & Klasifikasikan Total Sampul Massal harian
     $kategori_sampul_list = [
         'persepuluhan' => 'Pemasukkan Sampul Persepuluhan',
         'hut_pribadi' => 'Pemasukkan Sampul HUT Pribadi',
@@ -45,7 +83,7 @@ for ($hari = 1; $hari <= $jumlah_hari; $hari++) {
         }
     }
 
-    // 4. Ambil Ibadah Khusus harian secara detail (Hanya tampil jika ada kegiatan)
+    // 5. Ambil Ibadah Khusus harian
     $q_khusus = mysqli_query($koneksi, "SELECT kegiatan, nominal FROM keuangan_ibadah_khusus WHERE tanggal = '$tanggal_loop'");
     while ($r_khusus = mysqli_fetch_assoc($q_khusus)) {
         if ($r_khusus['nominal'] > 0) {
@@ -53,7 +91,7 @@ for ($hari = 1; $hari <= $jumlah_hari; $hari++) {
         }
     }
 
-    // 5. Ambil Detail Pengeluaran harian
+    // 6. Ambil Detail Pengeluaran harian
     $q_pengeluaran = mysqli_query($koneksi, "SELECT keterangan, nominal FROM keuangan_pengeluaran WHERE tanggal = '$tanggal_loop'");
     while ($r_pengeluaran = mysqli_fetch_assoc($q_pengeluaran)) {
         if ($r_pengeluaran['nominal'] > 0) {
@@ -71,14 +109,12 @@ for ($hari = 1; $hari <= $jumlah_hari; $hari++) {
             <small class="text-muted">Ikhtisar kronologis pergerakan kas masuk dan kas keluar jemaat</small>
         </div>
         
-        <!-- Filter Bulan Digital Publik -->
         <div class="d-flex align-items-center gap-2">
             <label for="filter_bulan_publik" class="form-label mb-0 small fw-bold text-secondary text-nowrap">Pilih Periode:</label>
             <input type="month" id="filter_bulan_publik" class="form-control font-monospace fw-bold text-dark bg-light" value="<?= $bulan_pilih; ?>" style="max-width: 180px;">
         </div>
     </div>
 
-    <!-- Tabel Transparansi Kas Buku Rekapan -->
     <div class="table-responsive rounded-3 border border-light-subtle">
         <table class="table table-hover align-middle mb-0 text-center" style="min-width: 900px;">
             <thead class="bg-light text-secondary text-uppercase fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px;">
@@ -101,7 +137,6 @@ for ($hari = 1; $hari <= $jumlah_hari; $hari++) {
                     foreach ($buku_kas_rekapan as $kas):
                         $nom = $kas['nominal'];
                         
-                        // Kalkulasi Hitungan Tipe Saldo Kas Berjalan (Running Balance)
                         if ($kas['tipe'] === 'pemasukan') {
                             $saldo_berjalan += $nom;
                             $grand_pemasukan += $nom;
@@ -127,7 +162,6 @@ for ($hari = 1; $hari <= $jumlah_hari; $hari++) {
                 </tr>
                 <?php endforeach; ?>
                 
-                <!-- FOOTER TOTAL AKHIR BUKU KAS -->
                 <tr class="fw-bold border-0 bg-light" style="background: #f8fafc;">
                     <td colspan="3" class="text-start ps-4 py-3 text-secondary fw-bolder" style="font-size: 0.8rem;">TOTAL KESELURUHAN BULANAN</td>
                     <td class="text-end font-monospace text-dark py-3" style="font-size: 0.85rem;">
@@ -157,9 +191,9 @@ document.addEventListener("DOMContentLoaded", function() {
     if (filterBulan) {
         filterBulan.addEventListener("change", function() {
             const url = new URL(window.location);
-            url.searchParams.set("subtab", "rekapan"); // Tetap stay di subtab rekapan publik
-            url.searchParams.set("bulan", this.value); // Ambil data bulan baru
-            url.searchParams.delete("tab");           // Bersihkan sisa instruksi admin router
+            url.searchParams.set("subtab", "rekapan");
+            url.searchParams.set("bulan", this.value);
+            url.searchParams.delete("tab");
             window.location.search = url.search;
         });
     }
