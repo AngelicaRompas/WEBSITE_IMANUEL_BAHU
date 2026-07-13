@@ -1,5 +1,5 @@
 <?php
-// publik_minggu.php - Menampilkan Rincian Laporan Ibadah Minggu Publik
+// keuangan_ibadahMinggu.php - Menampilkan Rincian Laporan Ibadah Minggu Publik (Bersih & Valid)
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -14,7 +14,7 @@ $jumlah_hari = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
 
 for ($d = 1; $d <= $jumlah_hari; $d++) {
     $time = mktime(0, 0, 0, $bulan, $d, $tahun);
-    if (date('N', $time) == 7) { // 7 berarti Hari Minggu dalam standar ISO-8601
+    if (date('N', $time) == 7) { // 7 berarti Hari Minggu
         $tanggal_minggu_list[] = date('Y-m-d', $time);
     }
 }
@@ -24,7 +24,7 @@ for ($d = 1; $d <= $jumlah_hari; $d++) {
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 border-bottom pb-3 mb-4">
         <div>
             <h5 class="fw-bold text-dark mb-1">Rincian Persembahan Ibadah Minggu</h5>
-            <small class="text-muted">Daftar perolehan pundi per sesi ibadah (Subuh, Pagi, Malam) setiap pekan</small>
+            <small class="text-muted">Daftar perolehan pundi per sesi ibadah (Sesi I, Sesi II, Sesi III) setiap pekan</small>
         </div>
         
         <!-- Filter Bulan Digital -->
@@ -38,22 +38,32 @@ for ($d = 1; $d <= $jumlah_hari; $d++) {
     if (!empty($tanggal_minggu_list)):
         $pekan = 1;
         foreach ($tanggal_minggu_list as $tgl_minggu):
-            // Ambil data dari tabel admin keuangan ibadah minggu untuk tanggal ini
+            
+            // 2. Inisialisasi awal nilai pundi untuk menampung akumulasi 3 sesi
+            $pundi1_subuh = 0; $pundi1_pagi = 0; $pundi1_malam = 0;
+            $pundi2_subuh = 0; $pundi2_pagi = 0; $pundi2_malam = 0;
+            $pundi3_subuh = 0; $pundi3_pagi = 0; $pundi3_malam = 0;
+
+            // 3. Ambil semua baris sesi (Sesi I, II, III) yang memiliki tanggal tersebut
             $query = mysqli_query($koneksi, "SELECT * FROM keuangan_ibadah_minggu WHERE tanggal = '$tgl_minggu'");
-            $data = mysqli_fetch_assoc($query);
-
-            // Set nilai default 0 jika admin belum menginput data di tanggal tersebut
-            $pundi1_subuh = floatval($data['pundi1_subuh'] ?? 0);
-            $pundi1_pagi  = floatval($data['pundi1_pagi'] ?? 0);
-            $pundi1_malam = floatval($data['pundi1_malam'] ?? 0);
-
-            $pundi2_subuh = floatval($data['pundi2_subuh'] ?? 0);
-            $pundi2_pagi  = floatval($data['pundi2_pagi'] ?? 0);
-            $pundi2_malam = floatval($data['pundi2_malam'] ?? 0);
-
-            $pundi3_subuh = floatval($data['pundi3_subuh'] ?? 0);
-            $pundi3_pagi  = floatval($data['pundi3_pagi'] ?? 0);
-            $pundi3_malam = floatval($data['pundi3_malam'] ?? 0);
+            
+            while ($data = mysqli_fetch_assoc($query)) {
+                $sesi = $data['sesi_ibadah'];
+                
+                if ($sesi === 'Sesi I') {
+                    $pundi1_subuh = floatval($data['pundi_1'] ?? 0);
+                    $pundi2_subuh = floatval($data['pundi_2'] ?? 0);
+                    $pundi3_subuh = floatval($data['sarana_prasarana'] ?? 0);
+                } elseif ($sesi === 'Sesi II') {
+                    $pundi1_pagi  = floatval($data['pundi_1'] ?? 0);
+                    $pundi2_pagi  = floatval($data['pundi_2'] ?? 0);
+                    $pundi3_pagi  = floatval($data['sarana_prasarana'] ?? 0);
+                } elseif ($sesi === 'Sesi III') {
+                    $pundi1_malam = floatval($data['pundi_1'] ?? 0);
+                    $pundi2_malam = floatval($data['pundi_2'] ?? 0);
+                    $pundi3_malam = floatval($data['sarana_prasarana'] ?? 0);
+                }
+            }
 
             // Total per sesi kolom vertikal
             $total_subuh = $pundi1_subuh + $pundi2_subuh + $pundi3_subuh;
@@ -84,9 +94,9 @@ for ($d = 1; $d <= $jumlah_hari; $d++) {
                         <thead class="bg-light text-secondary text-uppercase fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px;">
                             <tr>
                                 <th class="py-2.5 text-start ps-3" style="width: 25%;">Kategori Pundi</th>
-                                <th class="py-2.5" style="width: 18%;">Ibadah Subuh</th>
-                                <th class="py-2.5" style="width: 18%;">Ibadah Pagi</th>
-                                <th class="py-2.5" style="width: 18%;">Ibadah Malam</th>
+                                <th class="py-2.5" style="width: 18%;">Sesi I (Subuh)</th>
+                                <th class="py-2.5" style="width: 18%;">Sesi II (Pagi)</th>
+                                <th class="py-2.5" style="width: 18%;">Sesi III (Malam)</th>
                                 <th class="py-2.5 text-end pe-3" style="width: 21%;">Total</th>
                             </tr>
                         </thead>
@@ -106,7 +116,7 @@ for ($d = 1; $d <= $jumlah_hari; $d++) {
                                 <td class="text-end pe-3 font-monospace fw-bold text-dark">Rp <?= number_format($total_pundi2, 0, ',', '.'); ?></td>
                             </tr>
                             <tr class="border-bottom border-secondary-subtle">
-                                <td class="text-start ps-3 fw-medium text-dark">Pundi III (Wilayah/Sinode)</td>
+                                <td class="text-start ps-3 fw-medium text-dark">Sarana Prasarana</td>
                                 <td class="font-monospace text-muted">Rp <?= number_format($pundi3_subuh, 0, ',', '.'); ?></td>
                                 <td class="font-monospace text-muted">Rp <?= number_format($pundi3_pagi, 0, ',', '.'); ?></td>
                                 <td class="font-monospace text-muted">Rp <?= number_format($pundi3_malam, 0, ',', '.'); ?></td>
@@ -118,7 +128,7 @@ for ($d = 1; $d <= $jumlah_hari; $d++) {
                                 <td class="font-monospace text-dark">Rp <?= number_format($total_subuh, 0, ',', '.'); ?></td>
                                 <td class="font-monospace text-dark">Rp <?= number_format($total_pagi, 0, ',', '.'); ?></td>
                                 <td class="font-monospace text-dark">Rp <?= number_format($total_malam, 0, ',', '.'); ?></td>
-                                <td class="text-end pe-3 font-monospace text-purple-premium" style="font-size: 0.95rem;">
+                                <td class="text-end pe-3 font-monospace text-purple-premium" style="font-size: 0.95rem; color: #6f42c1 !important;">
                                     Rp <?= number_format($grand_pekan, 0, ',', '.'); ?>
                                 </td>
                             </tr>
@@ -144,9 +154,9 @@ document.addEventListener("DOMContentLoaded", function() {
     if (filterBulanMinggu) {
         filterBulanMinggu.addEventListener("change", function() {
             const url = new URL(window.location);
-            url.searchParams.set("subtab", "minggu"); // Tetap stay di subtab minggu publik
-            url.searchParams.set("bulan", this.value); // Set nilai bulan baru
-            url.searchParams.delete("tab");           // Bersihkan sisa instruksi admin router
+            url.searchParams.set("subtab", "minggu"); 
+            url.searchParams.set("bulan", this.value); 
+            url.searchParams.delete("tab");           
             window.location.search = url.search;
         });
     }
