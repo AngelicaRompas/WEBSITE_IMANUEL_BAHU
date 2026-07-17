@@ -1,3 +1,4 @@
+<!-- SIDEBAR DESKTOP -->
 <div class="d-none d-lg-block sidebar p-4 shadow-sm admin-sidebar">
 
     <div class="text-center mb-4 pb-3 border-bottom border-light border-opacity-25">
@@ -12,11 +13,11 @@
         </small>
     </div>
 
-    <div class="nav flex-column nav-pills">
+    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
         <button class="nav-link nav-link-admin active text-start py-3"
                 data-bs-toggle="pill"
-                data-bs-target="#beranda-admin"
-                type="button">
+                data-bs-target="#admin-beranda"
+                type="button" role="tab">
             <i class="bi bi-house-door-fill me-2"></i>
             Beranda
         </button>
@@ -31,45 +32,45 @@
         </button>
 
         <div class="collapse ps-3 mb-2" id="menu-profil">
-            <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#edit-data-jemaat" type="button">
+            <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#admin-datajemaat" type="button" role="tab">
                 <i class="bi bi-people-fill me-2"></i> Edit Data Jemaat
             </button>
-            <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#edit-profil" type="button">
+            <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#admin-profil" type="button" role="tab">
                 <i class="bi bi-person-gear me-2"></i> Edit Sejarah
             </button>
-            <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#edit-struktur" type="button">
+            <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#admin-struktur" type="button" role="tab">
                 <i class="bi bi-diagram-3-fill me-2"></i> Edit Struktur
             </button>
         </div>
 
         <button class="nav-link nav-link-admin text-start py-3"
                 data-bs-toggle="pill"
-                data-bs-target="#edit-warta"
-                type="button">
+                data-bs-target="#admin-warta"
+                type="button" role="tab">
             <i class="bi bi-file-earmark-text-fill me-2"></i>
             Edit Warta Jemaat
         </button>
 
         <button class="nav-link nav-link-admin text-start py-3"
                 data-bs-toggle="pill"
-                data-bs-target="#edit-event"
-                type="button">
+                data-bs-target="#admin-event"
+                type="button" role="tab">
             <i class="bi bi-calendar-event me-2"></i>
             Edit Event
         </button>
 
         <button class="nav-link nav-link-admin text-start py-3"
                 data-bs-toggle="pill"
-                data-bs-target="#edit-keuangan"
-                type="button">
+                data-bs-target="#admin-keuangan"
+                type="button" role="tab">
             <i class="bi bi-cash-coin me-2"></i>
             Edit Keuangan
         </button>
 
         <button class="nav-link nav-link-admin text-start py-3"
                 data-bs-toggle="pill"
-                data-bs-target="#edit-renungan"
-                type="button">
+                data-bs-target="#admin-renungan"
+                type="button" role="tab">
             <i class="bi bi-journal-bookmark-fill me-2"></i>
             Edit Renungan
         </button>
@@ -85,6 +86,7 @@
 
 </div>
 
+<!-- SIDEBAR MOBILE (OFFCANVAS) -->
 <div class="offcanvas offcanvas-start admin-offcanvas d-lg-none" tabindex="-1" id="mobileSidebar">
     <div class="offcanvas-header border-bottom border-light border-opacity-25">
         <h5 class="offcanvas-title text-white fw-bold mb-0">
@@ -94,8 +96,8 @@
     </div>
     
     <div class="offcanvas-body p-4">
-        <div class="nav flex-column nav-pills">
-            <button class="nav-link nav-link-admin active text-start py-3" data-bs-toggle="pill" data-bs-target="#beranda-admin" data-bs-dismiss="offcanvas" type="button">
+        <div class="nav flex-column nav-pills" id="v-pills-tab-mobile" role="tablist" aria-orientation="vertical">
+            <button class="nav-link nav-link-admin active text-start py-3" data-bs-toggle="pill" data-bs-target="#admin-beranda" data-bs-dismiss="offcanvas" type="button" role="tab">
                 <i class="bi bi-house-door-fill me-2"></i> Beranda
             </button>
 
@@ -106,28 +108,28 @@
             </button>
 
             <div class="collapse ps-3 mb-2" id="menu-edit-profil-mobile">
-                <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#edit-data-jemaat" data-bs-dismiss="offcanvas" type="button">
+                <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#admin-datajemaat" data-bs-dismiss="offcanvas" type="button" role="tab">
                     <i class="bi bi-people-fill me-2"></i> Edit Data Jemaat
                 </button>
-                <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#edit-profil" data-bs-dismiss="offcanvas" type="button">
+                <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#admin-profil" data-bs-dismiss="offcanvas" type="button" role="tab">
                     <i class="bi bi-person-gear me-2"></i> Edit Sejarah
                 </button>
-                <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#edit-struktur" data-bs-dismiss="offcanvas" type="button">
+                <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#admin-struktur" data-bs-dismiss="offcanvas" type="button" role="tab">
                     <i class="bi bi-diagram-3-fill me-2"></i> Edit Struktur
                 </button>
             </div>
 
-            <button class="nav-link nav-link-admin text-start py-3" data-bs-toggle="pill" data-bs-target="#edit-warta" data-bs-dismiss="offcanvas" type="button">
+            <button class="nav-link nav-link-admin text-start py-3" data-bs-toggle="pill" data-bs-target="#admin-warta" data-bs-dismiss="offcanvas" type="button" role="tab">
                 <i class="bi bi-file-earmark-text-fill me-2"></i> Edit Warta Jemaat
             </button>
-            <button class="nav-link nav-link-admin text-start py-3" data-bs-toggle="pill" data-bs-target="#edit-event" data-bs-dismiss="offcanvas" type="button">
+            <button class="nav-link nav-link-admin text-start py-3" data-bs-toggle="pill" data-bs-target="#admin-event" data-bs-dismiss="offcanvas" type="button" role="tab">
                 <i class="bi bi-calendar-event me-2"></i> Edit Event
             </button>
-            <button class="nav-link nav-link-admin text-start py-3" data-bs-toggle="pill" data-bs-target="#edit-keuangan" data-bs-dismiss="offcanvas" type="button">
-                <i class="bi bi-cash-coin me-2"></i> Edit Warta Keuangan
+            <button class="nav-link nav-link-admin text-start py-3" data-bs-toggle="pill" data-bs-target="#admin-keuangan" data-bs-dismiss="offcanvas" type="button" role="tab">
+                <i class="bi bi-cash-coin me-2"></i> Edit Keuangan
             </button>
-            <button class="nav-link nav-link-admin text-start py-3" data-bs-toggle="pill" data-bs-target="#edit-renungan" data-bs-dismiss="offcanvas" type="button">
-                <i class="bi bi-journal-bookmark-fill me-2"></i> Edit Renungan Harian
+            <button class="nav-link nav-link-admin text-start py-3" data-bs-toggle="pill" data-bs-target="#admin-renungan" data-bs-dismiss="offcanvas" type="button" role="tab">
+                <i class="bi bi-journal-bookmark-fill me-2"></i> Edit Renungan
             </button>
         </div>
         
