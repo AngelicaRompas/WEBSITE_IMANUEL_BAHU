@@ -35,15 +35,11 @@ if (array_key_exists($pesan, $alerts)):
     </div>
 
     <script>
-    // Alert TIDAK akan hilang otomatis oleh timer, 
-    // tapi akan hilang saat user klik menu navigasi di sidebar
     document.querySelectorAll('.nav-link-admin').forEach(link => {
         link.addEventListener('click', function() {
             const alertEl = document.getElementById('dynamic-alert');
             if (alertEl) {
-                // Hapus alert dari tampilan
                 alertEl.style.display = 'none';
-                // Bersihkan URL agar saat di-refresh alert tidak muncul lagi
                 const url = new URL(window.location);
                 url.searchParams.delete('pesan');
                 window.history.replaceState({}, document.title, url.toString());

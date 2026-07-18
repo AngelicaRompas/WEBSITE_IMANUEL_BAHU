@@ -148,7 +148,7 @@ $kolomBerikutnya = (
                 </div>
 
                 <div class="tab-pane fade" id="admin-struktur" role="tabpanel">
-                    <?php include 'sections/admin_Struktur.php'; ?>
+                    <?php include 'sections/admin_struktur.php'; ?>
                 </div>
 
                 <div class="tab-pane fade" id="admin-warta" role="tabpanel">
