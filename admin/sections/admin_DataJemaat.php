@@ -1,4 +1,5 @@
 <?php
+// admin_DataJemaat.php
 ?>
 
 <link rel="stylesheet" href="assets/css/style-admin-konten.css?v=<?php echo time(); ?>">
@@ -8,6 +9,7 @@
 </h4>
 
 <form action="proses/proses_datajemaat.php" method="POST">
+    <!-- BLOK 1: STATISTIK UTAMA JEMAAT -->
     <div class="card card-custom p-4 mb-4 shadow-sm bg-white border-0">
         <h5 class="fw-bold mb-3 text-dark d-flex align-items-center" style="font-size: 1.1rem;">
             <i class="bi bi-grid-3x3-gap-fill me-2 text-purple-premium"></i>Statistik Utama Jemaat
@@ -28,6 +30,7 @@
         </div>
     </div>
 
+    <!-- BLOK 2: DATA DETAIL GRAFIK KUANTITATIF -->
     <div class="card card-custom p-4 shadow-sm bg-white border-0">
         <h5 class="fw-bold mb-1 text-dark d-flex align-items-center" style="font-size: 1.1rem;">
             <i class="bi bi-pie-chart-fill me-2 text-success"></i>Komposisi Elemen Grafik Kuantitatif
@@ -35,6 +38,7 @@
         <p class="text-muted small mb-4">*Cukup ketik jumlah jiwa riil saat ini. Nilai presentase (%) halaman pengunjung akan dikalkulasi otomatis oleh server.</p>
         
         <div class="row g-3">
+            <!-- RASIO JENIS KELAMIN -->
             <div class="col-xl-3 col-md-6 border-end-custom">
                 <h6 class="text-purple-premium border-bottom pb-2 fw-bold small"><i class="bi bi-gender-ambiguous me-1"></i>Rasio Jenis Kelamin</h6>
                 <div class="mb-2">
@@ -47,6 +51,7 @@
                 </div>
             </div>
 
+            <!-- SAKRAMEN BAPTIS -->
             <div class="col-xl-3 col-md-6 border-end-custom">
                 <h6 class="text-success border-bottom pb-2 fw-bold small"><i class="bi bi-water me-1"></i>Sakramen Baptis</h6>
                 <div class="mb-2">
@@ -59,6 +64,7 @@
                 </div>
             </div>
 
+            <!-- PENEGUHAN SIDI -->
             <div class="col-xl-3 col-md-6 border-end-custom">
                 <h6 class="text-info border-bottom pb-2 fw-bold small"><i class="bi bi-patch-check-fill me-1"></i>Peneguhan Sidi</h6>
                 <div class="mb-2">
@@ -71,6 +77,7 @@
                 </div>
             </div>
 
+            <!-- BIPRA & LANSIA -->
             <div class="col-xl-3 col-md-6">
                 <h6 class="text-warning border-bottom pb-2 fw-bold small"><i class="bi bi-diagram-3-fill me-1"></i>BIPRA & Lansia</h6>
                 <div class="row g-2">
@@ -91,194 +98,4 @@
             </button>
         </div>
     </div>
-</form> <div class="card card-custom p-4 mt-4 shadow-sm bg-white border-0">
-    <h6 class="fw-bold mb-3 text-purple-premium" style="font-size: 1rem;"><i class="bi bi-tags-fill me-2"></i>Manajemen Kategori Komisi</h6>
-
-    <form action="proses/proses_datajemaat.php" method="POST" class="row g-3 mb-4">
-        <div class="col-md-9">
-            <input type="text" name="nama_kategori" class="form-control form-control-custom" placeholder="Nama Kategori Baru" required>
-        </div>
-        <div class="col-md-3">
-            <button type="submit" name="tambah_kategori" class="btn btn-purple-admin w-100 fw-bold">
-                <i class="bi bi-plus-lg me-1"></i> Tambah Kategori
-            </button>
-        </div>
-    </form>
-
-    <div class="table-responsive">
-        <table class="table table-hover align-middle table-custom-jemaat mb-0 bg-white">
-            <thead class="table-light">
-                <tr class="text-nowrap">
-                    <th>Nama Kategori Komisi</th>
-                    <th width="120" class="text-center">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $kat = mysqli_query($koneksi, "SELECT * FROM kategori_komisi ORDER BY nama_kategori ASC");
-                if (mysqli_num_rows($kat) > 0):
-                    while($r = mysqli_fetch_assoc($kat)):
-                ?>
-                <tr>
-                    <td class="fw-bold text-dark"><?php echo htmlspecialchars($r['nama_kategori']); ?></td>
-                    <td class="text-center text-nowrap">
-                        <button class="btn btn-sm btn-warning text-white rounded-3 px-2.5 me-1" data-bs-toggle="modal" data-bs-target="#editKategori<?php echo $r['id']; ?>"><i class="bi bi-pencil-square"></i></button>
-                        <a href="proses/proses_datajemaat.php?hapus_kategori=1&id=<?php echo $r['id']; ?>" class="btn btn-danger btn-sm rounded-3 px-2.5" onclick="return confirm('Hapus kategori ini?')"><i class="bi bi-trash"></i></a>
-                    </td>
-                </tr>
-                <?php 
-                    endwhile; 
-                else:
-                ?>
-                <tr><td colspan="2" class="text-center text-muted py-3">Belum ada kategori komisi.</td></tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-
-<div class="card card-custom p-4 mt-4 shadow-sm bg-white border-0">
-    <h6 class="fw-bold mb-3 text-purple-premium" style="font-size: 1rem;"><i class="bi bi-person-plus-fill me-2"></i>Tambah Anggota Komisi Baru</h6>
-
-    <form action="proses/proses_datajemaat.php" method="POST">
-        <div class="row g-3">
-            <div class="col-md-3">
-                <input type="text" name="nama" class="form-control form-control-custom" placeholder="Nama Lengkap" required>
-            </div>
-            <div class="col-md-3">
-                <input type="text" name="jabatan" class="form-control form-control-custom" placeholder="Jabatan" required>
-            </div>
-            <div class="col-md-3">
-                <select name="kategori" class="form-select form-select-custom" required>
-                    <option value="">Pilih Kategori</option>
-                    <?php
-                    $katSelect = mysqli_query($koneksi, "SELECT * FROM kategori_komisi ORDER BY nama_kategori ASC");
-                    while($r = mysqli_fetch_assoc($katSelect)):
-                    ?>
-                        <option value="<?php echo htmlspecialchars($r['nama_kategori']); ?>"><?php echo htmlspecialchars($r['nama_kategori']); ?></option>
-                    <?php endwhile; ?>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <button type="submit" name="tambah_anggota_komisi" class="btn btn-success text-white w-100 fw-bold py-2.5 rounded-3 shadow-sm">
-                    <i class="bi bi-plus-circle me-1"></i> Simpan Anggota
-                </button>
-            </div>
-        </div>
-    </form>
-</div>
-
-
-<div class="card card-custom p-4 mt-4 shadow-sm bg-white border-0">
-    <h6 class="fw-bold mb-3 text-purple-premium" style="font-size: 1rem;"><i class="bi bi-card-list me-2"></i>Daftar Anggota Komisi</h6>
-
-    <div class="table-responsive">
-        <table class="table table-hover align-middle table-custom-jemaat mb-0 bg-white">
-            <thead class="table-light">
-                <tr class="text-nowrap">
-                    <th>Nama</th>
-                    <th>Jabatan</th>
-                    <th>Kategori</th>
-                    <th width="120" class="text-center">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $anggota = mysqli_query($koneksi, "SELECT so.* FROM struktur_organisasi so INNER JOIN kategori_komisi kk ON so.kategori = kk.nama_kategori ORDER BY so.kategori, so.id");
-                if (mysqli_num_rows($anggota) > 0):
-                    while($a = mysqli_fetch_assoc($anggota)):
-                ?>
-                <tr>
-                    <td class="fw-bold text-dark text-nowrap"><?php echo htmlspecialchars($a['nama']); ?></td>
-                    <td class="text-secondary"><?php echo htmlspecialchars($a['jabatan']); ?></td>
-                    <td><span class="badge badge-purple-soft py-1.5 px-3 rounded-pill"><?php echo htmlspecialchars($a['kategori']); ?></span></td>
-                    <td class="text-center text-nowrap">
-                        <button class="btn btn-warning btn-sm text-white rounded-3 px-2.5 me-1" data-bs-toggle="modal" data-bs-target="#editAnggota<?php echo $a['id']; ?>"><i class="bi bi-pencil-square"></i></button>
-                        <a href="proses/proses_datajemaat.php?hapus_komisi=1&id=<?php echo $a['id']; ?>" class="btn btn-danger btn-sm rounded-3 px-2.5" onclick="return confirm('Hapus anggota komisi ini?')"><i class="bi bi-trash"></i></a>
-                    </td>
-                </tr>
-                <?php 
-                    endwhile; 
-                else:
-                ?>
-                <tr><td colspan="4" class="text-center text-muted py-3">Belum ada data anggota komisi.</td></tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-
-<?php
-$kat_modal = mysqli_query($koneksi, "SELECT * FROM kategori_komisi");
-while($r = mysqli_fetch_assoc($kat_modal)):
-?>
-<div class="modal fade" id="editKategori<?php echo $r['id']; ?>" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content card bg-white border-0 p-3 shadow" style="border-radius: 20px;">
-            <form action="proses/proses_datajemaat.php" method="POST">
-                <div class="modal-header border-0 pt-3 px-3">
-                    <h5 class="modal-title fw-bold text-dark"><i class="bi bi-pencil-square me-2 text-warning"></i>Edit Kategori</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body px-3">
-                    <input type="hidden" name="id" value="<?php echo $r['id']; ?>">
-                    <input type="hidden" name="nama_lama" value="<?php echo htmlspecialchars($r['nama_kategori']); ?>">
-                    <label class="form-label small fw-bold text-secondary mb-1">Nama Kategori</label>
-                    <input type="text" name="nama_kategori" class="form-control form-control-custom" value="<?php echo htmlspecialchars($r['nama_kategori']); ?>" required>
-                </div>
-                <div class="modal-footer border-0 bg-light rounded-4 px-3 py-2 mt-3 d-flex justify-content-end gap-2">
-                    <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" name="edit_kategori" class="btn btn-sm btn-warning text-white rounded-pill px-4 fw-bold shadow-sm">Update</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<?php endwhile; ?>
-
-
-<?php
-$anggota_modal = mysqli_query($koneksi, "SELECT * FROM struktur_organisasi");
-while($a = mysqli_fetch_assoc($anggota_modal)):
-?>
-<div class="modal fade" id="editAnggota<?php echo $a['id']; ?>" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content card bg-white border-0 p-3 shadow" style="border-radius: 20px;">
-            <form action="proses/proses_datajemaat.php" method="POST">
-                <div class="modal-header border-0 pt-3 px-3">
-                    <h5 class="modal-title fw-bold text-dark"><i class="bi bi-pencil-square me-2 text-warning"></i>Edit Anggota Komisi</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body px-3">
-                    <input type="hidden" name="id" value="<?php echo $a['id']; ?>">
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold text-secondary mb-1">Nama</label>
-                        <input type="text" name="nama" class="form-control form-control-custom" value="<?php echo htmlspecialchars($a['nama']); ?>" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold text-secondary mb-1">Jabatan</label>
-                        <input type="text" name="jabatan" class="form-control form-control-custom" value="<?php echo htmlspecialchars($a['jabatan']); ?>" required>
-                    </div>
-                    <div class="mb-2">
-                        <label class="form-label small fw-bold text-secondary mb-1">Kategori</label>
-                        <select name="kategori" class="form-select form-select-custom" required>
-                            <?php
-                            $kategoriEdit = mysqli_query($koneksi, "SELECT * FROM kategori_komisi ORDER BY nama_kategori ASC");
-                            while($k = mysqli_fetch_assoc($kategoriEdit)):
-                            ?>
-                                <option value="<?php echo htmlspecialchars($k['nama_kategori']); ?>" <?php echo ($a['kategori'] == $k['nama_kategori']) ? 'selected' : ''; ?>><?php echo htmlspecialchars($k['nama_kategori']); ?></option>
-                            <?php endwhile; ?>
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer border-0 bg-light rounded-4 px-3 py-2 mt-3 d-flex justify-content-end gap-2">
-                    <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" name="edit_anggota_komisi" class="btn btn-sm btn-warning text-white rounded-pill px-4 fw-bold shadow-sm">Update</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<?php endwhile; ?>
+</form>

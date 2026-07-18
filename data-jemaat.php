@@ -452,26 +452,45 @@ list($labelsBipra, $dataBipra) = getDataChart('bipra', $dataPerKategori, $totalA
     <div class="row g-4">
 
         <?php
-        $getKategori = mysqli_query(
-            $koneksi,
-            "SELECT * FROM kategori_komisi ORDER BY nama_kategori ASC"
-        );
-
-        while($kat = mysqli_fetch_assoc($getKategori)):
-            $namaKategori = $kat['nama_kategori'];
+        // 1. Definisikan array urutan kategori yang Anda inginkan
+        $urutan_kategori = [
+            "Penasihat BPMJ",
+            "Komisi Pengawas Perbendaharaan",
+            "Komisi Pelayanan Pria Kaum Bapa",
+            "Komisi Pelayanan Wanita Kaum Ibu",
+            "Komisi Pelayanan Pemuda",
+            "Komisi Pelayanan Remaja",
+            "Komisi Pelayanan Anak",
+            "Komisi Kategorial Lansia",
+            "Komisi Liturgi & Kesenian Kerja (Musik)",
+            "Komisi Liturgi & Kesenian Kerja (Paduan Suara)",
+            "Komisi Liturgi & Kesenian Kerja (Liturgi & Kantoria)",
+            "Komisi Liturgi & Kesenian Kerja (Rebana, Banners & Tarian Kreatif)",
+            "Komisi Pendidikan",
+            "Komisi Pengembalaan",
+            "Komisi Pelayanan Doa & Pekabaran Injil",
+            "Komisi Kesehatan",
+            "Komisi Pembangunan",
+            "Komisi Rumah Tangga & Kerja Bakti",
+            "Komisi Pemberdayaan Sumber Daya"
+        ];
+        
+        // 2. Loop melalui array tersebut, bukan dari tabel kategori_komisi
+        foreach($urutan_kategori as $namaKategori):
         ?>
-
-        <div class="col-md-4">
+        
+        <div class="col-md-4 mb-4">
             <div class="card stat-card p-4 h-100 shadow-sm border-0"
                  style="background: rgba(255,255,255,0.9);">
-
+        
                 <h5 class="fw-bold text-primary mb-4 text-center border-bottom pb-2">
                     <?php echo htmlspecialchars($namaKategori); ?>
                 </h5>
-
+        
                 <div class="d-flex flex-column gap-2">
-
+        
                     <?php
+                    // Query tetap mengambil data berdasarkan nama kategori yang sedang di-loop
                     $q = mysqli_query(
                         $koneksi,
                         "SELECT * 
@@ -479,11 +498,11 @@ list($labelsBipra, $dataBipra) = getDataChart('bipra', $dataPerKategori, $totalA
                          WHERE kategori='$namaKategori'
                          ORDER BY id ASC"
                     );
-
+        
                     if(mysqli_num_rows($q) > 0):
                         while($r = mysqli_fetch_assoc($q)):
                     ?>
-
+        
                     <div class="p-2 border-bottom border-light">
                         <span class="fw-bold d-block">
                             <?php echo htmlspecialchars($r['nama']); ?>
@@ -492,23 +511,23 @@ list($labelsBipra, $dataBipra) = getDataChart('bipra', $dataPerKategori, $totalA
                             <?php echo htmlspecialchars($r['jabatan']); ?>
                         </span>
                     </div>
-
+        
                     <?php
                         endwhile;
                     else:
                     ?>
-
+        
                     <p class="text-muted text-center small">
                         Data belum tersedia.
                     </p>
-
+        
                     <?php endif; ?>
-
+        
                 </div>
             </div>
         </div>
-
-        <?php endwhile; ?>
+        
+        <?php endforeach; ?>
 
     </div>
 </div>
