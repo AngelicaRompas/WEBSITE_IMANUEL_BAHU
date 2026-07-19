@@ -9,7 +9,7 @@ if (!isset($kolomBerikutnya)) {
 
 <div id="ajaxAlertContainer" class="mb-4 d-none">
     <div id="dynamic-alert-ajax" class="alert alert-dismissible fade show shadow border-0 py-3" 
-         style="background: #eef2ff; color: #4338ca; border-left: 5px solid #4338ca !important; transition: opacity 0.15s linear;">
+         style="background: #eef2ff; color: #4338ca; border-left: 5px solid #4338ca !important; transition: opacity 0.5s ease;">
         <i id="alertIconAjax" class="bi bi-stars me-2"></i> 
         <strong>Pemberitahuan:</strong> <span id="alertMessageAjax"></span>
         <button type="button" class="btn-close" onclick="closeAjaxAlert()"></button>
@@ -21,6 +21,7 @@ if (!isset($kolomBerikutnya)) {
 </h4>
 
 <div class="row g-4">
+    <!-- EDIT BPMJ -->
     <div class="col-lg-6">
         <div class="card card-custom p-4 shadow-sm h-100 border-0 bg-white">
             <h5 class="fw-bold mb-4 text-dark border-bottom pb-3 d-flex align-items-center" style="font-size: 1.1rem;">
@@ -55,6 +56,7 @@ if (!isset($kolomBerikutnya)) {
         </div>
     </div>
 
+    <!-- EDIT PELSUS -->
     <div class="col-lg-6">
         <div class="card card-custom p-4 shadow-sm h-100 border-0 bg-white">
             <h5 class="fw-bold mb-4 text-dark border-bottom pb-3 d-flex align-items-center" style="font-size: 1.1rem;">
@@ -101,7 +103,10 @@ if (!isset($kolomBerikutnya)) {
             <form class="ajax-form-struktur">
                 <input type="hidden" name="jenis_update" value="tambah_bpmj">
                 <input type="text" name="jabatan_baru" class="form-control mb-3" placeholder="Contoh: Anggota BPMJ" required>
-                <button type="submit" name="simpan_tambah_bpmj" class="btn btn-outline-purple-admin w-100">Daftarkan Jabatan</button>
+                <button type="submit" name="simpan_tambah_bpmj" class="btn btn-outline-purple-admin w-100 d-flex align-items-center justify-content-center">
+                    <span class="spinner-border spinner-border-sm me-2 d-none btn-spinner" role="status"></span>
+                    <span class="btn-text">Daftarkan Jabatan</span>
+                </button>
             </form>
         </div>
     </div>
@@ -115,43 +120,54 @@ if (!isset($kolomBerikutnya)) {
                     <div class="col-6"><input type="text" name="nama_penatua_awal" class="form-control" placeholder="Nama Pnt" required></div>
                     <div class="col-6"><input type="text" name="nama_diaken_awal" class="form-control" placeholder="Nama Dkn" required></div>
                 </div>
-                <button type="submit" name="simpan_tambah_kolom" class="btn btn-outline-success w-100">Resmikan Kolom <?php echo $kolomBerikutnya; ?></button>
+                <button type="submit" name="simpan_tambah_kolom" class="btn btn-outline-success w-100 d-flex align-items-center justify-content-center">
+                    <span class="spinner-border spinner-border-sm me-2 d-none btn-spinner" role="status"></span>
+                    <span class="btn-text">Resmikan Kolom <?php echo $kolomBerikutnya; ?></span>
+                </button>
             </form>
         </div>
     </div>
 </div>
 
-<!-- FORM KOMISI (ACTION SUDAH DIPERBAIKI KE PROSES_STRUKTUR.PHP) -->
+<!-- FORM TAMBAH KOMISI -->
 <div class="card card-custom p-4 mt-4 shadow-sm bg-white border-0">
     <h6 class="fw-bold mb-3 text-purple-premium"><i class="bi bi-person-plus-fill me-2"></i>Tambah Anggota Komisi Baru</h6>
-    <form action="proses/proses_struktur.php" method="POST">
-    <div class="row g-3">
-        <div class="col-md-3"><input type="text" name="nama" class="form-control" placeholder="Nama Lengkap" required></div>
-        <div class="col-md-3"><input type="text" name="jabatan" class="form-control" placeholder="Jabatan" required></div>
-        <div class="col-md-3">
-            <select name="kategori" class="form-select" required>
-                <?php 
-                $kategori_list = ["Penasihat BPMJ", "Komisi Pengawas Perbendaharaan", "Komisi Pelayanan Pria Kaum Bapa", "Komisi Pelayanan Wanita Kaum Ibu", "Komisi Pelayanan Pemuda", "Komisi Pelayanan Remaja", "Komisi Pelayanan Anak", "Komisi Kategorial Lansia", "Komisi Liturgi & Kesenian Kerja (Musik)", "Komisi Liturgi & Kesenian Kerja (Paduan Suara)", "Komisi Liturgi & Kesenian Kerja (Liturgi & Kantoria)", "Komisi Liturgi & Kesenian Kerja (Rebana, Banners & Tarian Kreatif)", "Komisi Pendidikan", "Komisi Pengembalaan", "Komisi Pelayanan Doa & Pekabaran Injil", "Komisi Kesehatan", "Komisi Pembangunan", "Komisi Rumah Tangga & Kerja Bakti", "Komisi Pemberdayaan Sumber Daya"];
-                foreach($kategori_list as $kat): echo "<option value='$kat'>$kat</option>"; endforeach; 
-                ?>
-            </select>
+    <form class="ajax-form-struktur">
+        <input type="hidden" name="tambah_anggota_komisi" value="1">
+        <div class="row g-3">
+            <div class="col-md-3"><input type="text" name="nama" class="form-control" placeholder="Nama Lengkap" required></div>
+            <div class="col-md-3"><input type="text" name="jabatan" class="form-control" placeholder="Jabatan" required></div>
+            <div class="col-md-3">
+                <select name="kategori" class="form-select" required>
+                    <?php 
+                    $kategori_list = ["Penasihat BPMJ", "Komisi Pengawas Perbendaharaan", "Komisi Pelayanan Pria Kaum Bapa", "Komisi Pelayanan Wanita Kaum Ibu", "Komisi Pelayanan Pemuda", "Komisi Pelayanan Remaja", "Komisi Pelayanan Anak", "Komisi Kategorial Lansia", "Komisi Liturgi & Kesenian Kerja (Musik)", "Komisi Liturgi & Kesenian Kerja (Paduan Suara)", "Komisi Liturgi & Kesenian Kerja (Liturgi & Kantoria)", "Komisi Liturgi & Kesenian Kerja (Rebana, Banners & Tarian Kreatif)", "Komisi Pendidikan", "Komisi Pengembalaan", "Komisi Pelayanan Doa & Pekabaran Injil", "Komisi Kesehatan", "Komisi Pembangunan", "Komisi Rumah Tangga & Kerja Bakti", "Komisi Pemberdayaan Sumber Daya"];
+                    foreach($kategori_list as $kat): echo "<option value='$kat'>$kat</option>"; endforeach; 
+                    ?>
+                </select>
+            </div>
+            <div class="col-md-3"><button type="submit" class="btn btn-success w-100">Simpan Anggota</button></div>
         </div>
-        <div class="col-md-3"><button type="submit" name="tambah_anggota_komisi" class="btn btn-success w-100">Simpan Anggota</button></div>
-    </div>
-</form>
+    </form>
 </div>
 
+<!-- DAFTAR KOMISI -->
 <div class="card card-custom p-4 mt-4 shadow-sm bg-white border-0">
-    <h6 class="fw-bold mb-3 text-purple-premium"><i class="bi bi-card-list me-2"></i>Daftar Anggota Komisi</h6>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h6 class="fw-bold text-purple-premium mb-0"><i class="bi bi-card-list me-2"></i>Daftar Anggota Komisi</h6>
+        <select id="filterKomisi" class="form-select form-select-sm w-auto" onchange="filterTable()">
+            <option value="all">Semua Komisi</option>
+            <?php foreach($kategori_list as $kat): echo "<option value='$kat'>$kat</option>"; endforeach; ?>
+        </select>
+    </div>
     <div class="table-responsive">
-        <table class="table table-hover">
+        <table class="table table-hover" id="tabelKomisi">
             <thead><tr><th>Nama</th><th>Jabatan</th><th>Kategori</th><th class="text-center">Aksi</th></tr></thead>
             <tbody>
                 <?php
                 $anggota = mysqli_query($koneksi, "SELECT * FROM struktur_organisasi WHERE kategori NOT IN ('bpmj','pelsus') ORDER BY kategori");
                 while($a = mysqli_fetch_assoc($anggota)):
                 ?>
-                <tr>
+                <tr class="komisi-row" data-kategori="<?php echo htmlspecialchars($a['kategori']); ?>">
                     <td><?php echo htmlspecialchars($a['nama']); ?></td>
                     <td><?php echo htmlspecialchars($a['jabatan']); ?></td>
                     <td><?php echo htmlspecialchars($a['kategori']); ?></td>
@@ -166,7 +182,6 @@ if (!isset($kolomBerikutnya)) {
     </div>
 </div>
 
-<!-- MODAL EDIT (ACTION DIARAHKAN KE PROSES_STRUKTUR.PHP) -->
 <?php
 $anggota_modal = mysqli_query($koneksi, "SELECT * FROM struktur_organisasi WHERE kategori NOT IN ('bpmj','pelsus')");
 while($a = mysqli_fetch_assoc($anggota_modal)):
@@ -174,7 +189,8 @@ while($a = mysqli_fetch_assoc($anggota_modal)):
 <div class="modal fade" id="editAnggota<?php echo $a['id']; ?>" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content card bg-white border-0 p-3 shadow" style="border-radius: 20px;">
-            <form action="proses/proses_struktur.php" method="POST">
+            <form class="ajax-form-struktur">
+                <input type="hidden" name="edit_anggota_komisi" value="1">
                 <input type="hidden" name="id" value="<?php echo $a['id']; ?>">
                 <div class="modal-header border-0"><h5 class="modal-title fw-bold">Edit Anggota</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
                 <div class="modal-body">
@@ -182,14 +198,13 @@ while($a = mysqli_fetch_assoc($anggota_modal)):
                     <div class="mb-3"><label>Jabatan</label><input type="text" name="jabatan" class="form-control" value="<?php echo htmlspecialchars($a['jabatan']); ?>" required></div>
                     <div class="mb-3"><label>Kategori</label>
                         <select name="kategori" class="form-select" required>
-                            <?php 
-                            foreach($kategori_list as $kat): ?>
+                            <?php foreach($kategori_list as $kat): ?>
                                 <option value="<?php echo $kat; ?>" <?php echo ($a['kategori'] == $kat) ? 'selected' : ''; ?>><?php echo $kat; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                 </div>
-                <div class="modal-footer"><button type="submit" name="edit_anggota_komisi" class="btn btn-warning w-100">Update Data</button></div>
+                <div class="modal-footer"><button type="submit" class="btn btn-warning w-100">Update Data</button></div>
             </form>
         </div>
     </div>
@@ -197,20 +212,32 @@ while($a = mysqli_fetch_assoc($anggota_modal)):
 <?php endwhile; ?>
 
 <script>
+function filterTable() {
+    const filter = document.getElementById("filterKomisi").value;
+    document.querySelectorAll(".komisi-row").forEach(row => {
+        row.style.display = (filter === "all" || row.getAttribute("data-kategori") === filter) ? "" : "none";
+    });
+}
 document.querySelectorAll('.ajax-form-struktur').forEach(function(form) {
     form.addEventListener('submit', function(e) {
         e.preventDefault(); 
-        const currentForm = e.target;
-        const formData = new FormData(currentForm);
-        const submitBtn = currentForm.querySelector('button[type="submit"]');
-        formData.append(submitBtn.getAttribute('name'), "1"); 
-
-        fetch('proses/proses_struktur.php', { method: 'POST', body: formData })
-        .then(response => response.json())
+        const btn = form.querySelector('button[type="submit"]');
+        const spinner = btn.querySelector('.btn-spinner');
+        const icon = btn.querySelector('.btn-icon');
+        if(spinner) spinner.classList.remove('d-none');
+        if(icon) icon.classList.add('d-none');
+        btn.disabled = true;
+        fetch('proses/proses_struktur.php', { method: 'POST', body: new FormData(form) })
+        .then(res => res.json())
         .then(data => {
+            const alert = document.getElementById('ajaxAlertContainer');
             document.getElementById('alertMessageAjax').innerText = data.message;
-            document.getElementById('ajaxAlertContainer').classList.remove('d-none');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            alert.classList.remove('d-none');
+            alert.style.opacity = 0;
+            setTimeout(() => alert.style.opacity = 1, 100);
+            if(spinner) spinner.classList.add('d-none');
+            if(icon) icon.classList.remove('d-none');
+            btn.disabled = false;
         });
     });
 });
