@@ -35,7 +35,7 @@
             <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#admin-datajemaat" type="button" role="tab">
                 <i class="bi bi-people-fill me-2"></i> Edit Data Jemaat
             </button>
-            <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#admin-profil" type="button" role="tab">
+            <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#admin-sejarah" type="button" role="tab">
                 <i class="bi bi-person-gear me-2"></i> Edit Sejarah
             </button>
             <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#admin-struktur" type="button" role="tab">
@@ -111,7 +111,7 @@
                 <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#admin-datajemaat" data-bs-dismiss="offcanvas" type="button" role="tab">
                     <i class="bi bi-people-fill me-2"></i> Edit Data Jemaat
                 </button>
-                <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#admin-profil" data-bs-dismiss="offcanvas" type="button" role="tab">
+                <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#admin-sejarah" data-bs-dismiss="offcanvas" type="button" role="tab">
                     <i class="bi bi-person-gear me-2"></i> Edit Sejarah
                 </button>
                 <button class="nav-link nav-link-admin text-start py-2" data-bs-toggle="pill" data-bs-target="#admin-struktur" data-bs-dismiss="offcanvas" type="button" role="tab">
