@@ -50,41 +50,42 @@ include 'navbar.php';
 </section>
 
 <section class="py-5">
-    <div class="container-fluid px-5">
+    <!-- px-2 pada mobile memberikan ruang lebih lebar agar kartu bisa melebar -->
+    <div class="container-fluid px-2 px-md-5">
         <h2 class="fw-bold mb-5 text-dark text-center" data-aos="fade-up">Struktur Pelayanan</h2>
-        <div class="row g-4 justify-content-center"> 
+        <div class="row g-3 justify-content-center"> 
             <?php
             $profil_items = [
-                ["foto" => "pendeta.png", "title" => "Pendeta", "desc" => "Pendeta Pelayanan GMIM Imanuel Bahu", "link" => "data-jemaat.php#pills-bpmj"],
+                ["foto" => "pdt.png", "title" => "Pendeta", "desc" => "Pendeta Pelayanan GMIM Imanuel Bahu", "link" => "data-jemaat.php#pills-bpmj"],
                 ["foto" => "pelsus.jpg", "title" => "Pelayan Khusus", "desc" => "Penatua & Diaken Kolom", "link" => "data-jemaat.php#pills-pelsus"],
-                ["foto" => "bpmj.jpg", "title" => "Badan Pekerja Majelis Jemaat", "desc" => "Badan Pekerja Majelis Jemaat Periode Pelayanan 2022 - 2026", "link" => "data-jemaat.php#pills-bpmj"]
+                ["foto" => "bpmj.png", "title" => "Badan Pekerja Majelis Jemaat", "desc" => "Badan Pekerja Majelis Jemaat Periode Pelayanan 2022 - 2026", "link" => "data-jemaat.php#pills-bpmj"]
             ];
             foreach($profil_items as $item):
                 $path_foto = "assets/images/" . $item['foto'];
             ?>
             <div class="col-lg-4 col-md-6" data-aos="fade-up">
-                <div class="glass-card h-100 border-0 d-flex flex-column shadow-sm" style="overflow: hidden; border-radius: 20px;">
+                <div class="glass-card h-100 border-0 d-flex flex-column shadow-sm" style="border-radius: 20px; overflow: hidden;">
                     
-                    <div style="width: 100%; height: 320px; overflow: hidden; background: #f8f9fa; cursor: pointer;" 
-                         onclick="openModal('<?php echo $path_foto; ?>')">
+                    <!-- Perbaikan: Gunakan object-fit: contain pada mobile agar wajah tidak terpotong -->
+                    <div class="img-container-wrapper" 
+                         onclick="openModal('<?php echo $path_foto; ?>')"
+                         style="width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: #f8f9fa; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                        
                         <?php if(file_exists($path_foto)): ?>
                             <img src="<?php echo $path_foto; ?>" 
                                  alt="<?php echo $item['title']; ?>" 
-                                 class="zoom-img"
-                                 style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;">
+                                 class="zoom-img img-responsive-custom"
+                                 style="width: 100%; height: 100%; transition: transform 0.5s ease; object-fit: cover;">
                         <?php else: ?>
                             <div class="d-flex align-items-center justify-content-center h-100 text-muted small">Foto tidak ditemukan</div>
                         <?php endif; ?>
                     </div>
                     
-                    <div class="p-4 text-center d-flex flex-column flex-grow-1">
+                    <div class="card-body p-3 p-md-4 text-center d-flex flex-column flex-grow-1">
                         <h5 class="fw-bold text-dark mb-1"><?php echo $item['title']; ?></h5>
-                        <p class="text-muted small mb-4"><?php echo $item['desc']; ?></p>
+                        <p class="text-muted small mb-4 flex-grow-1"><?php echo $item['desc']; ?></p>
                         <a href="<?php echo $item['link']; ?>" 
-                           class="btn btn-sm rounded-pill px-4 py-2 fw-bold mt-auto" 
-                           style="border: 2px solid #6f42c1; color: #6f42c1; background: transparent; transition: 0.3s;"
-                           onmouseover="this.style.backgroundColor='#6f42c1'; this.style.color='white';"
-                           onmouseout="this.style.backgroundColor='transparent'; this.style.color='#6f42c1';">
+                           class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold w-100">
                            Lihat Profil
                         </a>
                     </div>
@@ -116,13 +117,18 @@ include 'navbar.php';
                 while($row = mysqli_fetch_assoc($queryNews)): 
             ?>
             <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                <!-- Gunakan class d-flex flex-column agar tinggi kartu konsisten -->
                 <div class="glass-card h-100 shadow-sm border-0 d-flex flex-column" style="border-radius: 20px; overflow: hidden;">
-                    <div style="height: 200px; overflow: hidden;">
+                    
+                    <!-- Perbaikan tinggi gambar: Menggunakan aspect-ratio agar rapi di semua layar -->
+                    <div style="width: 100%; aspect-ratio: 16 / 9; overflow: hidden;">
                         <img src="assets/gallery/<?php echo htmlspecialchars($row['poster']); ?>" 
                              class="w-100 h-100 object-fit-cover zoom-img" 
                              alt="<?php echo htmlspecialchars($row['judul']); ?>">
                     </div>
-                    <div class="card-body p-4 d-flex flex-column">
+                    
+                    <!-- Perbaikan padding: Menggunakan class p-3 pada mobile agar lebih ringkas -->
+                    <div class="card-body p-3 p-md-4 d-flex flex-column">
                         <span class="badge bg-primary mb-2 align-self-start shadow-sm"><?php echo date('d M Y', strtotime($row['tanggal'])); ?></span>
                         <h6 class="fw-bold text-dark mb-3 line-clamp-2"><?php echo htmlspecialchars($row['judul']); ?></h6>
                         <button class="btn btn-outline-primary w-100 rounded-pill py-2 mt-auto fw-bold" 
@@ -221,33 +227,37 @@ while($g = mysqli_fetch_assoc($galeri)): ?>
         <p class="text-muted mb-5" data-aos="fade-up" data-aos-delay="100">Mari bertumbuh bersama dalam persekutuan Ibadah jemaat GMIM Imanuel Bahu.</p>
         
         <div class="row g-4 justify-content-center">
+            <!-- Ibadah Subuh -->
             <div class="col-md-4" data-aos="fade-up" data-aos-delay="150">
-                <div class="glass-card p-4 h-100 text-center border-0">
+                <!-- Tambahkan class p-md-4 untuk menjaga tampilan desktop tetap lebar, dan p-3 untuk mobile -->
+                <div class="glass-card p-3 p-md-4 h-100 text-center border-0">
                     <div class="d-inline-block p-3 rounded-circle mb-3" style="background-color: #f3effb; color: #6f42c1;">
-                        <i class="bi bi-sunrise-fill" style="font-size: 2rem;"></i>
+                        <i class="bi bi-sunrise-fill" style="font-size: 1.8rem;"></i>
                     </div>
-                    <h5 class="fw-bold text-dark">Ibadah Subuh</h5>
-                    <h3 class="fw-bolder mb-2" style="color: #6f42c1;">05:30 WITA</h3>
+                    <h5 class="fw-bold text-dark" style="font-size: 1.1rem;">Ibadah Subuh</h5>
+                    <h3 class="fw-bolder mb-2" style="color: #6f42c1; font-size: 1.4rem;">05:30 WITA</h3>
                     <p class="small text-muted mb-0">Gedung Gereja Utama</p>
                 </div>
             </div>
+            <!-- Ibadah Pagi -->
             <div class="col-md-4" data-aos="fade-up" data-aos-delay="250">
-                <div class="glass-card p-4 h-100 text-center border-0" style="background: rgba(111, 66, 193, 0.05); border: 1px solid rgba(111, 66, 193, 0.2);">
+                <div class="glass-card p-3 p-md-4 h-100 text-center border-0" style="background: rgba(111, 66, 193, 0.05); border: 1px solid rgba(111, 66, 193, 0.2);">
                     <div class="d-inline-block bg-primary text-white p-3 rounded-circle mb-3 shadow-sm">
-                        <i class="bi bi-sun-fill" style="font-size: 2rem;"></i>
+                        <i class="bi bi-sun-fill" style="font-size: 1.8rem;"></i>
                     </div>
-                    <h5 class="fw-bold text-dark">Ibadah Pagi</h5>
-                    <h3 class="fw-bolder mb-2" style="color: #6f42c1;">09:00 WITA</h3>
+                    <h5 class="fw-bold text-dark" style="font-size: 1.1rem;">Ibadah Pagi</h5>
+                    <h3 class="fw-bolder mb-2" style="color: #6f42c1; font-size: 1.4rem;">09:00 WITA</h3>
                     <p class="small text-muted mb-0">Gedung Gereja Utama</p>
                 </div>
             </div>
+            <!-- Ibadah Malam -->
             <div class="col-md-4" data-aos="fade-up" data-aos-delay="350">
-                <div class="glass-card p-4 h-100 text-center border-0">
+                <div class="glass-card p-3 p-md-4 h-100 text-center border-0">
                     <div class="d-inline-block bg-dark bg-opacity-10 p-3 rounded-circle text-dark mb-3">
-                        <i class="bi bi-moon-stars-fill" style="font-size: 2rem;"></i>
+                        <i class="bi bi-moon-stars-fill" style="font-size: 1.8rem;"></i>
                     </div>
-                    <h5 class="fw-bold text-dark">Ibadah Malam</h5>
-                    <h3 class="fw-bolder mb-2" style="color: #6f42c1;">18:00 WITA</h3>
+                    <h5 class="fw-bold text-dark" style="font-size: 1.1rem;">Ibadah Malam</h5>
+                    <h3 class="fw-bolder mb-2" style="color: #6f42c1; font-size: 1.4rem;">18:00 WITA</h3>
                     <p class="small text-muted mb-0">Gedung Gereja Utama</p>
                 </div>
             </div>
@@ -259,6 +269,7 @@ while($g = mysqli_fetch_assoc($galeri)): ?>
     <div class="container text-center py-4">
         <h2 class="fw-bold mb-5 text-dark" data-aos="fade-up">Layanan Informasi Digital</h2>
         <div class="row g-4 justify-content-center text-start">
+            <!-- Agenda Terdekat -->
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
                 <div class="glass-card p-4 h-100 border-0 d-flex flex-column">
                     <div class="text-primary mb-3"><i class="bi bi-calendar3-event" style="font-size: 2.3rem;"></i></div>
@@ -289,6 +300,8 @@ while($g = mysqli_fetch_assoc($galeri)): ?>
                     <a href="event.php" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold mt-auto">Lihat Agenda</a>
                 </div>
             </div>
+            
+            <!-- Warta Jemaat -->
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
                 <div class="glass-card p-4 h-100 border-0 d-flex flex-column">
                     <div class="text-info mb-3" style="color: #6f42c1 !important;"><i class="bi bi-file-earmark-text" style="font-size: 2.3rem;"></i></div>
@@ -297,7 +310,9 @@ while($g = mysqli_fetch_assoc($galeri)): ?>
                     <a href="warta-jemaat.php" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold mt-auto">Buka Warta</a>
                 </div>
             </div>
-            <<div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            
+            <!-- Transparansi Keuangan -->
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
                 <div class="glass-card p-4 h-100 border-0 d-flex flex-column">
                     <div class="text-success mb-3" style="color: #6f42c1 !important;"><i class="bi bi-wallet2" style="font-size: 2.3rem;"></i></div>
                     <h5 class="fw-bold text-dark mb-3">Transparansi Keuangan</h5>
