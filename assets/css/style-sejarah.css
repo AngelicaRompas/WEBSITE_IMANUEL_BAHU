@@ -9,12 +9,53 @@
 
 .main-title-aesthetic { 
     font-family: 'Playfair Display', serif; 
-    /* FIX: Mengubah batas minimum ke 2rem agar fleksibel di HP */
     font-size: clamp(2rem, 6vw, 4.5rem); 
     font-weight: 900; 
-    color: #0f172a; 
+    color: #ffffff !important; 
     line-height: 1.1;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.7); 
 }
+
+/* --- TAMBAHAN UNTUK MENYAMAKAN HEADER DENGAN VISI MISI --- */
+.sub-title-aesthetic {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 600;
+    color: #ffffff !important; 
+    letter-spacing: 0.5px;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+}
+
+.church-highlight {
+    color: #ffffff; 
+    font-weight: 800;
+    position: relative;
+    display: inline-block;
+}
+
+.premium-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.premium-divider .line {
+    height: 1px;
+    width: 80px;
+    background: linear-gradient(90deg, transparent, #ffffff, transparent);
+}
+
+.premium-divider .dot {
+    width: 6px;
+    height: 6px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    margin: 0 10px;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+/* --------------------------------------------------------- */
 
 .glass-card { 
     background: rgba(255, 255, 255, 0.85); 
@@ -76,27 +117,26 @@
    ======================================================== */
 @media (max-width: 767px) {
     .page-header-premium { 
-        padding-top: 4rem; /* Mengurangi padding kosong di bagian atas HP */
+        padding-top: 4rem; 
         padding-bottom: 2rem; 
     }
     
     .glass-card { 
-        padding: 1.25rem !important; /* Sedikit memperkecil padding dalam agar teks lebih luas */
+        padding: 1.25rem !important; 
         border-radius: 16px; 
     }
     
     .header-box { 
-        padding: 8px 20px; /* Ukuran tombol header disesuaikan dengan genggaman jari di HP */
+        padding: 8px 20px; 
         font-size: 0.95rem;
-        display: block; /* Membuatnya beradaptasi dengan center alignment mobile */
+        display: block; 
         text-align: center;
     }
     
     .ketua-img { 
-        height: 200px !important; /* Menurunkan tinggi ke 200px agar wajah objek tidak terlalu terpotong crop */
+        height: 200px !important; 
     }
     
-    /* Memastikan spasi antar card vertikal saat menumpuk di HP */
     .row.g-4 > [class*='col-'] {
         margin-bottom: 0.5rem;
     }

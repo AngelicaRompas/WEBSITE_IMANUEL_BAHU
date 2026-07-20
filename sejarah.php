@@ -14,12 +14,6 @@
 </head>
 <body>
 
-<div class="digital-grid"></div>
-<div class="aurora-container">
-    <div class="aurora-blob blob-blue"></div>
-    <div class="aurora-blob blob-soft"></div>
-</div>
-
 <?php 
 include 'navbar.php'; 
 include 'koneksi.php'; 
@@ -28,7 +22,29 @@ $queryKetua = mysqli_query($koneksi, "SELECT * FROM ketua_jemaat ORDER BY tahun_
 
 <section class="page-header-premium text-center z-2">
     <div class="container">
-        <h1 class="main-title-aesthetic mb-3">Sejarah Gereja</h1>
+        <!-- Badge Atas -->
+        <div data-aos="fade-down" data-aos-duration="800">
+            <span class="badge rounded-pill px-3 py-2 small mb-3 fw-bold tracking-widest" style="background-color: #f3effb; color: #6f42c1; letter-spacing: 2px;">
+                <i class="bi bi-clock-history me-2"></i>PROFIL GEREJA
+            </span>
+        </div>
+        
+        <!-- Judul Utama -->
+        <h1 class="main-title-aesthetic mb-2" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="100">
+            Sejarah Gereja
+        </h1>
+        
+        <!-- Garis Dekoratif (Divider) -->
+        <div class="premium-divider" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200">
+            <div class="line"></div>
+            <div class="dot"></div>
+            <div class="line"></div>
+        </div>
+        
+        <!-- Sub Judul -->
+        <p class="sub-title-aesthetic fw-medium mb-0" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+            Perjalanan dan Pertumbuhan Pelayanan <span class="church-highlight">GMIM Imanuel Bahu</span>
+        </p>
     </div>
 </section>
 

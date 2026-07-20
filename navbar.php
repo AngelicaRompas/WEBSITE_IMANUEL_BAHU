@@ -21,14 +21,24 @@ if ($_SERVER['HTTP_HOST'] == 'localhost:8081' || $_SERVER['HTTP_HOST'] == 'local
    LOGIKA NAVBAR DINAMIS (Transparan vs Solid)
    ========================================================= */
 $current_page = basename($_SERVER['PHP_SELF']);
-// Masukkan halaman yang ingin navbarnya transparan di dalam array ini
-$transparent_pages = ['index.php', 'visi-misi.php']; 
+// Memasukkan SEMUA halaman yang menggunakan background foto ke dalam array
+$transparent_pages = [
+    'index.php', 
+    'visi-misi.php', 
+    'sejarah.php', 
+    'data-jemaat.php', 
+    'event.php', 
+    'warta-jemaat.php', 
+    'laporan_keuangan.php', 
+    'renungan.php', 
+    'kontak.php'
+]; 
 
 if (in_array($current_page, $transparent_pages)) {
     $nav_bg = 'transparent';
     $nav_shadow = ''; // Hilangkan bayangan saat transparan
 } else {
-    $nav_bg = '#6f42c1'; // Kembali ke ungu solid untuk halaman navigasi dll
+    $nav_bg = '#6f42c1'; // Kembali ke ungu solid untuk halaman khusus seperti navigasi 360 dll
     $nav_shadow = 'shadow-sm'; // Tambahkan bayangan
 }
 ?>
