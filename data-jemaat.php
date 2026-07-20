@@ -476,16 +476,13 @@ list($labelsBipra, $dataBipra) = getDataChart('bipra', $dataPerKategori, $totalA
             "Komisi Pelayanan Remaja",
             "Komisi Pelayanan Anak",
             "Komisi Kategorial Lansia",
-            "Komisi Liturgi & Kesenian Kerja (Musik)",
-            "Komisi Liturgi & Kesenian Kerja (Paduan Suara)",
-            "Komisi Liturgi & Kesenian Kerja (Liturgi & Kantoria)",
-            "Komisi Liturgi & Kesenian Kerja (Rebana, Banners & Tarian Kreatif)",
             "Komisi Pendidikan",
             "Komisi Pengembalaan",
             "Komisi Pelayanan Doa & Pekabaran Injil",
-            "Komisi Kesehatan",
             "Komisi Pembangunan",
             "Komisi Rumah Tangga & Kerja Bakti",
+            "Komisi Liturgi & Kesenian Kerja",
+            "Komisi Kesehatan",
             "Komisi Pemberdayaan Sumber Daya"
         ];
         

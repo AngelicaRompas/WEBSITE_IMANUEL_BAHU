@@ -140,7 +140,7 @@ if (!isset($kolomBerikutnya)) {
             <div class="col-md-3">
                 <select name="kategori" class="form-select" required>
                     <?php 
-                    $kategori_list = ["Penasihat BPMJ", "Komisi Pengawas Perbendaharaan", "Komisi Pelayanan Pria Kaum Bapa", "Komisi Pelayanan Wanita Kaum Ibu", "Komisi Pelayanan Pemuda", "Komisi Pelayanan Remaja", "Komisi Pelayanan Anak", "Komisi Kategorial Lansia", "Komisi Liturgi & Kesenian Kerja (Musik)", "Komisi Liturgi & Kesenian Kerja (Paduan Suara)", "Komisi Liturgi & Kesenian Kerja (Liturgi & Kantoria)", "Komisi Liturgi & Kesenian Kerja (Rebana, Banners & Tarian Kreatif)", "Komisi Pendidikan", "Komisi Pengembalaan", "Komisi Pelayanan Doa & Pekabaran Injil", "Komisi Kesehatan", "Komisi Pembangunan", "Komisi Rumah Tangga & Kerja Bakti", "Komisi Pemberdayaan Sumber Daya"];
+                    $kategori_list = ["Penasihat BPMJ", "Komisi Pengawas Perbendaharaan", "Komisi Pelayanan Pria Kaum Bapa", "Komisi Pelayanan Wanita Kaum Ibu", "Komisi Pelayanan Pemuda", "Komisi Pelayanan Remaja", "Komisi Pelayanan Anak", "Komisi Kategorial Lansia", "Komisi Pendidikan", "Komisi Pengembalaan", "Komisi Pelayanan Doa & Pekabaran Injil", "Komisi Pembangunan", "Komisi Rumah Tangga & Kerja Bakti", "Komisi Liturgi & Kesenian Kerja", "Komisi Kesehatan", "Komisi Pemberdayaan Sumber Daya" ];
                     foreach($kategori_list as $kat): echo "<option value='$kat'>$kat</option>"; endforeach; 
                     ?>
                 </select>

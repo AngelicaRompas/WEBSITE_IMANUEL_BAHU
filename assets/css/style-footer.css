@@ -1,82 +1,66 @@
-/* Desain Footer Premium */
-    .footer-premium {
-        background: linear-gradient(135deg, #2b1654 0%, #1a0d33 100%);
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    /* Dekorasi Pencahayaan Latar Belakang (Aurora Efek) */
-    .footer-premium::before {
-        content: '';
-        position: absolute;
-        top: -100px;
-        right: -100px;
-        width: 300px;
-        height: 300px;
-        background: radial-gradient(circle, rgba(111, 66, 193, 0.2) 0%, rgba(0,0,0,0) 70%);
-        pointer-events: none;
-    }
+/* Desain Footer Putih Bersih (Clean & Professional) */
+.footer-premium {
+    background: #ffffff !important; /* Latar belakang putih bersih */
+    border-top: 1px solid #e0e0e0; /* Garis pembatas tipis */
+    color: #333333 !important; /* Teks gelap agar mudah dibaca */
+    position: relative;
+    overflow: hidden;
+    padding-top: 3rem;
+}
 
-    .footer-title {
-        font-family: 'Plus Jakarta Sans', serif;
-        font-weight: 800;
-        letter-spacing: 0.5px;
-        color: #ffffff;
-    }
-    
-    .footer-subtitle-gold {
-        font-family: 'Playfair Display', serif;
-        color: #ffd700; /* Emas Mewah */
-        font-style: italic;
-    }
+/* Menghilangkan atau menyesuaikan dekorasi agar tidak mencolok */
+.footer-premium::before {
+    display: none; /* Dihapus karena tidak cocok dengan tema putih */
+}
 
-    /* Efek Kustom Peta Mini Adaptif & Klik Tautan */
-    .map-link-wrapper {
-        display: block;
-        text-decoration: none;
-        width: 100%;
-    }
+.footer-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    color: #6f42c1 !important; /* Judul menggunakan warna utama */
+}
 
-    .map-container-mini {
-        border-radius: 16px;
-        overflow: hidden;
-        border: 2px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-        width: 100%;
-        transition: all 0.3s ease;
-        position: relative;
-    }
-    
-    /* Mengunci agar klik pada iframe diteruskan ke tag anchor pembungkus */
-    .map-container-mini iframe {
-        pointer-events: none; 
-    }
-    
-    .map-link-wrapper:hover .map-container-mini {
-        transform: scale(1.03);
-        border-color: #ffd700;
-        box-shadow: 0 8px 24px rgba(255, 215, 0, 0.15);
-    }
+.footer-subtitle-gold {
+    font-family: 'Playfair Display', serif;
+    color: #6f42c1 !important; /* Senada dengan judul */
+    font-style: italic;
+}
 
-    /* Gaya Media Sosial Modern */
-    .social-circle-btn {
-        width: 42px;
-        height: 42px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 50%;
-        color: white;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        text-decoration: none;
-    }
-    
-    .social-circle-btn:hover {
-        background: #ffd700;
-        color: #1a0d33 !important;
-        transform: translateY(-5px);
-        box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
-    }
+/* Mengubah warna teks lain agar tetap terbaca */
+.footer-premium p, .footer-premium span, .footer-premium a {
+    color: #555555 !important;
+}
+
+/* Gaya Media Sosial Modern - Warna Ungu */
+.social-circle-btn {
+    width: 42px !important;
+    height: 42px !important;
+    display: inline-flex !important;      /* KUNCI: Membuat flex container agar ikon di tengah */
+    align-items: center !important;       /* Vertikal center */
+    justify-content: center !important;   /* Horizontal center */
+    background: #f0f0f0 !important;
+    border: 1px solid #e0e0e0 !important;
+    border-radius: 50% !important;        /* KUNCI: Membuat lingkaran sempurna */
+    color: #6f42c1 !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+}
+
+.social-circle-btn:hover {
+    background: #6f42c1 !important;
+    color: #ffffff !important;
+    transform: translateY(-3px) !important;
+}
+
+/* Memastikan ukuran ikon di dalamnya pas */
+.social-circle-btn i {
+    font-size: 1.2rem !important;
+    line-height: 1 !important;
+}
+
+/* Container Peta */
+.map-container-mini {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
