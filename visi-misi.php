@@ -16,12 +16,6 @@
 </head>
 <body>
 
-<div class="digital-grid"></div>
-<div class="aurora-container">
-    <div class="aurora-blob blob-blue"></div>
-    <div class="aurora-blob blob-soft"></div>
-</div>
-
 <?php 
 include 'koneksi.php'; 
 include 'navbar.php'; 

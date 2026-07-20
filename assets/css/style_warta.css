@@ -1,5 +1,5 @@
 /* =========================================
-   STYLE DASAR & KOMKOMPENEN UMUM
+   STYLE DASAR & KOMPONEN UMUM
 ========================================= */
 body { 
     font-family: 'Plus Jakarta Sans', sans-serif; 
@@ -34,6 +34,13 @@ body {
     border: 1px solid rgba(111, 66, 193, 0.15); 
     border-radius: 20px; 
     box-shadow: 0 8px 32px rgba(111, 66, 193, 0.08); 
+}
+
+/* KELAS BARU: Untuk mengecilkan & menengahkan kotak autentikasi Warta */
+.auth-box {
+    max-width: 500px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
 }
 
 .btn-purple { 
@@ -123,52 +130,33 @@ body {
 /* =========================================
    UTILITY CLASSES (WARNA, BADGE, TEXT)
 ========================================= */
-.bg-purple-soft { 
-    background-color: rgba(111, 66, 193, 0.1); 
-}
-
-.text-purple { 
-    color: #6f42c1 !important; 
-}
-
-.label-badge-purple { 
-    letter-spacing: 2px; 
-    background-color: rgba(111, 66, 193, 0.1); 
-    color: #6f42c1; 
-}
-
-.divider-line { 
-    opacity: 0.1; 
-}
-
-.wrapper-bottom-card { 
-    border-radius: 0 0 20px 20px; 
-}
-
-.wrapper-download-btn { 
-    border-color: rgba(0,0,0,0.05) !important; 
-}
+.bg-purple-soft { background-color: rgba(111, 66, 193, 0.1); }
+.text-purple { color: #6f42c1 !important; }
+.label-badge-purple { letter-spacing: 2px; background-color: rgba(111, 66, 193, 0.1); color: #6f42c1; }
+.divider-line { opacity: 0.1; }
+.wrapper-bottom-card { border-radius: 0 0 20px 20px; }
+.wrapper-download-btn { border-color: rgba(0,0,0,0.05) !important; }
 
 /* =========================================
    OPTIMISASI KHUSUS RESPONSIVE MOBILE (NEW)
 ========================================= */
 @media (max-width: 767.98px) {
     .page-header-premium {
-        padding-top: 4rem; /* Mengurangi padding kosong atas di smartphone */
+        padding-top: 4rem; 
         padding-bottom: 2rem;
     }
 
     .main-title-aesthetic, .head-title-warta {
-        font-size: clamp(1.8rem, 6vw, 2.5rem) !important; /* Batas font proposional di HP */
+        font-size: clamp(1.8rem, 6vw, 2.5rem) !important; 
     }
 
     .glass-card {
-        padding: 1.25rem !important; /* Mengoptimalkan ruang padding dalam kartu agar teks luas */
+        padding: 1.25rem !important; 
         border-radius: 16px;
     }
 
     .khadim-img {
-        width: 140px; /* Skala ulang gambar khadim agar seimbang di layar portrait */
+        width: 140px; 
         height: 190px;
         border-width: 4px;
     }
@@ -178,10 +166,9 @@ body {
     }
     
     .warta-cover-wrapper {
-        height: 160px; /* Penyesuaian tinggi cover desain majalah di HP */
+        height: 160px; 
     }
 
-    /* Penataan spasi vertikal antar kolom grid bootstrap saat menumpuk */
     .row.g-4 > [class*='col-'] {
         margin-bottom: 0.5rem;
     }

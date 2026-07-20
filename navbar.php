@@ -16,6 +16,21 @@ if ($_SERVER['HTTP_HOST'] == 'localhost:8081' || $_SERVER['HTTP_HOST'] == 'local
 } else {
     $base_url = '/';
 }
+
+/* =========================================================
+   LOGIKA NAVBAR DINAMIS (Transparan vs Solid)
+   ========================================================= */
+$current_page = basename($_SERVER['PHP_SELF']);
+// Masukkan halaman yang ingin navbarnya transparan di dalam array ini
+$transparent_pages = ['index.php', 'visi-misi.php']; 
+
+if (in_array($current_page, $transparent_pages)) {
+    $nav_bg = 'transparent';
+    $nav_shadow = ''; // Hilangkan bayangan saat transparan
+} else {
+    $nav_bg = '#6f42c1'; // Kembali ke ungu solid untuk halaman navigasi dll
+    $nav_shadow = 'shadow-sm'; // Tambahkan bayangan
+}
 ?>
 
 <style>
@@ -36,7 +51,6 @@ if ($_SERVER['HTTP_HOST'] == 'localhost:8081' || $_SERVER['HTTP_HOST'] == 'local
    PENTING: Khusus untuk Tampilan Mobile (Max 991px)
    ========================================================= */
 @media (max-width: 991px) {
-    /* 1. Pengaturan Container agar item tetap sejajar 1 baris */
     .navbar .container {
         display: flex;
         flex-wrap: nowrap !important;
@@ -46,7 +60,6 @@ if ($_SERVER['HTTP_HOST'] == 'localhost:8081' || $_SERVER['HTTP_HOST'] == 'local
         padding-right: 10px;
     }
 
-    /* 2. Logo dan Brand */
     .navbar-brand { 
         display: flex; 
         align-items: center; 
@@ -69,7 +82,6 @@ if ($_SERVER['HTTP_HOST'] == 'localhost:8081' || $_SERVER['HTTP_HOST'] == 'local
         text-overflow: ellipsis; 
     }
 
-    /* 3. Tombol Toggle (Hamburger) */
     .navbar-toggler {
         flex-shrink: 0;
         margin-left: auto;
@@ -78,7 +90,6 @@ if ($_SERVER['HTTP_HOST'] == 'localhost:8081' || $_SERVER['HTTP_HOST'] == 'local
         border: none;
     }
 
-    /* 4. KONTEN MENU POP-UP */
     .navbar-collapse {
         position: absolute;
         top: 100%;
@@ -102,7 +113,6 @@ if ($_SERVER['HTTP_HOST'] == 'localhost:8081' || $_SERVER['HTTP_HOST'] == 'local
         transform: translateY(5px);
     }
 
-    /* 5. List Menu Mobile */
     .navbar-nav {
         display: flex;
         flex-direction: column;
@@ -124,7 +134,6 @@ if ($_SERVER['HTTP_HOST'] == 'localhost:8081' || $_SERVER['HTTP_HOST'] == 'local
 
     .navbar-nav .nav-link:hover { background-color: rgba(111, 66, 193, 0.1); }
 
-    /* 6. Dropdown Mobile */
     .dropdown-menu {
         position: static !important;
         float: none;
@@ -137,7 +146,6 @@ if ($_SERVER['HTTP_HOST'] == 'localhost:8081' || $_SERVER['HTTP_HOST'] == 'local
 
     .dropdown-item { color: #555 !important; padding: 8px 15px !important; }
 
-    /* 7. Tombol Admin/Login */
     .navbar-nav .nav-item.ms-lg-3 {
         width: 100%;
         margin-top: 15px !important;
@@ -150,10 +158,19 @@ if ($_SERVER['HTTP_HOST'] == 'localhost:8081' || $_SERVER['HTTP_HOST'] == 'local
         width: 100% !important; 
         justify-content: center !important; 
     }
-} /* FIX: Menutup tag @media mobile dengan benar */
+
+    /* Memaksa tombol login/admin menjadi ungu pekat di tampilan mobile */
+    .navbar-nav .btn-outline-light,
+    .navbar-nav .btn-light {
+        background-color: #6f42c1 !important;
+        color: #ffffff !important;
+        border-color: #6f42c1 !important;
+    }
+}
 </style>
 
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow-sm" style="background-color: #6f42c1;">
+<!-- Navbar menerapkan variabel PHP untuk background dan shadow -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top <?php echo $nav_shadow; ?>" style="background-color: <?php echo $nav_bg; ?>; transition: background-color 0.3s ease;">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center fw-bold" href="<?php echo $root_prefix; ?>index.php">
             <img src="<?php echo $root_prefix; ?>assets/images/logo_gereja_imanuel.png" alt="Logo GMIM" width="55" height="55" class="me-3">

@@ -7,32 +7,35 @@
     position: relative;
 }
 
+/* Diubah menjadi warna putih agar terbaca di atas background foto */
 .main-title-aesthetic {
     font-family: 'Playfair Display', serif;
-    /* FIX: Mengubah batas minimum dari 3rem menjadi 2rem agar pas di layar HP */
     font-size: clamp(2rem, 6vw, 4.5rem);
     font-weight: 900;
-    color: #000000;
+    color: #ffffff !important; 
     letter-spacing: -1px;
     line-height: 1.1;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.7); /* Tambahan shadow agar teks menonjol */
 }
 
+/* Teks Sub-judul diubah ke putih */
 .sub-title-aesthetic {
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: clamp(1rem, 2vw, 1.25rem);
     font-weight: 600;
-    color: #6f42c1;
+    color: #ffffff !important; 
     letter-spacing: 0.5px;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
 }
 
 .church-highlight {
-    color: #6f42c1;
+    color: #ffffff; 
     font-weight: 800;
     position: relative;
     display: inline-block;
 }
 
-/* Ornamen Garis Minimalis di Bawah Judul */
+/* Ornamen Garis Minimalis di Bawah Judul - Diubah ke putih */
 .premium-divider {
     display: flex;
     align-items: center;
@@ -43,18 +46,18 @@
 .premium-divider .line {
     height: 1px;
     width: 80px;
-    background: linear-gradient(90deg, transparent, #6f42c1, transparent);
+    background: linear-gradient(90deg, transparent, #ffffff, transparent);
 }
 .premium-divider .dot {
     width: 6px;
     height: 6px;
-    background-color: #6f42c1;
+    background-color: #ffffff;
     border-radius: 50%;
     margin: 0 10px;
-    box-shadow: 0 0 8px #6f42c1;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
 }
 
-/* Styling List Misi */
+/* Styling List Misi (Tetap Gelap karena berada di dalam Glass Card Putih) */
 .mission-list {
     list-style: none;
     padding-left: 0;
@@ -64,7 +67,7 @@
     padding-left: 2.5rem;
     margin-bottom: 1.5rem;
     font-weight: 500;
-    color: #334155;
+    color: #333333; /* Warna gelap agar terbaca di atas kartu putih */
     font-size: 1.05rem;
     transition: transform 0.2s ease;
 }
@@ -81,10 +84,9 @@
 
 .visi-text-callout {
     font-family: 'Playfair Display', serif;
-    /* FIX: Menyesuaikan minimum clamp agar teks isi visi proporsional di HP */
     font-size: clamp(1.35rem, 3vw, 2.4rem);
     line-height: 1.5;
-    color: #0f172a;
+    color: #333333; /* Warna gelap agar terbaca di atas kartu putih */
 }
 
 /* ========================================================
@@ -105,19 +107,18 @@
 /* Tampilan Khusus Mobile / HP (Menumpuk Vertikal secara Rapi) */
 @media (max-width: 991.98px) {
     .page-header-premium {
-        padding-top: 4rem; /* Mengurangi ruang kosong atas di HP */
+        padding-top: 4rem; 
         padding-bottom: 2rem;
     }
     
-    /* Memberikan jarak pemisah yang aman antara blok Visi dan blok Misi saat menumpuk */
     .divider-vertical {
         margin-bottom: 3rem;
         padding-bottom: 2.5rem;
-        border-bottom: 1px dashed rgba(111, 66, 193, 0.2); /* Mengubah garis vertikal menjadi garis pembatas horizontal di HP */
+        border-bottom: 1px dashed rgba(111, 66, 193, 0.2); 
     }
     
     .mission-list li {
-        padding-left: 2rem; /* Sedikit menghemat ruang horizontal di HP */
+        padding-left: 2rem; 
         font-size: 1rem;
     }
 }

@@ -86,7 +86,7 @@ if ($detail_tgl && $akses_warta) {
     <?php if (!$akses_warta): ?>
         <!-- Tampilan Halaman Terkunci (Verifikasi Kode) -->
         <div class="row justify-content-center" data-aos="zoom-in" data-aos-delay="300">
-            <div class="col-md-5 glass-card p-5 text-center mt-2">
+            <div class="col-md-5 glass-card auth-box p-5 text-center mt-2">
                 <i class="bi bi-shield-lock text-purple fs-1 mb-3 d-block"></i>
                 <h5 class="fw-bold my-3">Area Terbatas Jemaat</h5>
                 <p class="text-muted small mb-4">Warta Jemaat bersifat internal. Silakan masukkan kode akses jemaat yang dapat diperoleh melalui panduan website Imanuel Bahu atau melalui pelayan khusus.</p>
