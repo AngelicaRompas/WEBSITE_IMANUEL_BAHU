@@ -1,200 +1,155 @@
-/* ========================================================
-   HEADER & TYPOGRAPHY
-   ======================================================== */
+/* ==========================================================================
+   1. HEADER & TYPOGRAPHY
+   ========================================================================== */
 .page-header-premium {
-    padding-top: 7rem;
-    padding-bottom: 3.5rem;
+    padding-top: 6rem;
+    padding-bottom: 3rem;
     position: relative;
-    overflow: hidden;
 }
 
 .main-title-aesthetic {
-    font-family: 'Playfair Display', serif;
-    /* FIX: Mengubah batas minimum clamp dari 3rem ke 1.8rem agar aman di layar medium/kecil */
-    font-size: clamp(1.8rem, 5vw, 4.3rem);
-    font-weight: 900;
-    color: #0f172a;
-    letter-spacing: -1px;
-    line-height: 1.2;
+    font-family: 'Playfair Display', serif !important;
+    font-size: clamp(2rem, 6vw, 4.5rem) !important;
+    font-weight: 900 !important;
+    color: #ffffff !important;
+    line-height: 1.1;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7) !important;
 }
 
-.page-header-premium p {
-    font-size: 1.05rem;
+.sub-title-aesthetic {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    color: #ffffff !important;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7) !important;
+    font-weight: 600;
 }
 
-/* ========================================================
-   KARTU RENUNGAN (RHK CARDS)
-   ======================================================== */
-.rhk-card-glass {
-    background: rgba(255, 255, 255, .78);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border: 1px solid rgba(255, 255, 255, .95);
+.premium-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.premium-divider .line {
+    height: 1px;
+    width: 80px;
+    background: linear-gradient(90deg, transparent, #ffffff, transparent);
+}
+
+.premium-divider .dot {
+    width: 6px;
+    height: 6px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    margin: 0 10px;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+/* ==========================================================================
+   2. KARTU RHK (SOLID PUTIH)
+   ========================================================================== */
+.rhk-card-solid {
+    background: #ffffff !important;
+    border: 1px solid rgba(0, 0, 0, 0.05);
     border-radius: 24px;
-    overflow: hidden;
-    transition: .35s ease;
-    cursor: pointer;
-    box-shadow: 0 10px 35px rgba(0, 0, 0, .05);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05);
+    transition: transform 0.35s ease;
 }
 
-/* FIX: Mengubah bayangan hover biru menjadi ungu lembut khas Imanuel Bahu */
-.rhk-card-glass:hover {
+.rhk-card-solid:hover {
     transform: translateY(-8px);
     box-shadow: 0 18px 40px rgba(111, 66, 193, 0.15);
 }
 
-.rhk-img-container {
-    background: linear-gradient(135deg, #0f172a 0%, #172554 100%);
-    height: 190px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    color: #fff;
-    position: relative;
-}
-
-.rhk-img-container h2 {
-    font-size: 3rem;
-    font-weight: 800;
-    letter-spacing: 2px;
-}
-
-.rhk-badge {
-    position: absolute;
-    bottom: 15px;
-    left: 15px;
-    background: #ff2e2e;
-    color: #fff;
-    padding: 5px 14px;
-    border-radius: 50px;
-    font-size: .72rem;
+.rhk-card-solid h4 {
+    color: #0f172a !important;
     font-weight: 700;
-    letter-spacing: .7px;
 }
 
-/* ========================================================
-   STICKY SEARCH & PANEL INTERAKTIF AI
-   ======================================================== */
-.renungan-sticky {
-    position: sticky;
-    top: 100px;
-    z-index: 10;
+.rhk-card-solid p {
+    color: #475569 !important;
 }
 
+/* ==========================================================================
+   3. PANEL RENUNGAN TEMATIK (KONTRAST TINGGI)
+   ========================================================================== */
 .search-glass-container {
-    background: rgba(255, 255, 255, .78);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, .95);
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0;
     border-radius: 28px;
     padding: 2rem;
-    box-shadow: 0 15px 45px rgba(0, 0, 0, .05);
-    transition: .3s ease;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.05);
 }
 
-.search-glass-container:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, .08);
+/* Memperbaiki badge Renungan Tematik agar terbaca */
+.search-glass-container .badge.bg-primary.bg-opacity-10.text-primary {
+    background-color: #6f42c1 !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
 }
 
 .prompt-badge {
     cursor: pointer;
-    transition: .25s ease;
     font-weight: 600;
-    font-size: .84rem;
-    background: rgba(255, 255, 255, .9);
-    border: 1px solid #dee2e6;
-    color: #475569;
-    padding: .65rem 1rem !important;
+    background: #f1f5f9 !important;
+    color: #1e293b !important;
+    padding: 0.65rem 1rem !important;
     border-radius: 50px;
+    border: 1px solid #cbd5e1;
+    transition: all 0.25s ease;
 }
 
-/* FIX: Mengubah background tombol badge hover dari biru murni menjadi ungu premium */
 .prompt-badge:hover {
-    background: #6f42c1;
-    color: #fff;
-    border-color: #6f42c1;
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 10px 20px rgba(111, 66, 193, 0.25);
+    background: #6f42c1 !important;
+    color: #ffffff !important;
 }
 
 #aiRes {
-    background: rgba(255, 255, 255, .88);
-    border: 1px solid #e5e7eb;
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0;
     border-radius: 24px;
-    min-height: 320px;
-    line-height: 1.9;
-    transition: .3s ease;
+    padding: 1.5rem !important;
+    line-height: 1.8;
 }
 
-.modal-content {
-    border-radius: 28px;
-    border: none;
-    background: rgba(255, 255, 255, .97);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, .12);
+/* Memastikan semua tulisan di dalam area hasil AI terbaca jelas */
+#aiRes, #aiRes *, #aiRes h6, #aiRes p {
+    color: #1e293b !important;
 }
 
-/* ========================================================
-   MEDIA QUERIES RESPONSIVE TABLET & MOBILE
-   ======================================================== */
-
-/* Breaking Point saat kolom kanan runtuh ke bawah */
+/* ==========================================================================
+   4. MEDIA QUERIES & RESPONSIVE
+   ========================================================================== */
 @media (max-width: 991.98px) {
     .renungan-sticky {
         position: relative;
         top: auto;
     }
-
-    /* FIX: Memberikan ruang napas vertikal yang pas (2.5rem) saat bertumpuk */
     .search-glass-container {
         margin-top: 2.5rem;
     }
-
-    #aiRes {
-        min-height: 260px;
-    }
 }
 
-/* Khusus Layar Smartphone Genggam */
 @media (max-width: 576px) {
     .page-header-premium {
-        padding-top: 4.5rem; /* Menyesuaikan jarak atas agar pas di genggaman */
+        padding-top: 4rem;
         padding-bottom: 2rem;
     }
-
     .main-title-aesthetic {
         font-size: 2.2rem !important;
     }
-
-    .rhk-img-container {
-        height: 150px; /* Sedikit memperpendek rasio gambar box RHK di mobile */
-    }
-
-    .rhk-img-container h2 {
-        font-size: 2.2rem;
-    }
-
     .search-glass-container {
         padding: 1.25rem;
-        border-radius: 24px;
     }
+}
 
-    .prompt-badge {
-        font-size: .75rem;
-        padding: .5rem .8rem !important;
-    }
-
-    #aiRes {
-        min-height: 220px;
-        padding: 1.25rem !important; /* Spasi dalam tulisan AI diketatkan agar muat banyak */
-        font-size: 0.92rem;
-    }
-    
-    /* Spasi baris kartu renungan saat runtuh vertikal */
-    .row.g-4 > [class*='col-'] {
-        margin-bottom: 0.5rem;
-    }
+body {
+    background-color: transparent !important;
 }
