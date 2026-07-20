@@ -20,22 +20,33 @@ $queryPast = mysqli_query($koneksi, "SELECT * FROM events WHERE DATE(tanggal) < 
 </head>
 <body>
 
-<div class="digital-grid"></div>
-<div class="aurora-container">
-    <div class="aurora-blob blob-blue"></div>
-    <div class="aurora-blob blob-soft"></div>
-</div>
-
 <?php include 'navbar.php'; ?>
 
 <section class="page-header-premium text-center z-2">
     <div class="container">
+        <!-- Badge Atas -->
         <div data-aos="fade-down" data-aos-duration="800">
-            <span class="badge rounded-pill px-3 py-2 small mb-3 fw-bold tracking-widest" style="letter-spacing: 2px; background-color: rgba(111, 66, 193, 0.1); color: #6f42c1;">
+            <span class="badge rounded-pill px-3 py-2 small mb-3 fw-bold tracking-widest" style="background-color: #f3effb; color: #6f42c1; letter-spacing: 2px;">
                 <i class="bi bi-calendar-event me-2"></i>AGENDA JEMAAT
             </span>    
         </div>
-        <h1 class="main-title-aesthetic mb-3" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="100">Kegiatan Pelayanan Jemaat</h1>
+        
+        <!-- Judul Utama -->
+        <h1 class="main-title-aesthetic mb-2" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="100">
+            Kegiatan Pelayanan Jemaat
+        </h1>
+        
+        <!-- Garis Dekoratif (Divider) -->
+        <div class="premium-divider" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200">
+            <div class="line"></div>
+            <div class="dot"></div>
+            <div class="line"></div>
+        </div>
+        
+        <!-- Sub Judul -->
+        <p class="sub-title-aesthetic fw-medium mb-0" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+            Daftar Acara dan Dokumentasi Pelayanan <span class="church-highlight">GMIM Imanuel Bahu</span>
+        </p>
     </div>
 </section>
 

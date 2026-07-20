@@ -7,19 +7,58 @@ body {
     overflow-x: hidden; 
 }
 
-/* Header & Typography */
+/* ========================================================
+   HEADER ESTETIS (SERAGAM DENGAN VISI MISI & SEJARAH)
+   ======================================================== */
 .page-header-premium { 
     padding-top: 6rem; 
     padding-bottom: 3rem; 
     position: relative; 
 }
+
 .main-title-aesthetic { 
     font-family: 'Playfair Display', serif; 
-    font-size: clamp(2rem, 5vw, 4rem); 
-    font-weight: 900; 
-    color: #0f172a; 
-    letter-spacing: -1px; 
+    font-size: clamp(2rem, 6vw, 4.5rem) !important; 
+    font-weight: 900 !important; 
+    color: #ffffff !important; 
     line-height: 1.1;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.7); 
+}
+
+.sub-title-aesthetic {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 600;
+    color: #ffffff !important; 
+    letter-spacing: 0.5px;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+}
+
+.church-highlight {
+    color: #ffffff; 
+    font-weight: 800;
+}
+
+/* Garis Dekoratif (Divider) */
+.premium-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.premium-divider .line {
+    height: 1px;
+    width: 80px;
+    background: linear-gradient(90deg, transparent, #ffffff, transparent);
+}
+.premium-divider .dot {
+    width: 6px;
+    height: 6px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    margin: 0 10px;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
 }
 
 /* Upcoming Event Cards */
@@ -34,7 +73,6 @@ body {
     transition: all 0.3s ease; 
     width: 100%; 
 }
-/* FIX: Mengubah bayangan biru (rgba 13, 110, 253) menjadi ungu lembut */
 .event-card-glass:hover { 
     transform: translateY(-8px); 
     box-shadow: 0 20px 40px rgba(111, 66, 193, 0.15); 
@@ -60,12 +98,10 @@ body {
     font-weight: 600; 
     transition: all 0.3s; 
     background: rgba(255,255,255,0.7); 
-    /* FIX: Mengubah border biru menjadi ungu transparan */
     border: 1px solid rgba(111, 66, 193, 0.1); 
     margin: 0; 
     white-space: nowrap; 
 }
-/* FIX: Menyelaraskan efek aktif dan bayangan menjadi ungu */
 .nav-pills .nav-link.active { 
     background: #6f42c1; 
     color: white; 
@@ -140,26 +176,24 @@ body {
     }
     
     .main-title-aesthetic { 
-        font-size: clamp(1.8rem, 6vw, 2.5rem); 
+        font-size: clamp(1.8rem, 6vw, 2.5rem) !important; 
     }
     
-    /* FIX: Membuat tab kategori bisa di-swipe geser kiri-kanan secara mulus di layar HP */
     .nav-pills {
         display: flex !important;
         overflow-x: auto !important;
         flex-wrap: nowrap !important;
         -webkit-overflow-scrolling: touch;
-        padding-bottom: 8px; /* Ruang napas scroll */
+        padding-bottom: 8px; 
     }
     .nav-pills::-webkit-scrollbar {
-        display: none; /* Sembunyikan scrollbar agar minimalis */
+        display: none; 
     }
     .nav-pills .nav-link { 
         padding: 8px 18px; 
         font-size: 0.85rem; 
     }
     
-    /* FIX: Mengatur ulang tinggi gambar di HP agar tidak gepeng/terlalu pendek */
     .img-event {
         height: 200px !important;
     }
@@ -167,25 +201,22 @@ body {
         height: 180px !important;
     }
     
-    /* Menata grid galeri foto kustom Anda agar seimbang */
     .col-3 { 
-        width: 50% !important; /* Di bawah 768px langsung kunci ke 2 kolom */
+        width: 50% !important; 
     } 
     
     .modal-body { 
         padding: 1.25rem !important; 
     }
     
-    /* Spasi baris vertikal antar card saat menumpuk di HP */
     .row.g-4 > [class*='col-'] {
         margin-bottom: 0.5rem;
     }
 }
 
 @media (max-width: 480px) {
-    /* Untuk HP dengan layar sangat ramping */
     .col-3 { 
-        width: 100% !important; /* Menjadi 1 kolom penuh agar foto terlihat jelas */
+        width: 100% !important; 
     }
     .img-event {
         height: 180px !important;
