@@ -41,6 +41,7 @@ $bulan_pilih = $_GET['bulan'] ?? date('Y-m');
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700;1,900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style-beranda.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="assets/css/style_keuangan.css?v=<?php echo time(); ?>">
     
     <style>
         body { background-color: #f1f5f9; font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -59,21 +60,33 @@ $bulan_pilih = $_GET['bulan'] ?? date('Y-m');
 </head>
 <body>
 
-<div class="digital-grid"></div>
-<div class="aurora-container">
-    <div class="aurora-blob blob-blue"></div>
-    <div class="aurora-blob blob-soft"></div>
-</div>
-
 <?php include 'navbar.php'; ?>
 
-<section class="py-5 text-center position-relative" style="z-index: 2;">
+<section class="page-header-premium text-center z-2">
     <div class="container">
-        <span class="badge badge-info-digital rounded-pill px-3 py-2 text-uppercase mb-3 shadow-sm">
-            <i class="bi bi-info-circle-fill me-1"></i> Informasi Digital
-        </span>
-        <h1 class="hero-title-style mb-2" style="font-size: 3.5rem;">Laporan Keuangan</h1>
-        <p class="text-muted small mx-auto" style="max-width: 600px;">Pusat Transparansi Kas, Persembahan Pundi, dan Akuntabilitas Pelayanan Jemaat GMIM Imanuel Bahu</p>
+        <!-- Badge Atas -->
+        <div data-aos="fade-down" data-aos-duration="800">
+            <span class="badge rounded-pill px-3 py-2 small mb-3 fw-bold tracking-widest" style="background-color: #f3effb; color: #6f42c1; letter-spacing: 2px;">
+                <i class="bi bi-wallet2 me-2"></i>TRANSPARANSI KAS
+            </span>      
+        </div>
+        
+        <!-- Judul Utama -->
+        <h1 class="main-title-aesthetic mb-2" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="100">
+            Laporan Keuangan
+        </h1>
+        
+        <!-- Divider Estetis -->
+        <div class="premium-divider" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200">
+            <div class="line"></div>
+            <div class="dot"></div>
+            <div class="line"></div>
+        </div>
+        
+        <!-- Sub Judul -->
+        <p class="sub-title-aesthetic fw-medium mb-0" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+            Pusat Transparansi Kas, Persembahan Pundi, dan Akuntabilitas Pelayanan
+        </p>
     </div>
 </section>
 
@@ -107,34 +120,47 @@ $bulan_pilih = $_GET['bulan'] ?? date('Y-m');
     <?php else: ?>
 
         <div class="d-flex justify-content-end mb-4">
-            <a href="laporan_keuangan.php?aksi=keluar" class="btn btn-sm btn-close-access px-4 py-2 d-flex align-items-center gap-2 shadow-sm">
-                <i class="bi bi-unlock-fill"></i> Tutup Akses
+            <a href="laporan_keuangan.php?aksi=keluar" class="btn btn-outline-light rounded-pill px-4 fw-bold shadow-sm">
+                <i class="bi bi-unlock-fill me-1"></i> Tutup Akses
             </a>
         </div>
 
-        <!-- REVISI NAVIGASI TAB MENU PUBLIK -->
-        <ul class="nav nav-pills p-2 bg-glass-publik rounded-4 gap-1 border border-white shadow-sm mb-4 overflow-x-auto flex-nowrap" id="pills-tab-publik">
+       <!-- NAVIGASI TAB MENU -->
+        <ul class="nav nav-pills p-2 bg-glass-publik rounded-4 gap-1 border border-white shadow-sm mb-4 overflow-x-auto flex-nowrap" id="pills-tab-publik" style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px);">
             <li class="nav-item">
-                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='rekapan'?'active':'' ?>" href="laporan_keuangan.php?subtab=rekapan&bulan=<?= $bulan_pilih; ?>"><i class="bi bi-journal-text me-2"></i>Rekapan</a>
+                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='rekapan'?'active':'' ?>" href="laporan_keuangan.php?subtab=rekapan&bulan=<?= $bulan_pilih; ?>" style="color: white !important;">
+                    <i class="bi bi-journal-text me-2"></i>Rekapan
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='minggu'?'active':'' ?>" href="laporan_keuangan.php?subtab=minggu&bulan=<?= $bulan_pilih; ?>"><i class="bi bi-calendar3-event me-2"></i>Ibadah Minggu</a>
+                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='minggu'?'active':'' ?>" href="laporan_keuangan.php?subtab=minggu&bulan=<?= $bulan_pilih; ?>" style="color: white !important;">
+                    <i class="bi bi-calendar3-event me-2"></i>Ibadah Minggu
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='kolom'?'active':'' ?>" href="laporan_keuangan.php?subtab=kolom&bulan=<?= $bulan_pilih; ?>"><i class="bi bi-grid-3x3-gap-fill me-2"></i>Setoran Kolom</a>
-            </li>
-            <!-- POSISI BARU: TAMPILAN SETELAH SETORAN KOLOM -->
-            <li class="nav-item">
-                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='bipra'?'active':'' ?>" href="laporan_keuangan.php?subtab=bipra&bulan=<?= $bulan_pilih; ?>"><i class="bi bi-diagram-3-fill me-2"></i>Penyetoran BIPRA</a>
+                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='kolom'?'active':'' ?>" href="laporan_keuangan.php?subtab=kolom&bulan=<?= $bulan_pilih; ?>" style="color: white !important;">
+                    <i class="bi bi-grid-3x3-gap-fill me-2"></i>Setoran Kolom
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='sampul'?'active':'' ?>" href="laporan_keuangan.php?subtab=sampul&bulan=<?= $bulan_pilih; ?>"><i class="bi bi-envelope-paper-heart-fill me-2"></i>Penerimaan Sampul</a>
+                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='bipra'?'active':'' ?>" href="laporan_keuangan.php?subtab=bipra&bulan=<?= $bulan_pilih; ?>" style="color: white !important;">
+                    <i class="bi bi-diagram-3-fill me-2"></i>Penyetoran BIPRA
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='khusus'?'active':'' ?>" href="laporan_keuangan.php?subtab=khusus&bulan=<?= $bulan_pilih; ?>"><i class="bi bi-stars me-2"></i>Ibadah Khusus</a>
+                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='sampul'?'active':'' ?>" href="laporan_keuangan.php?subtab=sampul&bulan=<?= $bulan_pilih; ?>" style="color: white !important;">
+                    <i class="bi bi-envelope-paper-heart-fill me-2"></i>Penerimaan Sampul
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='pengeluaran'?'active':'' ?>" href="laporan_keuangan.php?subtab=pengeluaran&bulan=<?= $bulan_pilih; ?>"><i class="bi bi-cart-dash-fill me-2"></i>Pengeluaran</a>
+                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='khusus'?'active':'' ?>" href="laporan_keuangan.php?subtab=khusus&bulan=<?= $bulan_pilih; ?>" style="color: white !important;">
+                    <i class="bi bi-stars me-2"></i>Ibadah Khusus
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='pengeluaran'?'active':'' ?>" href="laporan_keuangan.php?subtab=pengeluaran&bulan=<?= $bulan_pilih; ?>" style="color: white !important;">
+                    <i class="bi bi-cart-dash-fill me-2"></i>Pengeluaran
+                </a>
             </li>
         </ul>
 

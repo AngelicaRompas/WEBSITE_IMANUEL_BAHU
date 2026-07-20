@@ -1,5 +1,5 @@
 /* ========================================================
-   STYLE HEADER & TYPOGRAPHY
+   STYLE HEADER ESTETIS (SERAGAM)
    ======================================================== */
 .page-header-premium {
     padding-top: 6rem;
@@ -8,21 +8,44 @@
 }
 
 .main-title-aesthetic {
-    font-family: 'Playfair Display', serif;
-    /* FIX: Batas bawah clamp diturunkan dari 3rem ke 1.8rem agar proporsional di HP */
-    font-size: clamp(1.8rem, 5vw, 4rem);
-    font-weight: 900;
-    color: #0f172a;
-    letter-spacing: -1px;
-    line-height: 1.2;
+    font-family: 'Playfair Display', serif !important;
+    font-size: clamp(2rem, 6vw, 4.5rem) !important;
+    font-weight: 900 !important;
+    color: #ffffff !important;
+    line-height: 1.1 !important;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.7) !important;
+    margin-bottom: 0.5rem !important;
 }
 
 .sub-title-aesthetic {
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: clamp(1rem, 2vw, 1.25rem);
     font-weight: 600;
-    color: #6f42c1;
+    color: #ffffff !important; 
     letter-spacing: 0.5px;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+}
+
+/* Garis Dekoratif (Divider) */
+.premium-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.premium-divider .line {
+    height: 1px;
+    width: 80px;
+    background: linear-gradient(90deg, transparent, #ffffff, transparent);
+}
+.premium-divider .dot {
+    width: 6px;
+    height: 6px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    margin: 0 10px;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
 }
 
 /* ========================================================
@@ -31,7 +54,6 @@
 .glass-card { 
     background: rgba(255, 255, 255, 0.9); 
     backdrop-filter: blur(10px); 
-    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(111, 66, 193, 0.1); 
     border-radius: 20px; 
     box-shadow: 0 8px 32px rgba(111, 66, 193, 0.05); 
@@ -40,159 +62,73 @@
 .saldo-card-glass {
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
     border: 1px solid rgba(255, 255, 255, 1);
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
     transition: transform 0.3s ease;
 }
 
-.saldo-card-glass:hover {
-    transform: translateY(-5px);
-}
+.saldo-card-glass:hover { transform: translateY(-5px); }
 
-.saldo-primary-glass {
-    background: rgba(111, 66, 193, 0.9); /* Ungu */
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
+/* ========================================================
+   STYLE NAVIGASI TAB (PERBAIKAN TULISAN PUTIH)
+   ======================================================== */
+.tab-publik { 
+    color: #ffffff !important; /* Tulisan putih */
+    background: rgba(255, 255, 255, 0.1) !important; 
+    font-weight: 600; 
+    transition: .3s; 
+}
+.tab-publik:hover { background: rgba(255, 255, 255, 0.2) !important; }
+.tab-publik.active { 
+    background: #6f42c1 !important; 
+    color: #ffffff !important; 
+    box-shadow: 0 4px 12px rgba(111, 66, 193, 0.4); 
 }
 
 /* ========================================================
-   MODIFIKASI TABEL GLASSMORPHISM
+   STYLE TOMBOL TUTUP AKSES
+   ======================================================== */
+.btn-outline-white {
+    border: 2px solid #ffffff !important;
+    color: #ffffff !important;
+    background: transparent !important;
+    border-radius: 50px;
+    font-weight: 700;
+    transition: 0.3s;
+}
+.btn-outline-white:hover {
+    background: #ffffff !important;
+    color: #6f42c1 !important;
+}
+
+/* ========================================================
+   STYLE TABEL GLASSMORPHISM
    ======================================================== */
 .table-glass-container {
     background: rgba(255, 255, 255, 0.65);
     backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 1);
     border-radius: 20px;
     padding: 2rem;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
 }
 
-.table-custom {
-    margin-bottom: 0;
-}
-
 .table-custom thead th {
-    background-color: rgba(111, 66, 193, 0.08); /* Ungu muda */
+    background-color: rgba(111, 66, 193, 0.08);
     color: #0f172a;
     font-weight: 700;
-    border-bottom: 2px solid rgba(111, 66, 193, 0.2);
     text-transform: uppercase;
     font-size: 0.85rem;
-    letter-spacing: 0.5px;
 }
 
-.table-custom tbody td {
-    background-color: transparent !important;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    vertical-align: middle;
-}
-
-.table-custom tbody tr:hover td {
-    background-color: rgba(255, 255, 255, 0.9) !important;
-}
+.table-custom tbody tr:hover td { background-color: rgba(255, 255, 255, 0.9) !important; }
 
 /* ========================================================
-   STYLING KARTU BULAN
-   ======================================================== */
-.month-card {
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 12px;
-    padding: 10px;
-    transition: all 0.3s ease;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.9rem;
-    font-weight: 600;
-}
-
-.month-card:hover {
-    background: rgba(111, 66, 193, 0.1);
-    transform: translateY(-3px);
-}
-
-.month-card.active {
-    background: linear-gradient(135deg, #6f42c1, #4a2c85);
-    color: white;
-}
-
-.month-card i { 
-    font-size: 1.1rem; 
-}
-
-.month-card a {
-    transition: transform 0.2s ease;
-}
-
-.month-card a:hover {
-    transform: scale(1.2);
-}
-
-/* ========================================================
-   BUTTONS & UTILITIES
-   ======================================================== */
-.btn-purple { 
-    background: #6f42c1; 
-    color: white; 
-    border-radius: 50px; 
-    transition: 0.3s;
-}
-
-.btn-purple:hover { 
-    background: #5a369e; 
-    color: white; 
-    transform: translateY(-2px);
-}
-
-.text-purple { 
-    color: #6f42c1; 
-}
-
-/* ========================================================
-   MEDIA QUERIES OPTIMISASI KHUSUS MOBILE (NEW)
+   MEDIA QUERIES MOBILE
    ======================================================== */
 @media (max-width: 767.98px) {
-    .page-header-premium {
-        padding-top: 4rem; /* Mengurangi spasi kosong atas di HP */
-        padding-bottom: 2rem;
-    }
-
-    /* FIX: Mempersempit padding dalam container tabel agar area grid data lebih luas di HP */
-    .table-glass-container {
-        padding: 1rem !important;
-        border-radius: 16px;
-    }
-
-    /* Menyesuaikan ukuran font sel tabel agar tidak berdesakan */
-    .table-custom thead th {
-        font-size: 0.75rem;
-        padding: 10px 8px;
-    }
-    
-    .table-custom tbody td {
-        font-size: 0.8rem;
-        padding: 10px 8px;
-    }
-
-    .glass-card {
-        padding: 1.5rem 1.25rem !important;
-        border-radius: 16px;
-    }
-    
-    /* Mengatur jarak antar baris kartu statistik kas (masuk, keluar, saldo) saat menumpuk */
-    .row.g-4 > [class*='col-'] {
-        margin-bottom: 0.5rem;
-    }
-    
-    /* Mengoptimalkan ukuran komponen bulan kecil */
-    .month-card {
-        padding: 8px 12px;
-        font-size: 0.82rem;
-    }
+    .page-header-premium { padding-top: 4rem; padding-bottom: 2rem; }
+    .table-glass-container { padding: 1rem !important; }
+    .main-title-aesthetic { font-size: 1.8rem !important; }
 }
