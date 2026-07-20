@@ -66,18 +66,30 @@ if ($detail_tgl && $akses_warta) {
 <?php include 'navbar.php'; ?>
 
 <!-- Premium Header Area -->
-<section class="page-header-premium text-center z-2 mt-5 pt-5">
-    <div class="container mt-3">
+<section class="page-header-premium text-center z-2">
+    <div class="container">
+        <!-- Badge Atas -->
         <div data-aos="fade-down" data-aos-duration="800">
-            <span class="badge rounded-pill px-3 py-2 small mb-3 fw-bold tracking-widest label-badge-purple">
+            <span class="badge rounded-pill px-3 py-2 small mb-3 fw-bold tracking-widest" style="background-color: #f3effb; color: #6f42c1; letter-spacing: 2px;">
                 <i class="bi bi-journal-bookmark-fill me-2"></i>INFORMASI DIGITAL
             </span>      
         </div>
-        <h1 class="main-title-aesthetic fw-bolder mb-3 text-dark head-title-warta">
+        
+        <!-- Judul Utama -->
+        <h1 class="main-title-aesthetic mb-2" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="100">
             Warta Jemaat
         </h1>
-        <p class="text-muted fw-medium mb-0 subtitle-warta">
-            Pusat Informasi Pelayanan dan Jadwal Ibadah GMIM Imanuel Bahu
+        
+        <!-- Divider Estetis -->
+        <div class="premium-divider" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200">
+            <div class="line"></div>
+            <div class="dot"></div>
+            <div class="line"></div>
+        </div>
+        
+        <!-- Sub Judul -->
+        <p class="sub-title-aesthetic fw-medium mb-0" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+            Pusat Informasi Pelayanan dan Jadwal Ibadah <span class="church-highlight">GMIM Imanuel Bahu</span>
         </p>
     </div>
 </section>
@@ -101,8 +113,13 @@ if ($detail_tgl && $akses_warta) {
     <?php else: ?>
         <!-- Navigasi Atas Menu Setelah Akses Terbuka -->
         <div class="d-flex justify-content-between align-items-center mb-4 mt-3" data-aos="fade-in">
-            <h4 class="fw-bold m-0 text-dark"><i class="bi bi-collection-play text-primary me-2"></i> <?php echo $detail_tgl ? 'Detail Warta Digital' : 'Galeri Warta Jemaat'; ?></h4>
-            <a href="warta-jemaat.php?logout=1" class="btn btn-outline-danger btn-sm rounded-pill px-4 fw-bold shadow-sm">
+            <!-- Menambahkan class 'text-white' dan 'shadow-sm' agar tulisan putih dan menonjol -->
+            <h4 class="fw-bold m-0 text-white" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.5);">
+                <i class="bi bi-collection-play me-2"></i> <?php echo $detail_tgl ? 'Detail Warta Digital' : 'Galeri Warta Jemaat'; ?>
+            </h4>
+            
+            <!-- Mengubah warna tombol menjadi putih dengan 'btn-outline-light' -->
+            <a href="warta-jemaat.php?logout=1" class="btn btn-outline-light btn-sm rounded-pill px-4 fw-bold shadow-sm">
                 <i class="bi bi-box-arrow-right me-1"></i> Tutup Akses
             </a>
         </div>

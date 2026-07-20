@@ -6,7 +6,7 @@ body {
 }
 
 /* =========================================
-   STYLE HEADER (Disamakan dengan Menu Keuangan)
+   STYLE HEADER (SERAGAM ESTETIS)
 ========================================= */
 .page-header-premium {
     padding-top: 6rem;
@@ -16,12 +16,37 @@ body {
 
 .main-title-aesthetic, .head-title-warta {
     font-family: 'Playfair Display', serif !important;
-    /* Mengubah batas bawah clamp dari 3rem ke 1.8rem agar fleksibel di layar kecil */
-    font-size: clamp(1.8rem, 5vw, 4rem) !important;
+    font-size: clamp(2rem, 6vw, 4.5rem) !important;
     font-weight: 900 !important;
-    color: #0f172a !important;
+    color: #ffffff !important;
     letter-spacing: -1px !important;
-    line-height: 1.2;
+    line-height: 1.1;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+}
+
+.sub-title-aesthetic {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 600;
+    color: #ffffff !important;
+    letter-spacing: 0.5px;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+}
+
+.church-highlight { color: #ffffff; font-weight: 800; }
+
+.premium-divider {
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 1.5rem; margin-bottom: 1.5rem;
+}
+.premium-divider .line {
+    height: 1px; width: 80px;
+    background: linear-gradient(90deg, transparent, #ffffff, transparent);
+}
+.premium-divider .dot {
+    width: 6px; height: 6px; background-color: #ffffff;
+    border-radius: 50%; margin: 0 10px;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
 }
 
 /* =========================================
@@ -36,7 +61,6 @@ body {
     box-shadow: 0 8px 32px rgba(111, 66, 193, 0.08); 
 }
 
-/* KELAS BARU: Untuk mengecilkan & menengahkan kotak autentikasi Warta */
 .auth-box {
     max-width: 500px !important;
     margin-left: auto !important;
@@ -44,88 +68,58 @@ body {
 }
 
 .btn-purple { 
-    background: #6f42c1; 
-    color: white; 
-    border-radius: 50px; 
-    transition: 0.3s;
+    background: #6f42c1; color: white; border-radius: 50px; transition: 0.3s;
+}
+.btn-purple:hover { background: #5a369e; color: white; transform: translateY(-2px); }
+
+/* =========================================
+   STYLE TEXT & TOMBOL KHUSUS (WARNA PUTIH)
+========================================= */
+/* Memperbaiki warna judul galeri dan tombol tutup akses agar putih */
+.text-white-shadow {
+    color: #ffffff !important;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+}
+.btn-outline-white {
+    border: 2px solid #ffffff !important;
+    color: #ffffff !important;
+    background: transparent !important;
+}
+.btn-outline-white:hover {
+    background: #ffffff !important;
+    color: #6f42c1 !important;
 }
 
-.btn-purple:hover { 
-    background: #5a369e; 
-    color: white; 
-    transform: translateY(-2px);
-}
-
-.list-group-item { 
-    border: none; 
-    transition: 0.3s; 
-}
-
-.list-group-item:hover { 
-    transform: translateX(5px); 
-    background: rgba(111, 66, 193, 0.05); 
-    border-radius: 10px;
-}
+.list-group-item { border: none; transition: 0.3s; }
+.list-group-item:hover { transform: translateX(5px); background: rgba(111, 66, 193, 0.05); border-radius: 10px; }
 
 /* =========================================
    STYLE FOTO KHADIM & TAMPILAN DETAIL
 ========================================= */
 .khadim-img { 
-    width: 180px; 
-    height: 240px; 
-    object-fit: cover; 
-    border-radius: 16px; 
-    border: 5px solid #f3effb; 
-    box-shadow: 0 8px 20px rgba(111, 66, 193, 0.15);
+    width: 180px; height: 240px; object-fit: cover; border-radius: 16px; 
+    border: 5px solid #f3effb; box-shadow: 0 8px 20px rgba(111, 66, 193, 0.15);
 }
-
-.icon-placeholder {
-    font-size: 6rem; 
-    color: #adb5bd;
-}
+.icon-placeholder { font-size: 6rem; color: #adb5bd; }
 
 /* =========================================
    STYLE KARTU GALERI WARTA (GRID)
 ========================================= */
-.warta-card-hover {
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-    border: none;
-}
-
-.warta-card-hover:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(111, 66, 193, 0.15) !important;
-}
+.warta-card-hover { transition: transform 0.4s ease, box-shadow 0.4s ease; border: none; }
+.warta-card-hover:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(111, 66, 193, 0.15) !important; }
 
 .warta-cover-wrapper {
-    position: relative;
-    overflow: hidden;
-    background-color: #f3effb;
-    height: 180px; /* Ukuran tinggi cover kartu */
+    position: relative; overflow: hidden; background-color: #f3effb; height: 180px;
 }
-
-.warta-cover-wrapper img {
-    transition: transform 0.6s ease;
-}
-
-.warta-card-hover:hover .warta-cover-wrapper img {
-    transform: scale(1.08);
-}
+.warta-cover-wrapper img { transition: transform 0.6s ease; }
+.warta-card-hover:hover .warta-cover-wrapper img { transform: scale(1.08); }
 
 .warta-overlay {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     background: linear-gradient(to bottom, rgba(111, 66, 193, 0.1), rgba(111, 66, 193, 0.8));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.4s ease;
+    display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s ease;
 }
-
-.warta-card-hover:hover .warta-overlay {
-    opacity: 1;
-}
+.warta-card-hover:hover .warta-overlay { opacity: 1; }
 
 /* =========================================
    UTILITY CLASSES (WARNA, BADGE, TEXT)
@@ -135,41 +129,14 @@ body {
 .label-badge-purple { letter-spacing: 2px; background-color: rgba(111, 66, 193, 0.1); color: #6f42c1; }
 .divider-line { opacity: 0.1; }
 .wrapper-bottom-card { border-radius: 0 0 20px 20px; }
-.wrapper-download-btn { border-color: rgba(0,0,0,0.05) !important; }
 
 /* =========================================
-   OPTIMISASI KHUSUS RESPONSIVE MOBILE (NEW)
+   OPTIMISASI KHUSUS RESPONSIVE MOBILE
 ========================================= */
 @media (max-width: 767.98px) {
-    .page-header-premium {
-        padding-top: 4rem; 
-        padding-bottom: 2rem;
-    }
-
-    .main-title-aesthetic, .head-title-warta {
-        font-size: clamp(1.8rem, 6vw, 2.5rem) !important; 
-    }
-
-    .glass-card {
-        padding: 1.25rem !important; 
-        border-radius: 16px;
-    }
-
-    .khadim-img {
-        width: 140px; 
-        height: 190px;
-        border-width: 4px;
-    }
-
-    .icon-placeholder {
-        font-size: 4.5rem;
-    }
-    
-    .warta-cover-wrapper {
-        height: 160px; 
-    }
-
-    .row.g-4 > [class*='col-'] {
-        margin-bottom: 0.5rem;
-    }
+    .page-header-premium { padding-top: 4rem; padding-bottom: 2rem; }
+    .main-title-aesthetic, .head-title-warta { font-size: clamp(1.8rem, 6vw, 2.5rem) !important; }
+    .glass-card { padding: 1.25rem !important; border-radius: 16px; }
+    .khadim-img { width: 140px; height: 190px; border-width: 4px; }
+    .warta-cover-wrapper { height: 160px; }
 }
