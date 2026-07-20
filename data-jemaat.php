@@ -49,37 +49,51 @@ list($labelsBipra, $dataBipra) = getDataChart('bipra', $dataPerKategori, $totalA
     <title>Statistik & Struktur Jemaat - GMIM Imanuel Bahu</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="assets/css/style-beranda.css">
-    <link rel="stylesheet" href="assets/css/data-jemaat.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style-beranda.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="assets/css/data-jemaat.css?v=<?php echo time(); ?>">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-<div class="digital-grid"></div>
-    <div class="aurora-container">
-        <div class="aurora-blob blob-blue"></div>
-        <div class="aurora-blob blob-soft"></div>
-    </div>
-
-<section class="py-5 text-center position-relative z-2" style="padding-top: 6rem; padding-bottom: 3rem;">
+<section class="page-header-premium text-center position-relative z-3">
     <div class="container">
-        <h1 class="fw-bold" style="font-family: 'Playfair Display', serif; font-size: clamp(3rem, 5vw, 4rem); color: #0f172a;">
+        <!-- Badge Atas -->
+        <div data-aos="fade-down" data-aos-duration="800">
+            <span class="badge rounded-pill px-3 py-2 small mb-3 fw-bold tracking-widest" style="background-color: #f3effb; color: #6f42c1; letter-spacing: 2px;">
+                <i class="bi bi-bar-chart-fill me-2"></i>DATA & STATISTIK GEREJA
+            </span>
+        </div>
+        
+        <!-- Judul Utama -->
+        <h1 class="main-title-aesthetic mb-2" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="100">
             Statistik & Struktur Jemaat
         </h1>
-        <p class="text-muted fw-medium">Sinkronisasi Terakhir: <?php echo date('d F Y, H:i'); ?></p>
+        
+        <!-- Garis Dekoratif (Divider) -->
+        <div class="premium-divider" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200">
+            <div class="line"></div>
+            <div class="dot"></div>
+            <div class="line"></div>
+        </div>
+        
+        <!-- Sub Judul -->
+        <p class="sub-title-aesthetic fw-medium mb-0" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+            Sinkronisasi Terakhir: <?php echo date('d F Y, H:i'); ?>
+        </p>
     </div>
 </section>
 
 <div class="container container-stats px-4">
     
-    <div class="row g-4 mb-4">
+    <div class="row g-4 mb-4" data-aos="fade-up" data-aos-delay="400">
         <div class="col-md-4">
             <div class="card stat-card p-4">
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
                         <h6 class="text-muted fw-bold small text-uppercase tracking-wider mb-1">Total Kolom</h6>
-                        <h2 class="fw-extrabold mb-0 text-dark"><?php echo number_format($stats['Kolom'] ?? 0, 0, ',', '.'); ?></h2>
+                        <h2 class="fw-extrabold mb-0" style="color: #1e293b !important; text-shadow: none !important;"><?php echo number_format($stats['Kolom'] ?? 0, 0, ',', '.'); ?></h2>
                     </div>
                     <div class="icon-box bg-blue-light"><i class="bi bi-grid-3x3-gap-fill"></i></div>
                 </div>
@@ -90,7 +104,7 @@ list($labelsBipra, $dataBipra) = getDataChart('bipra', $dataPerKategori, $totalA
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
                         <h6 class="text-muted fw-bold small text-uppercase tracking-wider mb-1">Total Keluarga</h6>
-                        <h2 class="fw-extrabold mb-0 text-dark"><?php echo number_format($stats['Keluarga'] ?? 0, 0, ',', '.'); ?></h2>
+                        <h2 class="fw-extrabold mb-0" style="color: #1e293b !important; text-shadow: none !important;"><?php echo number_format($stats['Keluarga'] ?? 0, 0, ',', '.'); ?></h2>
                     </div>
                     <div class="icon-box bg-green-light"><i class="bi bi-house-door-fill"></i></div>
                 </div>
@@ -101,7 +115,7 @@ list($labelsBipra, $dataBipra) = getDataChart('bipra', $dataPerKategori, $totalA
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
                         <h6 class="text-muted fw-bold small text-uppercase tracking-wider mb-1">Anggota Jemaat</h6>
-                        <h2 class="fw-extrabold mb-0 text-dark"><?php echo number_format($stats['Anggota'] ?? 0, 0, ',', '.'); ?></h2>
+                        <h2 class="fw-extrabold mb-0" style="color: #1e293b !important; text-shadow: none !important;"><?php echo number_format($stats['Anggota'] ?? 0, 0, ',', '.'); ?></h2>
                     </div>
                     <div class="icon-box bg-orange-light"><i class="bi bi-people-fill"></i></div>
                 </div>
@@ -147,8 +161,8 @@ list($labelsBipra, $dataBipra) = getDataChart('bipra', $dataPerKategori, $totalA
     <div class="row g-4 pb-5">
         <div class="col-12">
             <div class="text-center mb-4">
-                <h3 class="fw-bold text-dark mb-1"><i class="bi bi-diagram-3-fill text-primary me-2"></i>Struktur Organisasi Jemaat</h3>
-                <p class="text-muted small mb-0">Susunan pelayan tata laksana administrasi jemaat aktif</p>
+                <h3 class="fw-bold text-white mb-1" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.7);"><i class="bi bi-diagram-3-fill text-primary me-2"></i>Struktur Organisasi Jemaat</h3>
+                <p class="text-white small mb-0" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.7);">Susunan pelayan tata laksana administrasi jemaat aktif</p>
             </div>
             
             <div class="text-center mb-5">
@@ -675,5 +689,8 @@ function showPhoto(src){
 }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init({ once: true, offset: 50 });</script>
+
 </body>
 </html>
