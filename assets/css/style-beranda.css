@@ -1,6 +1,6 @@
 /* ========================================================
    FILE: assets/css/style-beranda.css
-   TEMA: Glassmorphism, Clean, Digital Aesthetic
+   TEMA: Fixed Background, Solid White Cards, Responsive
    ======================================================== */
 
 :root { 
@@ -8,71 +8,96 @@
 }
 
 body {
-    background-color: #f8fafc;
+    background-image: url('../images/background_web_gib.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
     font-family: 'Plus Jakarta Sans', sans-serif;
     position: relative;
     overflow-x: hidden; 
+    color: #ffffff;
 }
 
-/* Utilitas Global Ungu */
+/* Utilitas Global */
 .bg-primary { background-color: #6f42c1 !important; }
 .text-primary { color: #6f42c1 !important; }
 .btn-primary { background-color: #6f42c1 !important; border-color: #6f42c1 !important; }
 .btn-outline-primary { border-color: #6f42c1 !important; color: #6f42c1 !important; }
 .btn-outline-primary:hover { background-color: #6f42c1 !important; color: white !important; }
-.border-primary { border-color: #6f42c1 !important; }
-.bg-opacity-10 { background-color: rgba(111, 66, 193, 0.1) !important; }
 
-/* Digital Grid */
-.digital-grid {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
-    background-image: linear-gradient(rgba(111, 66, 193, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(111, 66, 193, 0.04) 1px, transparent 1px);
-    background-size: 40px 40px; pointer-events: none;
-}
-
-/* Aurora Blobs */
-.aurora-container {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-    overflow: hidden; pointer-events: none;
-}
-.aurora-blob {
-    position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.28;
-    animation: floatGlow 15s infinite alternate ease-in-out;
-}
-.blob-blue { top: -10%; left: 10%; width: 45vw; height: 45vw; background: #6f42c1; }
-.blob-soft { bottom: -10%; right: -5%; width: 55vw; height: 55vw; background: #f3effb; animation-delay: -5s; }
-
-@keyframes floatGlow {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(3vw, 5vh) scale(1.1); }
-}
-
-/* Hero Section */
-.hero-section { min-height: 80vh; display: flex; align-items: center; position: relative; }
+/* Judul Utama */
 .hero-title { 
     font-family: 'Plus Jakarta Sans', sans-serif;
-    letter-spacing: -1.5px; line-height: 1.1; color: #0f172a; 
+    letter-spacing: -1.5px; line-height: 1.1; color: #ffffff !important; 
     font-size: clamp(2.8rem, 5.5vw, 4.2rem) !important;
-    text-shadow: none !important;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5); 
 }
 .church-name-aesthetic { 
     font-family: 'Playfair Display', serif; font-weight: 700;
-    background: linear-gradient(135deg, #6f42c1 0%, #4a2c85 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+    color: #ffffff !important; 
 }
 
-/* Cards & Components */
+/* Judul Section (Memaksa warna putih agar mengalahkan class text-dark Bootstrap) */
+h2, h2.text-dark {
+    color: #ffffff !important;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+}
+
+/* Struktur Kolom agar kartu di dalamnya bisa memiliki tinggi yang rata */
+.row > [class*="col-"] {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Cards (Putih Solid, Gambar Penuh Edge-to-Edge) */
 .glass-card {
-    background: rgba(255, 255, 255, 0.75);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 1);
+    background: #ffffff !important;
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
-    position: relative; z-index: 2;
+    flex-grow: 1; 
+    display: flex;
+    flex-direction: column;
+    /* Memastikan gambar ujungnya melengkung mengikuti kartu */
+    overflow: hidden !important; 
 }
-.glass-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(111, 66, 193, 0.15); }
+.glass-card:hover { transform: translateY(-5px); }
 
+/* Teks di dalam kartu (Gelap agar terbaca di atas Putih) */
+.glass-card .text-dark,
+.glass-card h1, .glass-card h2, .glass-card h3, .glass-card h4, .glass-card h5, .glass-card p, .glass-card span { 
+    color: #333333 !important; 
+    text-shadow: none !important; 
+}
+
+/* Memastikan tombol di dalam kartu selalu menempel di bagian bawah */
+.glass-card .mt-auto {
+    margin-top: auto !important;
+}
+
+/* Perbaikan khusus Layanan Informasi Digital */
+.info-section .glass-card {
+    padding: 1rem !important; /* Hanya kotak informasi yang diberi padding agar tulisannya tidak menabrak batas */
+}
+
+/* Paksa sejajar 3 kolom di desktop untuk Layanan Informasi */
+@media (min-width: 992px) {
+    .info-section .row {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        justify-content: center;
+        gap: 1.5rem; 
+    }
+    .info-section .row > div {
+        flex: 1 1 33.333% !important;
+        max-width: 33.333% !important;
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+/* Komponen Lain */
 .icon-pulse {
     display: inline-flex; align-items: center; justify-content: center;
     width: 70px; height: 70px; border-radius: 50%;
@@ -87,72 +112,28 @@ body {
 
 .zoom-img:hover { transform: scale(1.1); }
 
-.verse-text { 
-    font-family: 'Playfair Display', serif; font-size: clamp(1.3rem, 2.5vw, 1.9rem); 
-    font-style: italic; color: #4a2c85; line-height: 1.6;
-}
+/* Font Ayat */
+.verse-text { font-family: 'Playfair Display', serif; font-size: clamp(1.3rem, 2.5vw, 1.9rem); font-style: italic; color: #4a2c85; line-height: 1.6; }
 
-/* Event Calendar Badge */
 .event-calendar-badge { min-width: 65px; text-align: center; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(111, 66, 193, 0.15); }
-.event-calendar-month { background: #6f42c1; color: white; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; padding: 4px 0; letter-spacing: 1px; }
+.event-calendar-month { background: #6f42c1; color: white; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; padding: 4px 0; }
 .event-calendar-date { background: white; color: #6f42c1; font-size: 1.5rem; font-weight: 800; padding: 6px 0; line-height: 1; }
 
-/* Merapikan judul berita agar tidak berantakan */
-.line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-.object-fit-cover {
-    object-fit: cover;
-}
+.line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.object-fit-cover { object-fit: cover; }
 
-/* ========================================================
-   RESPONSIVE MOBILE ADJUSTMENTS (OPTIMIZED)
-   ======================================================== */
+/* Responsive Mobile */
 @media (max-width: 767px) {
-    .hero-title { 
-        font-size: clamp(1.8rem, 6vw, 2.4rem) !important; 
-        margin-bottom: 1.2rem !important; 
-        padding: 0; 
-        line-height: 1.2;
-    }
+    .hero-title { font-size: clamp(1.8rem, 6vw, 2.4rem) !important; line-height: 1.2; }
+    .church-name-aesthetic { font-size: clamp(2rem, 7vw, 2.6rem) !important; white-space: normal !important; }
+    .glass-card { border-radius: 16px; margin-bottom: 1rem; }
     
-    /* FIX: Hapus white-space nowrap agar teks membungkus rapi di layar kecil */
-    .church-name-aesthetic { 
-        font-size: clamp(2rem, 7vw, 2.6rem) !important; 
-        white-space: normal !important; 
-        display: inline-block; 
-        margin-top: 5px; 
-        word-break: break-word;
+    /* Mengembalikan ke susunan vertikal untuk layar HP */
+    .info-section .row {
+        flex-wrap: wrap !important;
     }
-    
-    .hero-section { 
-        padding-top: 3rem !important; 
-        padding-bottom: 3rem !important; 
-        min-height: auto;
-    }
-    
-    .row.g-4 > [class*='col-'] { 
-        margin-bottom: 1rem; 
-    }
-    
-    .glass-card { 
-        padding: 1.25rem !important; 
-        border-radius: 16px;
-    }
-    
-    .glass-card [style*="height: 320px"] { 
-        height: 220px !important; 
-    }
-    
-    h2 { 
-        font-size: clamp(1.4rem, 5vw, 1.8rem) !important; 
-    }
-    
-    .container-fluid { 
-        padding-left: 15px !important; 
-        padding-right: 15px !important; 
+    .info-section .row > div {
+        flex: 1 1 100% !important;
+        max-width: 100% !important;
     }
 }
