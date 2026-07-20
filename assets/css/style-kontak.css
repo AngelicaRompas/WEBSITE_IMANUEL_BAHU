@@ -1,6 +1,6 @@
-/* ========================================================
-   HEADER & TYPOGRAPHY STYLE
-   ======================================================== */
+/* ==========================================================================
+   1. HEADER & TYPOGRAPHY STYLE
+   ========================================================================== */
 .page-header-premium {
     padding-top: 6rem;
     padding-bottom: 3rem;
@@ -8,31 +8,47 @@
 }
 
 .main-title-aesthetic {
-    font-family: 'Playfair Display', serif;
-    /* FIX: Batas bawah clamp diturunkan dari 3rem ke 1.8rem agar proporsional di HP */
-    font-size: clamp(1.8rem, 5vw, 4rem);
-    font-weight: 900;
-    color: #0f172a;
-    letter-spacing: -1px;
-    line-height: 1.2;
+    font-family: 'Playfair Display', serif !important;
+    font-size: clamp(2rem, 6vw, 4.5rem) !important;
+    font-weight: 900 !important;
+    color: #ffffff !important;
+    line-height: 1.1;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7) !important;
 }
 
-/* ========================================================
-   CARD STYLE (IDENTIK WARTA/KEUANGAN)
-   ======================================================== */
+.sub-title-aesthetic {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    color: #ffffff !important;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7) !important;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   2. CARD STYLE (PUTIH SOLID & TEKS GELAP)
+   ========================================================================== */
 .glass-card-custom {
-    background: rgba(255, 255, 255, 0.75);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 1);
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    background: #ffffff !important; /* Putih solid untuk keterbacaan maksimal */
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
 }
 
 .glass-card-custom:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 30px rgba(111, 66, 193, 0.12) !important;
+}
+
+/* Memperjelas judul informasi (Alamat, Email, Jam) */
+.glass-card-custom h6 {
+    color: #0f172a !important; /* Hitam kebiruan tegas */
+    font-weight: 700 !important;
+}
+
+/* Memastikan teks detail lebih gelap dan terbaca */
+.glass-card-custom p.text-muted {
+    color: #334155 !important; /* Abu-abu gelap agar terbaca jelas */
+    font-weight: 500;
 }
 
 .icon-circle-purple {
@@ -45,61 +61,60 @@
     font-size: 1.5rem;
     background: rgba(111, 66, 193, 0.1); 
     color: #6f42c1;
-    flex-shrink: 0; /* Menjaga ikon tidak mengkerut saat teks info di HP sangat panjang */
+    flex-shrink: 0;
 }
 
-/* ========================================================
-   AESTHETIC FORM CONTROL STYLE
-   ======================================================== */
+/* ==========================================================================
+   3. AESTHETIC FORM CONTROL STYLE
+   ========================================================================== */
 .form-control-aesthetic {
     border-radius: 12px;
     padding: 12px 20px;
-    border: 1px solid rgba(0,0,0,0.08);
-    background: rgba(255,255,255,0.5);
+    border: 1px solid #e2e8f0;
+    background: #f8fafc !important; /* Warna dasar lembut agar membedakan input */
     transition: all 0.3s ease;
     font-family: 'Plus Jakarta Sans', sans-serif;
+    color: #1e293b !important; /* Teks input gelap */
 }
 
 .form-control-aesthetic:focus {
-    background: #fff;
+    background: #ffffff !important;
     border-color: #6f42c1;
     box-shadow: 0 0 0 4px rgba(111, 66, 193, 0.1);
 }
 
-/* ========================================================
-   MEDIA QUERIES OPTIMISASI KHUSUS MOBILE (NEW)
-   ======================================================== */
+.btn-primary {
+    background-color: #6f42c1 !important;
+    border-color: #6f42c1 !important;
+}
+
+/* ==========================================================================
+   4. MEDIA QUERIES RESPONSIVE
+   ========================================================================== */
 @media (max-width: 767.98px) {
     .page-header-premium {
-        padding-top: 4rem; /* Mengurangi ruang kosong atas di HP */
+        padding-top: 4rem;
         padding-bottom: 2rem;
     }
 
     .glass-card-custom {
-        padding: 1.25rem !important; /* Sedikit merapatkan padding agar teks input lebih luas */
-        border-radius: 16px;
+        padding: 1.25rem !important;
+        border-radius: 20px;
     }
 
     .form-control-aesthetic {
-        padding: 10px 16px; /* Menyesuaikan tinggi input box agar pas dengan keyboard smartphone */
+        padding: 10px 16px;
         font-size: 0.92rem;
     }
 
     .icon-circle-purple {
-        width: 44px; /* Sedikit memperkecil diameter lingkaran ikon di HP */
+        width: 44px;
         height: 44px;
         font-size: 1.25rem;
         border-radius: 12px;
     }
-    
-    /* Memastikan jika ada embed peta (Google Maps) di dalam card, tingginya ikut proporsional */
-    .glass-card-custom iframe {
-        height: 250px !important; 
-        border-radius: 12px !important;
-    }
+}
 
-    /* Mengatur spasi vertikal antar kolom (Form vs Peta/Info) saat runtuh menumpuk di HP */
-    .row.g-4 > [class*='col-'] {
-        margin-bottom: 0.5rem;
-    }
+body {
+    background-color: transparent !important;
 }
