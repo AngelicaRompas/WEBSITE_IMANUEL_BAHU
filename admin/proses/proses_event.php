@@ -39,7 +39,7 @@ if (isset($_POST['simpan_event'])) {
             }
         }
     }
-    header("Location: ../admin_dashboard.php?pesan=sukses_event&tab=edit-event");
+    header("Location: ../admin_dashboard.php?pesan=sukses_event&tab=admin-event");
     exit;
 }
 
@@ -74,7 +74,7 @@ if (isset($_POST['edit_event'])) {
             }
         }
     }
-    header("Location: ../admin_dashboard.php?pesan=sukses_event&tab=edit-event");
+   header("Location: ../admin_dashboard.php?pesan=sukses_event&tab=admin-event");
     exit;
 }
 
@@ -97,7 +97,7 @@ if (isset($_GET['hapus_event'])) {
     mysqli_query($koneksi, "DELETE FROM events WHERE id='$id_hapus'");
     mysqli_query($koneksi, "DELETE FROM event_gallery WHERE event_id='$id_hapus'");
     
-    header("Location: ../admin_dashboard.php?pesan=sukses_hapus_event&tab=edit-event");
+    header("Location: ../admin_dashboard.php?pesan=sukses_hapus_event&tab=admin-event");
     exit;
 }
 ?>
