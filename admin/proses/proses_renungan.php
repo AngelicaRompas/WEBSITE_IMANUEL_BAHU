@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Tambahan: Keamanan agar tidak bisa diakses orang tanpa login
 if (!isset($_SESSION['admin_imanuel'])) {
     header("Location: ../login.php");
     exit;
@@ -22,15 +21,15 @@ if (isset($_POST['simpan_renungan'])) {
             VALUES ('$tanggal', '$tema', '$pembacaan', '$renungan', '$doa')";
 
     if (mysqli_query($koneksi, $sql)) {
-        // PERBAIKAN: Jalur header harus mundur satu folder (../) dan membuka tab renungan
-        header("Location: ../admin_dashboard.php?pesan=sukses_renungan&tab=edit-renungan");
+        header("Location: ../admin_dashboard.php?pesan=sukses_renungan&tab=admin-renungan");
         exit;
     } else {
         die("Error Database: " . mysqli_error($koneksi));
     }
-} else {
-    // Jika file diakses langsung tanpa lewat form
-    header("Location: ../admin_dashboard.php?tab=edit-renungan");
+} 
+else {
+
+    header("Location: ../admin_dashboard.php?tab=admin-renungan");
     exit;
 }
 ?>
