@@ -39,6 +39,9 @@ if ($cek_data) {
     <div class="p-3 p-md-4">
         <form action="proses/proses_keuangan_pengeluaran.php" method="POST">
             <input type="hidden" name="tanggal" value="<?php echo $tanggal_pilih; ?>">
+            <!-- Hidden inputs untuk sinkronisasi navigasi -->
+            <input type="hidden" name="tab" value="admin-keuangan">
+            <input type="hidden" name="subtab" value="pengeluaran">
 
             <div class="table-responsive rounded-3 border border-light-subtle">
                 <table class="table table-hover align-middle mb-0 text-center custom-digital-table" id="tabel_pengeluaran" style="min-width: 600px;">
@@ -55,30 +58,22 @@ if ($cek_data) {
                             foreach ($data_existing as $data):
                         ?>
                         <tr class="pengeluaran-row border-bottom border-light-subtle">
-                            <td class="px-3">
-                                <input type="text" name="keterangan[]" class="form-control text-start input-digital-pengeluaran text-input-box" value="<?php echo $data['keterangan']; ?>" required placeholder="Contoh: Pembelian lampu taman dan perlengkapan sapras">
-                            </td>
-                            <td class="px-2">
-                                <input type="number" name="nominal[]" class="form-control text-end input-digital-pengeluaran nominal-input pengeluaran-nominal-hitung" value="<?php echo $data['nominal']; ?>" min="0" required>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-sm btn-light-danger rounded-3 hapus-baris-pengeluaran-btn"><i class="bi bi-trash3-fill"></i></button>
-                            </td>
+                            <td class="px-3"><input type="text" name="keterangan[]" class="form-control text-start input-digital-pengeluaran text-input-box" value="<?php echo $data['keterangan']; ?>" required></td>
+                            <td class="px-2"><input type="number" name="nominal[]" class="form-control text-end input-digital-pengeluaran nominal-input pengeluaran-nominal-hitung" value="<?php echo $data['nominal']; ?>" min="0" required></td>
+                            <td><button type="button" class="btn btn-sm btn-light-danger rounded-3 hapus-baris-pengeluaran-btn"><i class="bi bi-trash3-fill"></i></button></td>
                         </tr>
                         <?php 
                             endforeach;
                         else:
                         ?>
-                        <!-- Baris Awal jika data masih kosong -->
                         <tr class="pengeluaran-row border-bottom border-light-subtle">
-                            <td class="px-3"><input type="text" name="keterangan[]" class="form-control text-start input-digital-pengeluaran text-input-box" required placeholder="Keterangan alokasi belanja pengeluaran..."></td>
+                            <td class="px-3"><input type="text" name="keterangan[]" class="form-control text-start input-digital-pengeluaran text-input-box" required placeholder="Keterangan alokasi belanja..."></td>
                             <td class="px-2"><input type="number" name="nominal[]" class="form-control text-end input-digital-pengeluaran nominal-input pengeluaran-nominal-hitung" value="0" min="0" required></td>
                             <td><button type="button" class="btn btn-sm btn-light-danger rounded-3 hapus-baris-pengeluaran-btn"><i class="bi bi-trash3-fill"></i></button></td>
                         </tr>
                         <?php endif; ?>
                     </tbody>
                     <tfoot>
-                        <!-- TOTAL AKUMULASI PENGELUARAN OTOMATIS -->
                         <tr class="fw-bold border-0 bg-light-subtle" style="background: #f8fafc;">
                             <td class="text-start ps-4 py-3 text-secondary fw-bolder" style="font-size: 0.8rem;">TOTAL PENGELUARAN REAL-TIME</td>
                             <td class="text-end pe-4 py-3 font-monospace text-purple-premium fs-5" id="total-grand-pengeluaran">Rp 0</td>
@@ -88,7 +83,6 @@ if ($cek_data) {
                 </table>
             </div>
 
-            <!-- Tombol Navigasi Grid -->
             <div class="mt-4 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
                 <button type="button" id="tambah_baris_pengeluaran_btn" class="btn btn-outline-purple w-100 w-md-auto px-4 py-2 rounded-3 fw-bold">
                     <i class="bi bi-plus-circle-fill me-2"></i> Tambah Baris Pengeluaran
@@ -102,31 +96,15 @@ if ($cek_data) {
 </div>
 
 <style>
-.input-digital-pengeluaran {
-    border: 1px solid #e2e8f0 !important;
-    background: #f8fafc !important;
-    font-size: 0.9rem;
-    padding: 0.45rem 0.6rem !important;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-    font-weight: 600;
-}
-.input-digital-pengeluaran:focus {
-    background: #ffffff !important;
-    border-color: #4b1a8a !important;
-    box-shadow: 0 0 0 3px rgba(75, 26, 138, 0.15) !important;
-}
+/* CSS tetap sama */
+.input-digital-pengeluaran { border: 1px solid #e2e8f0 !important; background: #f8fafc !important; font-size: 0.9rem; padding: 0.45rem 0.6rem !important; border-radius: 8px; font-weight: 600; }
+.input-digital-pengeluaran:focus { background: #ffffff !important; border-color: #4b1a8a !important; box-shadow: 0 0 0 3px rgba(75, 26, 138, 0.15) !important; }
 .text-input-box { font-weight: 500 !important; color: #334155; }
 .nominal-input { font-family: var(--bs-font-monospace); color: #1e293b; text-align: right; }
-.btn-outline-purple { color: #4b1a8a; border: 2px solid #4b1a8a; transition: all 0.25s; }
+.btn-outline-purple { color: #4b1a8a; border: 2px solid #4b1a8a; }
 .btn-outline-purple:hover { background: #4b1a8a; color: #ffffff; }
-.btn-light-danger { background: rgba(239, 68, 68, 0.08); color: #ef4444; border: none; padding: 0.45rem 0.65rem; transition: all 0.2s; }
+.btn-light-danger { background: rgba(239, 68, 68, 0.08); color: #ef4444; border: none; padding: 0.45rem 0.65rem; }
 .btn-light-danger:hover { background: #ef4444; color: #ffffff; }
-
-/* MENYEMBUNYIKAN PANAH SPINNER ANGKA */
-.input-digital-pengeluaran::-webkit-outer-spin-button,
-.input-digital-pengeluaran::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-.input-digital-pengeluaran[type=number] { -moz-appearance: textfield; }
 </style>
 
 <script>
@@ -144,45 +122,27 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     hitungTotalPengeluaran();
+    wrapper.addEventListener("input", function(e) { if(e.target.classList.contains("pengeluaran-nominal-hitung")) hitungTotalPengeluaran(); });
 
-    // Hitung real-time saat nominal diketik
-    wrapper.addEventListener("input", function(e) {
-        if(e.target.classList.contains("pengeluaran-nominal-hitung")) {
-            hitungTotalPengeluaran();
-        }
-    });
-
-    // Tambah Baris Baru
     tambahBtn.addEventListener("click", function() {
         const barisBaru = document.createElement("tr");
         barisBaru.className = "pengeluaran-row border-bottom border-light-subtle";
-        barisBaru.innerHTML = `
-            <td class="px-3"><input type="text" name="keterangan[]" class="form-control text-start input-digital-pengeluaran text-input-box" required placeholder="Keterangan alokasi belanja pengeluaran..."></td>
-            <td class="px-2"><input type="number" name="nominal[]" class="form-control text-end input-digital-pengeluaran nominal-input pengeluaran-nominal-hitung" value="0" min="0" required></td>
-            <td><button type="button" class="btn btn-sm btn-light-danger rounded-3 hapus-baris-pengeluaran-btn"><i class="bi bi-trash3-fill"></i></button></td>
-        `;
+        barisBaru.innerHTML = `<td class="px-3"><input type="text" name="keterangan[]" class="form-control text-start input-digital-pengeluaran text-input-box" required placeholder="Keterangan alokasi..."></td><td class="px-2"><input type="number" name="nominal[]" class="form-control text-end input-digital-pengeluaran nominal-input pengeluaran-nominal-hitung" value="0" min="0" required></td><td><button type="button" class="btn btn-sm btn-light-danger rounded-3 hapus-baris-pengeluaran-btn"><i class="bi bi-trash3-fill"></i></button></td>`;
         wrapper.appendChild(barisBaru);
     });
 
-    // Hapus Baris
     wrapper.addEventListener("click", function(e) {
-        const btnHapus = e.target.closest(".hapus-baris-pengeluaran-btn");
-        if(btnHapus) {
-            const baris = btnHapus.closest(".pengeluaran-row");
-            if(document.querySelectorAll(".pengeluaran-row").length > 1) {
-                baris.remove();
-                hitungTotalPengeluaran();
-            } else {
-                alert("Minimal harus menyisakan 1 baris input data.");
-            }
+        if(e.target.closest(".hapus-baris-pengeluaran-btn")) {
+            if(document.querySelectorAll(".pengeluaran-row").length > 1) { e.target.closest(".pengeluaran-row").remove(); hitungTotalPengeluaran(); }
+            else { alert("Minimal harus menyisakan 1 baris input data."); }
         }
     });
 
-    // Router URL Sinkronisasi Tanggal
     if (tglInput) {
         tglInput.addEventListener("change", function() {
             const url = new URL(window.location);
-            url.searchParams.set("tab", "edit-keuangan");
+            // FIXED: ID Tab admin-keuangan
+            url.searchParams.set("tab", "admin-keuangan");
             url.searchParams.set("subtab", "pengeluaran");
             url.searchParams.set("tgl_keuangan", this.value);
             window.location.search = url.search;

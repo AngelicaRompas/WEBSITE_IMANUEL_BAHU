@@ -1,5 +1,9 @@
 <?php
 // admin_keuangan_khusus.php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+// Pastikan path koneksi sudah sesuai
 $tanggal_pilih = isset($_GET['tgl_keuangan']) ? mysqli_real_escape_string($koneksi, $_GET['tgl_keuangan']) : date('Y-m-d');
 
 // Ambil data yang tersimpan pada tanggal terpilih
@@ -39,6 +43,9 @@ if ($cek_data) {
     <div class="p-3 p-md-4">
         <form action="proses/proses_keuangan_khusus.php" method="POST">
             <input type="hidden" name="tanggal" value="<?php echo $tanggal_pilih; ?>">
+            <!-- Hidden inputs untuk sinkronisasi navigasi -->
+            <input type="hidden" name="tab" value="admin-keuangan">
+            <input type="hidden" name="subtab" value="khusus">
 
             <div class="table-responsive rounded-3 border border-light-subtle">
                 <table class="table table-hover align-middle mb-0 text-center custom-digital-table" id="tabel_khusus" style="min-width: 600px;">
@@ -69,7 +76,6 @@ if ($cek_data) {
                             endforeach;
                         else:
                         ?>
-                        <!-- Baris Default Awal Jika Data Belum Ada -->
                         <tr class="khusus-row border-bottom border-light-subtle">
                             <td class="px-3"><input type="text" name="kegiatan[]" class="form-control text-start input-digital-khusus text-input-box" required placeholder="Nama Kegiatan / Perayaan Ibadah Khusus"></td>
                             <td class="px-2"><input type="number" name="nominal[]" class="form-control text-end input-digital-khusus nominal-input khusus-nominal-hitung" value="0" min="0" required></td>
@@ -78,7 +84,6 @@ if ($cek_data) {
                         <?php endif; ?>
                     </tbody>
                     <tfoot>
-                        <!-- TOTAL AKUMULASI OTOMATIS -->
                         <tr class="fw-bold border-0 bg-light-subtle" style="background: #f8fafc;">
                             <td class="text-start ps-4 py-3 text-secondary fw-bolder" style="font-size: 0.8rem;">TOTAL KESELURUHAN REAL-TIME</td>
                             <td class="text-end pe-4 py-3 font-monospace text-purple-premium fs-5" id="total-grand-khusus">Rp 0</td>
@@ -88,7 +93,6 @@ if ($cek_data) {
                 </table>
             </div>
 
-            <!-- Tombol Aksi Responsive -->
             <div class="mt-4 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
                 <button type="button" id="tambah_baris_khusus_btn" class="btn btn-outline-purple w-100 w-md-auto px-4 py-2 rounded-3 fw-bold">
                     <i class="bi bi-plus-circle-fill me-2"></i> Tambah Baris Kegiatan
@@ -102,30 +106,15 @@ if ($cek_data) {
 </div>
 
 <style>
-.input-digital-khusus {
-    border: 1px solid #e2e8f0 !important;
-    background: #f8fafc !important;
-    font-size: 0.9rem;
-    padding: 0.45rem 0.6rem !important;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-    font-weight: 600;
-}
-.input-digital-khusus:focus {
-    background: #ffffff !important;
-    border-color: #4b1a8a !important;
-    box-shadow: 0 0 0 3px rgba(75, 26, 138, 0.15) !important;
-}
+.input-digital-khusus { border: 1px solid #e2e8f0 !important; background: #f8fafc !important; font-size: 0.9rem; padding: 0.45rem 0.6rem !important; border-radius: 8px; transition: all 0.2s ease; font-weight: 600; }
+.input-digital-khusus:focus { background: #ffffff !important; border-color: #4b1a8a !important; box-shadow: 0 0 0 3px rgba(75, 26, 138, 0.15) !important; }
 .text-input-box { font-weight: 500 !important; color: #334155; }
 .nominal-input { font-family: var(--bs-font-monospace); color: #1e293b; text-align: right; }
 .btn-outline-purple { color: #4b1a8a; border: 2px solid #4b1a8a; transition: all 0.25s; }
 .btn-outline-purple:hover { background: #4b1a8a; color: #ffffff; }
 .btn-light-danger { background: rgba(239, 68, 68, 0.08); color: #ef4444; border: none; padding: 0.45rem 0.65rem; transition: all 0.2s; }
 .btn-light-danger:hover { background: #ef4444; color: #ffffff; }
-
-/* MENGHILANGKAN FITUR NAIK TURUN ANGKA MURNI */
-.input-digital-khusus::-webkit-outer-spin-button,
-.input-digital-khusus::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.input-digital-khusus::-webkit-outer-spin-button, .input-digital-khusus::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 .input-digital-khusus[type=number] { -moz-appearance: textfield; }
 </style>
 
@@ -145,44 +134,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
     hitungTotalKhusus();
 
-    // Deteksi input real-time
     wrapper.addEventListener("input", function(e) {
-        if(e.target.classList.contains("khusus-nominal-hitung")) {
-            hitungTotalKhusus();
-        }
+        if(e.target.classList.contains("khusus-nominal-hitung")) { hitungTotalKhusus(); }
     });
 
-    // Tambah Baris Form
     tambahBtn.addEventListener("click", function() {
         const barisBaru = document.createElement("tr");
         barisBaru.className = "khusus-row border-bottom border-light-subtle";
-        barisBaru.innerHTML = `
-            <td class="px-3"><input type="text" name="kegiatan[]" class="form-control text-start input-digital-khusus text-input-box" required placeholder="Nama Kegiatan / Perayaan Ibadah Khusus"></td>
-            <td class="px-2"><input type="number" name="nominal[]" class="form-control text-end input-digital-khusus nominal-input khusus-nominal-hitung" value="0" min="0" required></td>
-            <td><button type="button" class="btn btn-sm btn-light-danger rounded-3 hapus-baris-khusus-btn"><i class="bi bi-trash3-fill"></i></button></td>
-        `;
+        barisBaru.innerHTML = `<td class="px-3"><input type="text" name="kegiatan[]" class="form-control text-start input-digital-khusus text-input-box" required placeholder="Nama Kegiatan / Perayaan Ibadah Khusus"></td><td class="px-2"><input type="number" name="nominal[]" class="form-control text-end input-digital-khusus nominal-input khusus-nominal-hitung" value="0" min="0" required></td><td><button type="button" class="btn btn-sm btn-light-danger rounded-3 hapus-baris-khusus-btn"><i class="bi bi-trash3-fill"></i></button></td>`;
         wrapper.appendChild(barisBaru);
     });
 
-    // Hapus Baris Form
     wrapper.addEventListener("click", function(e) {
-        const btnHapus = e.target.closest(".hapus-baris-khusus-btn");
-        if(btnHapus) {
-            const baris = btnHapus.closest(".khusus-row");
+        if(e.target.closest(".hapus-baris-khusus-btn")) {
+            const baris = e.target.closest(".khusus-row");
             if(document.querySelectorAll(".khusus-row").length > 1) {
                 baris.remove();
                 hitungTotalKhusus();
-            } else {
-                alert("Minimal harus menyisakan 1 baris input data.");
-            }
+            } else { alert("Minimal harus menyisakan 1 baris input data."); }
         }
     });
 
-    // Sinkronisasi Perubahan Tanggal URL Router
     if (tglInput) {
         tglInput.addEventListener("change", function() {
             const url = new URL(window.location);
-            url.searchParams.set("tab", "edit-keuangan");
+            // FIXED: Sinkronisasi ID tab ke admin-keuangan
+            url.searchParams.set("tab", "admin-keuangan");
             url.searchParams.set("subtab", "khusus");
             url.searchParams.set("tgl_keuangan", this.value);
             window.location.search = url.search;

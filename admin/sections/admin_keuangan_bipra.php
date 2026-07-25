@@ -1,8 +1,9 @@
 <?php
-// admin/sections/admin_keuangan_bipra.php - Filter Tanggal Per Bulan Dinamis
+// admin/sections/admin_keuangan_bipra.php - Panel Input Kas Kolom Berbasis Pekan Dinamis
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+// FIXED: Menggunakan path satu tingkat ke luar sesuai konteks eksekusi admin_dashboard.php
 include '../koneksi.php';
 
 // Ambil filter tahun pelaksanaan (Default: Tahun ini) dan kategori komisi
@@ -72,6 +73,9 @@ if ($q_bipra) {
     <!-- Konten Form Utama -->
     <div class="p-3 p-md-4">
         <form action="proses/proses_keuangan_bipra.php" method="POST">
+            <!-- Hidden inputs untuk sinkronisasi navigasi -->
+            <input type="hidden" name="tab" value="admin-keuangan">
+            <input type="hidden" name="subtab" value="bipra">
             <input type="hidden" name="tahun_periode" value="<?= $tahun_pilih; ?>">
             <input type="hidden" name="komisi" value="<?= $komisi_pilih; ?>">
 
@@ -88,31 +92,20 @@ if ($q_bipra) {
                         <?php 
                         for ($b = 1; $b <= 12; $b++): 
                             $val_nominal = $data_existing[$b]['nominal'] ?? 0;
-                            // Default tanggal disesuaikan dengan baris bulan berjalan pada tahun pilihan jika belum ada data
                             $val_tanggal = $data_existing[$b]['tanggal'] ?? sprintf('%04d-%02d-%02d', $tahun_pilih, $b, date('d'));
                         ?>
                         <tr class="bipra-row border-bottom border-light-subtle">
-                            <!-- Kolom 1: Nama Bulan -->
                             <td class="text-start ps-4 fw-bold text-dark py-2">
-                                <span class="badge px-3 py-2 text-purple-premium rounded-3" style="background: rgba(147, 51, 234, 0.08); font-size: 0.85rem; min-width: 110px; display: inline-block; text-center;">
+                                <span class="badge px-3 py-2 text-purple-premium rounded-3" style="background: rgba(147, 51, 234, 0.08); font-size: 0.85rem; min-width: 110px; display: inline-block;">
                                     <?= $nama_bulan_indo[$b]; ?>
                                 </span>
                                 <input type="hidden" name="bulan_target[]" value="<?= $b; ?>">
                             </td>
-                            
-                            <!-- Kolom 2: Input Tanggal Penyetoran (Dinamis Berdampingan) -->
-                            <td>
-                                <input type="date" name="tanggal_setor[]" class="form-control form-control-sm text-center fw-semibold text-dark bg-light border-light-subtle mx-auto" value="<?= $val_tanggal; ?>" style="max-width: 180px;" required>
-                            </td>
-                            
-                            <!-- Kolom 3: Nominal Anggaran -->
-                            <td class="pe-4">
-                                <input type="number" name="nominal[]" class="form-control text-end table-input-digital input-bipra-hitung" value="<?= $val_nominal; ?>" min="0" placeholder="0" style="max-width: 220px; margin-left: auto;">
-                            </td>
+                            <td><input type="date" name="tanggal_setor[]" class="form-control form-control-sm text-center fw-semibold text-dark bg-light border-light-subtle mx-auto" value="<?= $val_tanggal; ?>" style="max-width: 180px;" required></td>
+                            <td class="pe-4"><input type="number" name="nominal[]" class="form-control text-end table-input-digital input-bipra-hitung" value="<?= $val_nominal; ?>" min="0" placeholder="0" style="max-width: 220px; margin-left: auto;"></td>
                         </tr>
                         <?php endfor; ?>
                         
-                        <!-- Footer Total Akumulasi -->
                         <tr class="fw-bold border-0 bg-light-subtle" style="background: #f8fafc;">
                             <td colspan="2" class="text-start ps-4 py-3 text-secondary fw-bolder" style="font-size: 0.75rem;">TOTAL KESELURUHAN</td>
                             <td class="text-end pe-4 py-3 font-monospace text-purple-premium text-end" id="total-bipra-grand-all" style="font-size: 1.1rem; text-shadow: 0 0 10px rgba(124, 58, 237, 0.1);">Rp 0</td>
@@ -155,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function reloadRouterBipra() {
         const url = new URL(window.location);
-        url.searchParams.set("tab", "edit-keuangan");
+        url.searchParams.set("tab", "admin-keuangan");
         url.searchParams.set("subtab", "bipra");
         url.searchParams.set("tgl_keuangan", filterTahun.value);
         url.searchParams.set("komisi_pilih", filterKomisi.value);

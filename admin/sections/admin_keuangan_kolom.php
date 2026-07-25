@@ -186,6 +186,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const filterPekanAdmin = document.getElementById("filter_pekan_admin");
 
     function hitungMajuKolom() {
+        // ... (fungsi hitungMajuKolom Anda tetap sama) ...
+        // (Pastikan fungsi ini tidak diubah agar fitur kalkulasi tetap berjalan)
         let gPers = 0, gPkb = 0, gWki = 0, gPemuda = 0, gRemaja = 0, gAsm = 0, gPdp = 0, gPem = 0, gAwalBln = 0, gGrand = 0;
         const rows = document.querySelectorAll(".kolom-row");
 
@@ -222,10 +224,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function reloadRouterAdmin() {
         const url = new URL(window.location);
-        url.searchParams.set("tab", "edit-keuangan");
+        
+        // PERBAIKAN: Ubah menjadi 'admin-keuangan' agar sinkron dengan dashboard
+        url.searchParams.set("tab", "admin-keuangan");
+        
         url.searchParams.set("subtab", "kolom");
         url.searchParams.set("bulan_kolom", filterBulanAdmin.value);
         url.searchParams.set("minggu_no", filterPekanAdmin.value);
+        
         window.location.search = url.search;
     }
 
