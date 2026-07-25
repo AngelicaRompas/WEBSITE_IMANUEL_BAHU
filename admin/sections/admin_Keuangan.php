@@ -162,3 +162,27 @@ ul#pills-tab-keuangan::-webkit-scrollbar {
     padding-bottom: .65rem;
 }
 </style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Menambahkan event listener pada setiap tombol tab keuangan
+    const tabButtons = document.querySelectorAll('#pills-tab-keuangan .nav-link');
+    
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Ambil target tab dari data-bs-target (misal: #sub-keuangan-kolom)
+            const target = this.getAttribute('data-bs-target');
+            const subtab = target.replace('#sub-keuangan-', ''); // Menghasilkan: 'kolom'
+            
+            // Perbarui URL tanpa reload halaman terlebih dahulu
+            const url = new URL(window.location);
+            url.searchParams.set("tab", "admin-keuangan"); // Tab utama
+            url.searchParams.set("subtab", subtab);        // Sub-tab
+            
+            // Gunakan replaceState agar tidak memicu reload, 
+            // tapi URL tersimpan untuk saat form disubmit
+            window.history.replaceState(null, '', url);
+        });
+    });
+});
+</script>
