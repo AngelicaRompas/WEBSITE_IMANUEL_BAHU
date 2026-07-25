@@ -2,7 +2,7 @@
 session_start();
 include 'koneksi.php'; 
 
-$kode_valid = ['JEMAAT2026', 'IMANUELBAHU', 'PELAYANAN', 'WARTAIMANUEL'];
+$kode_valid = ['GIB2026','JEMAAT2026', 'IMANUELBAHU', 'PELAYANAN', 'WARTAIMANUEL'];
 $akses_warta = isset($_SESSION['akses_warta']) && $_SESSION['akses_warta'] === true;
 
 // Logika Verifikasi Kode Referral
@@ -162,9 +162,11 @@ if ($detail_tgl && $akses_warta) {
                         <!-- Rincian Tugas Khadim -->
                         <div class="text-start mt-3 data-petugas-block">
                             <p class="mb-2"><small class="text-muted d-block">Nama Khadim</small><strong><i class="bi bi-person-badge me-2 text-purple"></i> <?php echo htmlspecialchars($row['nama_khadim']); ?></strong></p>
+                            <p class="mb-2"><small class="text-muted d-block">KPI</small><strong><i class="bi bi-diagram-3 me-2 text-purple"></i> <?php echo htmlspecialchars($row['kpi']); ?></strong></p>
                             <p class="mb-2"><small class="text-muted d-block">Penerima Jemaat</small><strong><i class="bi bi-people me-2 text-purple"></i> <?php echo htmlspecialchars($row['penerima_jemaat']); ?></strong></p>
                             <p class="mb-2"><small class="text-muted d-block">Doa & Pembacaan</small><strong><i class="bi bi-book-half me-2 text-purple"></i> <?php echo htmlspecialchars($row['doa_pembacaan']); ?></strong></p>
-                            <p class="mb-3"><small class="text-muted d-block">Puji-pujian</small><strong><i class="bi bi-music-note-beamed me-2 text-purple"></i> <?php echo htmlspecialchars($row['puji_pujian']); ?></strong></p>
+                            <p class="mb-2"><small class="text-muted d-block">Puji-pujian</small><strong><i class="bi bi-music-note-beamed me-2 text-purple"></i> <?php echo htmlspecialchars($row['puji_pujian']); ?></strong></p>
+                            <p class="mb-3"><small class="text-muted d-block">Doa Persembahan</small><strong><i class="bi bi-cash-coin me-2 text-purple"></i> <?php echo htmlspecialchars($row['doa_persembahan']); ?></strong></p>
                         </div>
                         
                     </div>

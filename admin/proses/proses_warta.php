@@ -19,11 +19,8 @@ if (isset($_POST['upload_warta'])) {
     
     if ($ekstensi == 'pdf') {
         $nama_file_baru = "warta_" . $tanggal . "_" . uniqid() . ".pdf";
-        
-        // Menentukan direktori tujuan upload PDF
         $dir_pdf = "../../assets/document_warta/";
         
-        // FIX INTERNAL JALUR: Jika folder 'document_warta' belum ada, buat otomatis
         if (!is_dir($dir_pdf)) {
             mkdir($dir_pdf, 0755, true);
         }
@@ -35,10 +32,13 @@ if (isset($_POST['upload_warta'])) {
             // 3. Proses Insert untuk setiap Sesi (I, II, III)
             foreach (['I', 'II', 'III'] as $sesi) {
                 // Amankan Input Data per Sesi
-                $khadim   = mysqli_real_escape_string($koneksi, $_POST["khadim_sesi_$sesi"]);
-                $penerima = mysqli_real_escape_string($koneksi, $_POST["penerima_sesi_$sesi"]);
-                $doa      = mysqli_real_escape_string($koneksi, $_POST["doa_sesi_$sesi"]);
-                $puji     = mysqli_real_escape_string($koneksi, $_POST["puji_sesi_$sesi"]);
+                $khadim        = mysqli_real_escape_string($koneksi, $_POST["khadim_sesi_$sesi"]);
+                $penerima      = mysqli_real_escape_string($koneksi, $_POST["penerima_sesi_$sesi"]);
+                $doa           = mysqli_real_escape_string($koneksi, $_POST["doa_sesi_$sesi"]);
+                $puji          = mysqli_real_escape_string($koneksi, $_POST["puji_sesi_$sesi"]);
+                // Tangkap data baru KPI dan Doa Persembahan
+                $kpi           = mysqli_real_escape_string($koneksi, $_POST["kpi_sesi_$sesi"]);
+                $doa_persemb   = mysqli_real_escape_string($koneksi, $_POST["doapersembahan_sesi_$sesi"]);
                 
                 // Penanganan Upload Foto Khadim
                 $foto_khadim = "";
@@ -48,45 +48,40 @@ if (isset($_POST['upload_warta'])) {
                     $f_ext  = strtolower(pathinfo($f_name, PATHINFO_EXTENSION));
                     $foto_khadim = "foto_" . $sesi . "_" . uniqid() . "." . $f_ext;
                     
-                    // Folder tujuan gambar khadim (mundur satu tingkat ke admin/assets/images-khadim/)
                     $dir_foto = "../assets/images-khadim/";
                     if (!is_dir($dir_foto)) {
                         mkdir($dir_foto, 0755, true);
                     }
-                    
                     move_uploaded_file($f_tmp, $dir_foto . $foto_khadim);
                 }
                 
-                // Masukkan ke database warta_jemaat
+                // Masukkan ke database warta_jemaat termasuk kolom baru
                 $query = "INSERT INTO warta_jemaat (
                             tanggal, tema_mingguan, pembacaan_alkitab, 
                             sesi_ibadah, nama_khadim, foto_khadim, penerima_jemaat, 
-                            doa_pembacaan, puji_pujian, file_pdf
+                            doa_pembacaan, puji_pujian, kpi, doa_persembahan, file_pdf
                           ) VALUES (
                             '$tanggal', '$tema_mingguan', '$pembacaan_alkitab',
                             'Ibadah Sesi $sesi', '$khadim', '$foto_khadim', '$penerima', 
-                            '$doa', '$puji', '$nama_file_baru'
+                            '$doa', '$puji', '$kpi', '$doa_persemb', '$nama_file_baru'
                           )";
                 
                 mysqli_query($koneksi, $query);
             }
 
-            // Sukses dialihkan kembali ke halaman kelola warta
-            header("Location: ../admin_dashboard.php?pesan=sukses_warta&tab=edit-warta");
+            header("Location: ../admin_dashboard.php?pesan=sukses_warta&tab=admin-warta");
             exit;
             
         } else {
-            // Gagal eksekusi move_uploaded_file PDF
-            header("Location: ../admin_dashboard.php?pesan=error_upload&tab=edit-warta");
+            header("Location: ../admin_dashboard.php?pesan=error_upload&tab=admin-warta");
             exit;
         }
     } else {
-        // Ekstensi dokumen bukan PDF
-        header("Location: ../admin_dashboard.php?pesan=error_ekstensi&tab=edit-warta");
+        header("Location: ../admin_dashboard.php?pesan=error_ekstensi&tab=admin-warta");
         exit;
     }
 } else {
-    header("Location: ../admin_dashboard.php?tab=edit-warta");
+    header("Location: ../admin_dashboard.php?tab=admin-warta");
     exit;
 }
 ?>

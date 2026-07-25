@@ -60,6 +60,16 @@
                         <label class="form-label small fw-bold text-muted">Puji-pujian</label>
                         <input type="text" name="puji_sesi_<?php echo $sesi; ?>" class="form-control form-control-custom" placeholder="Paduan suara / Kolom / Pelsis">
                     </div>
+
+                    <!-- Baris 3 Konten Sesi (Fitur Baru) -->
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold text-muted">KPI</label>
+                        <input type="text" name="kpi_sesi_<?php echo $sesi; ?>" class="form-control form-control-custom" placeholder="Nama KPI">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold text-muted">Doa Persembahan</label>
+                        <input type="text" name="doapersembahan_sesi_<?php echo $sesi; ?>" class="form-control form-control-custom" placeholder="Petugas doa persembahan">
+                    </div>
                 </div>
             </div>
         <?php endforeach; ?>

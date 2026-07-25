@@ -25,19 +25,40 @@ if ($cek_data) {
         </div>
         
         <!-- Input Tanggal Digital -->
-        <div class="w-100 style-tgl-box" style="max-width: 250px;">
-            <label class="form-label fw-semibold mb-1" style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.75); text-transform: uppercase;">Periode Pelaksanaan</label>
-            <div class="input-group input-group-sm rounded-3 overflow-hidden border border-white-20">
-                <span class="input-group-text bg-white bg-opacity-10 border-0 text-white"><i class="bi bi-calendar-check"></i></span>
-                <input type="date" id="tanggal_keuangan_tampilan" class="form-control bg-dark bg-opacity-20 border-0 text-white text-center fw-bold small" value="<?php echo $tanggal_pilih; ?>" style="color-scheme: dark;" required>
-            </div>
-        </div>
+        <div class="w-100 style-tgl-box" style="max-width:250px;">
+
+    <label class="form-label fw-semibold mb-1"
+           style="font-size:.75rem;
+                  color:rgba(255,255,255,.75);
+                  text-transform:uppercase;">
+        Periode Pelaksanaan
+    </label>
+
+    <div class="input-group input-group-sm rounded-3 overflow-hidden border border-white-20">
+
+        <span class="input-group-text bg-white bg-opacity-10 border-0 text-white">
+            <i class="bi bi-calendar-check"></i>
+        </span>
+
+        <input
+            type="date"
+            id="tanggalTampilan"
+            name="tanggal"
+            class="form-control bg-dark bg-opacity-20 border-0 text-white text-center fw-bold small"
+            value="<?php echo htmlspecialchars($tanggal_pilih); ?>"
+            style="color-scheme: dark;"
+            required>
+
     </div>
+
+</div>
 
     <!-- Konten Form Utama -->
     <div class="p-3 p-md-4">
-        <form action="proses/proses_keuangan_minggu.php" method="POST">
-            <input type="hidden" name="tanggal" value="<?php echo $tanggal_pilih; ?>">
+        <form action="proses/proses_keuangan_minggu.php" method="POST" autocomplete="off">
+            <input type="hidden" name="tab" value="edit-keuangan">
+            <input type="hidden" name="subtab" value="minggu">
+            
 
             <div class="table-responsive rounded-3 border border-light-subtle">
                 <table class="table table-hover align-middle mb-0 text-center custom-digital-table" style="min-width: 750px;">
@@ -188,7 +209,7 @@ if ($cek_data) {
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const inputs = document.querySelectorAll(".input-hitung");
-    const tanggalTampilan = document.getElementById("tanggal_keuangan_tampilan");
+    const tanggalTampilan = document.getElementById("tanggalTampilan");
 
     function hitungSemua() {
         let grandPundi1 = 0, grandPundi2 = 0, grandSapras = 0, grandTotalSemua = 0;
@@ -220,16 +241,18 @@ document.addEventListener("DOMContentLoaded", function () {
         input.addEventListener("input", hitungSemua);
     });
 
-    // Menghindari bentrokan router dashboard utama
     if (tanggalTampilan) {
-        tanggalTampilan.addEventListener("change", function() {
-            const url = new URL(window.location);
-                url.searchParams.set("tab", "edit-keuangan");
-                url.searchParams.set("subtab", "minggu");
-                url.searchParams.set("tgl_keuangan", this.value);
+    tanggalTampilan.addEventListener("change", function () {
 
-                window.location.search = url.search;
-        });
-    }
+        const url = new URL(window.location.href);
+
+        url.searchParams.set("tab", "edit-keuangan");
+        url.searchParams.set("subtab", "minggu");
+        url.searchParams.set("tgl_keuangan", this.value);
+
+        window.location.href = url.href;
+    });
+}
+
 });
 </script>
