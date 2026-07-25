@@ -1,13 +1,14 @@
 <?php
+// admin/proses/proses_keuangan.php
 session_start();
 if (!isset($_SESSION['admin_imanuel'])) {
-    header("Location: ../login.php");
+    header("Location: ../login.php"); 
     exit;
 }
 include '../../koneksi.php';
 
+// Fungsi sinkronisasi saldo akhir
 function sinkronisasi_saldo_total($koneksi) {
-    // Pastikan urutan kronologis berdasarkan tanggal dan id
     $query = mysqli_query($koneksi, "SELECT id, total_pemasukan, total_pengeluaran FROM warta_keuangan ORDER BY tanggal ASC, id ASC");
     
     $saldo_berjalan = 0;
@@ -27,24 +28,21 @@ function sinkronisasi_saldo_total($koneksi) {
 if (isset($_POST['simpan_keuangan'])) {
     $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
     $tanggal = mysqli_real_escape_string($koneksi, $_POST['tanggal']);
-    
-    // 1. Tangkap input kategori baru dari form modal
     $kategori = mysqli_real_escape_string($koneksi, $_POST['kategori']);
-    
     $keterangan = htmlspecialchars($_POST['keterangan']);
-    $in = intval(str_replace(['.', ','], '', $_POST['total_pemasukan'])); 
-    $out = intval(str_replace(['.', ','], '', $_POST['total_pengeluaran']));
+    
+    // Validasi input angka agar tidak error jika kosong
+    $in = !empty($_POST['total_pemasukan']) ? intval(str_replace(['.', ','], '', $_POST['total_pemasukan'])) : 0;
+    $out = !empty($_POST['total_pengeluaran']) ? intval(str_replace(['.', ','], '', $_POST['total_pengeluaran'])) : 0;
 
     $koneksi->begin_transaction();
     try {
         if ($id > 0) {
-            // 2. Perbarui query UPDATE dengan menambahkan kategori
             $stmt = $koneksi->prepare("UPDATE warta_keuangan SET tanggal=?, kategori=?, total_pemasukan=?, total_pengeluaran=?, keterangan=? WHERE id=?");
             $stmt->bind_param("ssiisi", $tanggal, $kategori, $in, $out, $keterangan, $id);
             $stmt->execute();
             $stmt->close();
         } else {
-            // 3. Perbarui query INSERT dengan menambahkan kategori
             $stmt = $koneksi->prepare("INSERT INTO warta_keuangan (tanggal, kategori, total_pemasukan, total_pengeluaran, keterangan) VALUES (?, ?, ?, ?, ?)");
             $stmt->bind_param("ssiis", $tanggal, $kategori, $in, $out, $keterangan);
             $stmt->execute();
@@ -53,7 +51,9 @@ if (isset($_POST['simpan_keuangan'])) {
 
         sinkronisasi_saldo_total($koneksi);
         $koneksi->commit();
-        header("Location: ../admin_dashboard.php?pesan=sukses_keuangan&tab=admin-keuangan");
+        
+        // Redirect kembali ke tab utama keuangan (admin-keuangan)
+        header("Location: ../admin_dashboard.php?pesan=sukses_keuangan&tab=admin-keuangan&subtab=minggu");
     } catch (Exception $e) {
         $koneksi->rollback();
         die("Error: " . $e->getMessage());
@@ -70,9 +70,12 @@ if (isset($_GET['aksi']) && $_GET['aksi'] == 'hapus' && isset($_GET['id'])) {
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $stmt->close();
+        
         sinkronisasi_saldo_total($koneksi);
         $koneksi->commit();
-        header("Location: ../admin_dashboard.php?pesan=hapus_sukses_keuangan&tab=admin-keuangan");
+        
+        // Redirect kembali ke tab utama keuangan
+        header("Location: ../admin_dashboard.php?pesan=hapus_sukses_keuangan&tab=admin-keuangan&subtab=minggu");
     } catch (Exception $e) {
         $koneksi->rollback();
         die("Error: " . $e->getMessage());

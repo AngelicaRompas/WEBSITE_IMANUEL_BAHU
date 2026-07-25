@@ -2,7 +2,7 @@
 // proses/proses_keuangan_kolom.php
 session_start();
 if (!isset($_SESSION['admin_imanuel'])) {
-    header("Location: ../login.php");
+    header("Location: ../../login.php");
     exit;
 }
 include '../../koneksi.php';
@@ -55,11 +55,12 @@ if (isset($_POST['simpan_keuangan_kolom'])) {
         mysqli_query($koneksi, $query);
     }
 
-    // Mengembalikan redirect menuju susunan parameter filter baru agar posisi bertahan stabil
-    header("Location: ../admin_dashboard.php?pesan=sukses_keuangan&tab=edit-keuangan&subtab=kolom&bulan_kolom=$bulan_kolom&minggu_no=$minggu_no");
+    // PERBAIKAN: Mengubah 'tab=edit-keuangan' menjadi 'tab=admin-keuangan' agar sinkron dengan ID tab utama
+    header("Location: ../admin_dashboard.php?pesan=sukses_keuangan&tab=admin-keuangan&subtab=kolom&bulan_kolom=$bulan_kolom&minggu_no=$minggu_no");
     exit;
 } else {
-    header("Location: ../admin_dashboard.php?tab=edit-keuangan&subtab=kolom");
+    // PERBAIKAN: Mengubah 'tab=edit-keuangan' menjadi 'tab=admin-keuangan'
+    header("Location: ../admin_dashboard.php?tab=admin-keuangan&subtab=kolom");
     exit;
 }
 ?>

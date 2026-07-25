@@ -24,20 +24,20 @@ if (isset($_POST['simpan_keuangan_bipra'])) {
         $cek = mysqli_query($koneksi, "SELECT id_bipra FROM keuangan_bipra WHERE YEAR(tanggal) = '$tahun_periode' AND komisi = '$komisi' AND bulan_target = '$bulan_target'");
         
         if (mysqli_num_rows($cek) > 0) {
-            // Update nominal dan perbarui tanggal setoran sesuai input dinamis baris terkait
+            // Update nominal dan perbarui tanggal setoran
             $query = "UPDATE keuangan_bipra SET tanggal = '$tanggal_line', nominal = '$nominal' WHERE YEAR(tanggal) = '$tahun_periode' AND komisi = '$komisi' AND bulan_target = '$bulan_target'";
         } else {
-            // Masukkan data baru lengkap dengan tanggal baris terkait
+            // Masukkan data baru
             $query = "INSERT INTO keuangan_bipra (tanggal, komisi, bulan_target, nominal) VALUES ('$tanggal_line', '$komisi', '$bulan_target', '$nominal')";
         }
         mysqli_query($koneksi, $query);
     }
 
-    // Kembalikan redirect ke parameter tahun filter agar data yang baru disimpan langsung termuat stabil
-    header("Location: ../admin_dashboard.php?pesan=sukses_keuangan&tab=edit-keuangan&subtab=bipra&tgl_keuangan=" . $tahun_periode . "-01-01&komisi_pilih=$komisi");
+    header("Location: ../admin_dashboard.php?pesan=sukses_keuangan&tab=admin-keuangan&subtab=bipra&tgl_keuangan=" . $tahun_periode . "-01-01&komisi_pilih=$komisi");
     exit;
 } else {
-    header("Location: ../admin_dashboard.php?tab=edit-keuangan&subtab=bipra");
+    // PERBAIKAN: Mengarahkan kembali ke tab=admin-keuangan
+    header("Location: ../admin_dashboard.php?tab=admin-keuangan&subtab=bipra");
     exit;
 }
 ?>

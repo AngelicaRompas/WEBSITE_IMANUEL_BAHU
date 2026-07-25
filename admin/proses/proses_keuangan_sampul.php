@@ -1,5 +1,5 @@
 <?php
-// proses_keuangan_sampul.php - Eksekusi Simpan Spesifik Per Kategori
+// admin/proses/proses_keuangan_sampul.php - Eksekusi Simpan Spesifik Per Kategori
 session_start();
 if (!isset($_SESSION['admin_imanuel'])) {
     header("Location: ../login.php"); 
@@ -8,12 +8,12 @@ if (!isset($_SESSION['admin_imanuel'])) {
 include '../../koneksi.php';
 
 if (isset($_POST['simpan_sampul_single'])) {
-    $tanggal         = mysqli_real_escape_string($koneksi, $_POST['tanggal']);
-    $kategori_target = mysqli_real_escape_string($koneksi, $_POST['kategori_target']);
+    $tanggal          = mysqli_real_escape_string($koneksi, $_POST['tanggal']);
+    $kategori_target  = mysqli_real_escape_string($koneksi, $_POST['kategori_target']);
     
-    $kolom_arr       = $_POST['kolom'] ?? [];
-    $keterangan_arr  = $_POST['keterangan'] ?? [];
-    $nominal_arr     = $_POST['nominal'] ?? [];
+    $kolom_arr        = $_POST['kolom'] ?? [];
+    $keterangan_arr   = $_POST['keterangan'] ?? [];
+    $nominal_arr      = $_POST['nominal'] ?? [];
 
     $koneksi->begin_transaction();
     try {
@@ -42,14 +42,14 @@ if (isset($_POST['simpan_sampul_single'])) {
         $stmt_ins->close();
         $koneksi->commit();
 
-        header("Location: ../admin_dashboard.php?pesan=sukses_keuangan&tab=edit-keuangan&subtab=sampul&tgl_keuangan=$tanggal");
+        header("Location: ../admin_dashboard.php?pesan=sukses_keuangan&tab=admin-keuangan&subtab=sampul&tgl_keuangan=$tanggal");
         exit;
     } catch (Exception $e) {
         $koneksi->rollback();
         die("Gagal memproses pengiriman sampul: " . $e->getMessage());
     }
 } else {
-    header("Location: ../admin_dashboard.php?tab=edit-keuangan&subtab=sampul");
+    header("Location: ../admin_dashboard.php?tab=admin-keuangan&subtab=sampul");
     exit;
 }
 ?>

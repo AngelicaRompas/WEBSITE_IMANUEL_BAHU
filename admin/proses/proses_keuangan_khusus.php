@@ -1,5 +1,5 @@
 <?php
-// proses_keuangan_khusus.php
+// proses/proses_keuangan_khusus.php
 session_start();
 if (!isset($_SESSION['admin_imanuel'])) {
     header("Location: ../login.php"); 
@@ -37,15 +37,14 @@ if (isset($_POST['simpan_khusus'])) {
         $stmt_ins->close();
         $koneksi->commit();
 
-        // Kembalikan ke halaman dashboard subtab khusus dengan aman
-        header("Location: ../admin_dashboard.php?pesan=sukses_keuangan&tab=edit-keuangan&subtab=khusus&tgl_keuangan=$tanggal");
+        header("Location: ../admin_dashboard.php?pesan=sukses_keuangan&tab=admin-keuangan&subtab=khusus&tgl_keuangan=$tanggal");
         exit;
     } catch (Exception $e) {
         $koneksi->rollback();
         die("Gagal menyimpan data ibadah khusus: " . $e->getMessage());
     }
 } else {
-    header("Location: ../admin_dashboard.php?tab=edit-keuangan&subtab=khusus");
+    header("Location: ../admin_dashboard.php?tab=admin-keuangan&subtab=khusus");
     exit;
 }
 ?>

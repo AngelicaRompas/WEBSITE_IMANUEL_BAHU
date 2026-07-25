@@ -10,8 +10,8 @@ include '../../koneksi.php';
 if (isset($_POST['simpan_pengeluaran'])) {
     $tanggal = mysqli_real_escape_string($koneksi, $_POST['tanggal']);
     
-    $keterangan_arr = $_POST['keterangan'];
-    $nominal_arr    = $_POST['nominal'];
+    $keterangan_arr = $_POST['keterangan'] ?? [];
+    $nominal_arr    = $_POST['nominal'] ?? [];
 
     $koneksi->begin_transaction();
     try {
@@ -37,14 +37,14 @@ if (isset($_POST['simpan_pengeluaran'])) {
         $stmt_ins->close();
         $koneksi->commit();
 
-        header("Location: ../admin_dashboard.php?pesan=sukses_keuangan&tab=edit-keuangan&subtab=pengeluaran&tgl_keuangan=$tanggal");
+        header("Location: ../admin_dashboard.php?pesan=sukses_keuangan&tab=admin-keuangan&subtab=pengeluaran&tgl_keuangan=$tanggal");
         exit;
     } catch (Exception $e) {
         $koneksi->rollback();
         die("Gagal menyimpan data pengeluaran kas: " . $e->getMessage());
     }
 } else {
-    header("Location: ../admin_dashboard.php?tab=edit-keuangan&subtab=pengeluaran");
+    header("Location: ../admin_dashboard.php?tab=admin-keuangan&subtab=pengeluaran");
     exit;
 }
 ?>
