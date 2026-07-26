@@ -1,33 +1,46 @@
 <?php
-// laporan_keuangan.php - Halaman Publik Terintegrasi Terkoreksi Penuh
+// laporan_keuangan.php - Halaman Publik Terintegrasi
 session_start();
 include 'koneksi.php';
 
-// Logika Logout Terintegrasi
+// Logika Logout
 if (isset($_GET['aksi']) && $_GET['aksi'] === 'keluar') {
     unset($_SESSION['akses_publik_imanuel']);
     header("Location: laporan_keuangan.php");
     exit;
 }
 
-// Konfigurasi Kunci Akses Publik 
-$KODE_RAHASIA_VALID = "imanuelbahu2026"; 
-
-// Logika Validasi Kode Rahasia
+$KODE_RAHASIA_VALID = ["GIB2026", "JEMAAT2026", "GIB MBD"]; 
 if (isset($_POST['cek_kode'])) {
-    $kode_input = $_POST['kode_akses'];
-    if ($kode_input === $KODE_RAHASIA_VALID) {
+    $kode_input = trim($_POST['kode_akses']); 
+    if (in_array($kode_input, $KODE_RAHASIA_VALID)) {
         $_SESSION['akses_publik_imanuel'] = true;
         header("Location: laporan_keuangan.php");
         exit;
-    } else {
-        $error = "Kode akses yang Anda masukkan salah. Silakan periksa kembali.";
-    }
+    } else { $error = "Kode akses salah."; }
 }
 
-// Ambil parameter filter utama
 $subtab = $_GET['subtab'] ?? 'rekapan';
 $bulan_pilih = $_GET['bulan'] ?? date('Y-m');
+
+// LOGIKA AKUMULASI (Data sampai dengan bulan yang dipilih)
+$filter_sql = !empty($bulan_pilih) ? "WHERE DATE_FORMAT(tanggal, '%Y-%m') <= '$bulan_pilih'" : "";
+
+// Hitung Statistik
+$query_pemasukan = mysqli_query($koneksi, "SELECT 
+    (SELECT IFNULL(SUM(jumlah_sesi), 0) FROM keuangan_ibadah_minggu $filter_sql) +
+    (SELECT IFNULL(SUM(jumlah), 0) FROM keuangan_ibadah_kolom $filter_sql) +
+    (SELECT IFNULL(SUM(nominal), 0) FROM keuangan_bipra $filter_sql) +
+    (SELECT IFNULL(SUM(nominal), 0) FROM keuangan_sampul_massal $filter_sql) +
+    (SELECT IFNULL(SUM(nominal), 0) FROM keuangan_ibadah_khusus $filter_sql) 
+    AS total_in");
+$query_pengeluaran = mysqli_query($koneksi, "SELECT IFNULL(SUM(nominal), 0) as total_out FROM keuangan_pengeluaran $filter_sql");
+
+$in_data = mysqli_fetch_assoc($query_pemasukan);
+$out_data = mysqli_fetch_assoc($query_pengeluaran);
+$total_in = $in_data['total_in'];
+$total_out = $out_data['total_out'];
+$saldo_akhir = $total_in - $total_out;
 ?>
 
 <!DOCTYPE html>
@@ -36,163 +49,78 @@ $bulan_pilih = $_GET['bulan'] ?? date('Y-m');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laporan Keuangan Publik - GMIM Imanuel Bahu</title>
-    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700;1,900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style-beranda.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="assets/css/style_keuangan.css?v=<?php echo time(); ?>">
-    
     <style>
         body { background-color: #f1f5f9; font-family: 'Plus Jakarta Sans', sans-serif; }
-        .hero-title-style { font-family: 'Playfair Display', serif; color: #1e0b36; font-weight: 800; }
-        .badge-info-digital { background-color: #f3effb; color: #6f42c1; font-weight: 700; letter-spacing: 1px; font-size: 0.75rem; }
         .glass-auth-card { background: #ffffff; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); border: 1px solid rgba(111, 66, 193, 0.1); max-width: 500px; width: 100%; margin: 0 auto; padding: 2.5rem; }
-        .btn-purple-accent { background-color: #6f42c1; color: white; font-weight: 700; border-radius: 50px; transition: all 0.3s; }
-        .btn-purple-accent:hover { background-color: #5a32a3; color: white; transform: translateY(-1px); }
-        .btn-close-access { border: 2px solid #dc3545; color: #dc3545; font-weight: 700; border-radius: 50px; background: transparent; transition: 0.3s; font-size: 0.85rem; }
-        .btn-close-access:hover { background: #dc3545; color: white; }
-        .glass-publik { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.5); }
-        .tab-publik { color: #64748b !important; background: transparent !important; transition: .3s; font-weight: 700; font-size: 0.9rem; border: 1px solid transparent; text-decoration: none; display: inline-block; }
-        .tab-publik:hover { background: rgba(111, 66, 193, 0.06) !important; color: #6f42c1 !important; }
-        .tab-publik.active { background: #6f42c1 !important; color: #fff !important; box-shadow: 0 4px 12px rgba(111, 66, 193, 0.25); }
+        .btn-purple-accent { background-color: #6f42c1; color: white; font-weight: 700; border-radius: 50px; }
+        /* Style Statistik Original */
+        .stat-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .stat-card p { color: #6c757d; font-size: 0.75rem; font-weight: 700; margin-bottom: 5px; }
+        .stat-card h5 { color: #212529; font-weight: 800; margin: 0; }
+        /* Navigasi Original */
+        .nav-pills { background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); border-radius: 50px; padding: 5px; }
+        .nav-link { color: white !important; font-weight: 600; border-radius: 50px !important; padding: 10px 20px; transition: 0.3s; }
+        .nav-link.active { background-color: #6f42c1 !important; color: white !important; }
     </style>
 </head>
 <body>
 
 <?php include 'navbar.php'; ?>
 
-<section class="page-header-premium text-center z-2">
-    <div class="container">
-        <!-- Badge Atas -->
-        <div data-aos="fade-down" data-aos-duration="800">
-            <span class="badge rounded-pill px-3 py-2 small mb-3 fw-bold tracking-widest" style="background-color: #f3effb; color: #6f42c1; letter-spacing: 2px;">
-                <i class="bi bi-wallet2 me-2"></i>TRANSPARANSI KAS
-            </span>      
-        </div>
-        
-        <!-- Judul Utama -->
-        <h1 class="main-title-aesthetic mb-2" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="100">
-            Laporan Keuangan
-        </h1>
-        
-        <!-- Divider Estetis -->
-        <div class="premium-divider" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200">
-            <div class="line"></div>
-            <div class="dot"></div>
-            <div class="line"></div>
-        </div>
-        
-        <!-- Sub Judul -->
-        <p class="sub-title-aesthetic fw-medium mb-0" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
-            Pusat Transparansi Kas, Persembahan Pundi, dan Akuntabilitas Pelayanan
-        </p>
-    </div>
-</section>
-
-<div class="container position-relative mb-5" style="z-index: 3;">
-
+<div class="container my-5">
     <?php if (!isset($_SESSION['akses_publik_imanuel'])): ?>
-        
         <div class="glass-auth-card text-center my-4">
-            <div class="mb-3">
-                <i class="bi bi-shield-lock text-primary" style="font-size: 2.5rem; color: #6f42c1 !important;"></i>
-            </div>
-            <h5 class="fw-bold text-dark mb-2">Area Terbatas Jemaat</h5>
-            <p class="text-muted small mb-4 px-2">
-                Laporan Keuangan bersifat internal. Silakan masukkan kode akses jemaat yang dapat diperoleh melalui panduan website Imanuel Bahu atau melalui pelayan khusus.
-            </p>
-            
-            <?php if(isset($error)): ?>
-                <div class="alert alert-danger border-0 small py-2 rounded-3 mb-3"><?= $error; ?></div>
-            <?php endif; ?>
-
+            <h5 class="fw-bold text-dark mb-3">Area Terbatas Jemaat</h5>
             <form action="" method="POST">
-                <div class="mb-3">
-                    <input type="password" name="kode_akses" class="form-control text-center rounded-pill py-2.5 border-light-subtle shadow-sm small" placeholder="Masukkan Kode Akses..." required autocomplete="off">
-                </div>
-                <button type="submit" name="cek_kode" class="btn btn-purple-accent w-100 py-2.5 shadow-sm">
-                    Verifikasi Akses
-                </button>
+                <input type="password" name="kode_akses" class="form-control text-center rounded-pill mb-3" placeholder="Masukkan Kode..." required>
+                <button type="submit" name="cek_kode" class="btn btn-purple-accent w-100">Verifikasi</button>
+            </form>
+        </div>
+    <?php else: ?>
+        
+        <!-- Filter -->
+        <div class="d-flex justify-content-center mb-4">
+            <form action="laporan_keuangan.php" method="GET" class="d-flex align-items-center gap-2">
+                <input type="hidden" name="subtab" value="<?= $subtab; ?>">
+                <label class="fw-bold text-secondary">Periode:</label>
+                <input type="month" name="bulan" value="<?= $bulan_pilih; ?>" class="form-control rounded-pill" style="width: auto;">
+                <button type="submit" class="btn btn-purple-accent rounded-pill">Tampilkan</button>
+                <a href="laporan_keuangan.php?subtab=<?= $subtab; ?>" class="btn btn-outline-secondary rounded-pill">Reset</a>
             </form>
         </div>
 
-    <?php else: ?>
-
-        <div class="d-flex justify-content-end mb-4">
-            <a href="laporan_keuangan.php?aksi=keluar" class="btn btn-outline-light rounded-pill px-4 fw-bold shadow-sm">
-                <i class="bi bi-unlock-fill me-1"></i> Tutup Akses
-            </a>
+        <!-- Statistik -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-4"><div class="stat-card border-start border-success border-4"><p>TOTAL PEMASUKAN</p><h5>Rp <?= number_format($total_in, 0, ',', '.'); ?></h5></div></div>
+            <div class="col-md-4"><div class="stat-card border-start border-danger border-4"><p>TOTAL PENGELUARAN</p><h5>Rp <?= number_format($total_out, 0, ',', '.'); ?></h5></div></div>
+            <div class="col-md-4"><div class="stat-card border-start border-primary border-4"><p>SALDO SEMENTARA</p><h5>Rp <?= number_format($saldo_akhir, 0, ',', '.'); ?></h5></div></div>
         </div>
 
-       <!-- NAVIGASI TAB MENU -->
-        <ul class="nav nav-pills p-2 bg-glass-publik rounded-4 gap-1 border border-white shadow-sm mb-4 overflow-x-auto flex-nowrap" id="pills-tab-publik" style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px);">
-            <li class="nav-item">
-                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='rekapan'?'active':'' ?>" href="laporan_keuangan.php?subtab=rekapan&bulan=<?= $bulan_pilih; ?>" style="color: white !important;">
-                    <i class="bi bi-journal-text me-2"></i>Rekapan
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='minggu'?'active':'' ?>" href="laporan_keuangan.php?subtab=minggu&bulan=<?= $bulan_pilih; ?>" style="color: white !important;">
-                    <i class="bi bi-calendar3-event me-2"></i>Ibadah Minggu
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='kolom'?'active':'' ?>" href="laporan_keuangan.php?subtab=kolom&bulan=<?= $bulan_pilih; ?>" style="color: white !important;">
-                    <i class="bi bi-grid-3x3-gap-fill me-2"></i>Setoran Kolom
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='bipra'?'active':'' ?>" href="laporan_keuangan.php?subtab=bipra&bulan=<?= $bulan_pilih; ?>" style="color: white !important;">
-                    <i class="bi bi-diagram-3-fill me-2"></i>Penyetoran BIPRA
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='sampul'?'active':'' ?>" href="laporan_keuangan.php?subtab=sampul&bulan=<?= $bulan_pilih; ?>" style="color: white !important;">
-                    <i class="bi bi-envelope-paper-heart-fill me-2"></i>Penerimaan Sampul
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='khusus'?'active':'' ?>" href="laporan_keuangan.php?subtab=khusus&bulan=<?= $bulan_pilih; ?>" style="color: white !important;">
-                    <i class="bi bi-stars me-2"></i>Ibadah Khusus
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link tab-publik px-4 py-2.5 rounded-3 text-nowrap <?= $subtab=='pengeluaran'?'active':'' ?>" href="laporan_keuangan.php?subtab=pengeluaran&bulan=<?= $bulan_pilih; ?>" style="color: white !important;">
-                    <i class="bi bi-cart-dash-fill me-2"></i>Pengeluaran
-                </a>
-            </li>
+        <!-- Navigasi -->
+        <ul class="nav nav-pills mb-4 overflow-x-auto flex-nowrap" id="pills-tab-publik">
+            <li class="nav-item"><a class="nav-link <?= $subtab=='rekapan'?'active':'' ?>" href="?subtab=rekapan&bulan=<?= $bulan_pilih; ?>">Rekapan</a></li>
+            <li class="nav-item"><a class="nav-link <?= $subtab=='minggu'?'active':'' ?>" href="?subtab=minggu&bulan=<?= $bulan_pilih; ?>">Ibadah Minggu</a></li>
+            <li class="nav-item"><a class="nav-link <?= $subtab=='kolom'?'active':'' ?>" href="?subtab=kolom&bulan=<?= $bulan_pilih; ?>">Setoran Kolom</a></li>
+            <li class="nav-item"><a class="nav-link <?= $subtab=='bipra'?'active':'' ?>" href="?subtab=bipra&bulan=<?= $bulan_pilih; ?>">Penyetoran BIPRA</a></li>
+            <li class="nav-item"><a class="nav-link <?= $subtab=='sampul'?'active':'' ?>" href="?subtab=sampul&bulan=<?= $bulan_pilih; ?>">Penerimaan Sampul</a></li>
+            <li class="nav-item"><a class="nav-link <?= $subtab=='khusus'?'active':'' ?>" href="?subtab=khusus&bulan=<?= $bulan_pilih; ?>">Ibadah Khusus</a></li>
+            <li class="nav-item"><a class="nav-link <?= $subtab=='pengeluaran'?'active':'' ?>" href="?subtab=pengeluaran&bulan=<?= $bulan_pilih; ?>">Pengeluaran</a></li>
         </ul>
 
-        <!-- Wadah Konten Render Sub-Tab Statis Sesuai Parameter URL -->
-        <div class="tab-content" id="pills-tabContentPublik">
-            <div class="tab-pane fade show active" role="tabpanel">
-                <?php 
-                if ($subtab == 'rekapan') {
-                    include 'keuangan_rekapan.php';
-                } elseif ($subtab == 'minggu') {
-                    include 'keuangan_ibadahMinggu.php';
-                } elseif ($subtab == 'kolom') {
-                    include 'keuangan_kolom.php';
-                } elseif ($subtab == 'bipra') {
-                    include 'keuangan_bipra.php';
-                } elseif ($subtab == 'sampul') {
-                    include 'keuangan_sampul.php';
-                } elseif ($subtab == 'khusus') {
-                    include 'keuangan_ibadahKhusus.php';
-                } elseif ($subtab == 'pengeluaran') {
-                    include 'keuangan_pengeluaran.php';
-                }
-                ?>
-            </div>
+        <!-- Konten -->
+        <div class="tab-content">
+            <?php 
+                $files = ['rekapan'=>'keuangan_rekapan.php', 'minggu'=>'keuangan_ibadahMinggu.php', 'kolom'=>'keuangan_kolom.php', 'bipra'=>'keuangan_bipra.php', 'sampul'=>'keuangan_sampul.php', 'khusus'=>'keuangan_ibadahKhusus.php', 'pengeluaran'=>'keuangan_pengeluaran.php'];
+                include $files[$subtab] ?? 'keuangan_rekapan.php';
+            ?>
         </div>
-
     <?php endif; ?>
-
 </div>
-
-<?php include 'footer.php'; ?>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
