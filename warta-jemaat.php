@@ -25,7 +25,7 @@ if (isset($_GET['logout'])) {
 
 // Logika Pengambilan Data Database
 $detail_tgl = isset($_GET['detail']) ? mysqli_real_escape_string($koneksi, $_GET['detail']) : null;
-$query = ($akses_warta) ? ($detail_tgl ? mysqli_query($koneksi, "SELECT * FROM warta_jemaat WHERE tanggal = '$detail_tgl'") : mysqli_query($koneksi, "SELECT DISTINCT tanggal, cover_warta FROM warta_jemaat ORDER BY tanggal DESC")) : null;
+$query = ($akses_warta) ? ($detail_tgl ? mysqli_query($koneksi, "SELECT * FROM warta_jemaat WHERE tanggal = '$detail_tgl'") : mysqli_query($koneksi, "SELECT DISTINCT tanggal, cover_warta, tema_mingguan FROM warta_jemaat ORDER BY tanggal DESC")) : null;
 
 // Logika Ekstra: Ambil file PDF warta & Tata Ibadah
 $pdf_file = '';
@@ -147,9 +147,9 @@ if ($detail_tgl && $akses_warta) {
                     <div class="glass-card p-4 h-100 text-center position-relative">
                         
                         <?php if(!empty($row['foto_khadim'])): ?>
-                            <img src="assets/images-khadim/<?php echo htmlspecialchars($row['foto_khadim']); ?>" class="img-fluid rounded shadow-sm mb-4 mx-auto d-block object-fit-cover" style="width: 100%; height: 180px;" alt="Foto Khadim">
+                            <img src="assets/images-khadim/<?php echo htmlspecialchars($row['foto_khadim']); ?>" class="img-fluid rounded shadow-sm mb-4 mx-auto d-block object-fit-contain bg-light p-1" style="width: 100%; height: 230px;" alt="Foto Khadim">
                         <?php else: ?>
-                            <div class="d-flex align-items-center justify-content-center bg-light rounded shadow-sm mx-auto mb-4" style="width: 100%; height: 180px;">
+                            <div class="d-flex align-items-center justify-content-center bg-light rounded shadow-sm mx-auto mb-4" style="width: 100%; height: 230px;">
                                 <i class="bi bi-person-fill fs-1 text-muted"></i>
                             </div>
                         <?php endif; ?>
@@ -180,7 +180,6 @@ if ($detail_tgl && $akses_warta) {
                         <a href="warta-jemaat.php?detail=<?php echo $row['tanggal']; ?>" class="text-decoration-none card-gallery-link">
                             <div class="glass-card h-100 d-flex flex-column overflow-hidden warta-card-hover p-0">
                                 
-                                <!-- DIPERBAIKI: Menggunakan object-fit-contain agar seluruh elemen gambar cover tampil utuh tanpa terpotong di dalam kotak portrait (490px) -->
                                 <div class="warta-cover-wrapper position-relative w-100 bg-dark d-flex align-items-center justify-content-center" style="height: 490px; overflow: hidden;">
                                     <?php if(!empty($row['cover_warta'])): ?>
                                         <img src="assets/images_cover/<?php echo htmlspecialchars($row['cover_warta']); ?>" alt="Cover Warta" class="w-100 h-100 object-fit-contain p-1">
@@ -195,13 +194,21 @@ if ($detail_tgl && $akses_warta) {
                                     </div>
                                 </div>
                                 
-                                <div class="p-4 text-center bg-white wrapper-bottom-card mt-auto">
-                                    <span class="badge bg-purple-soft text-purple mb-2 px-3 py-2 rounded-pill">
-                                        <i class="bi bi-calendar-event me-1"></i> Edisi Mingguan
-                                    </span>
-                                    <h6 class="fw-bolder text-dark mb-0 fs-5 mt-2 title-date-warta">
-                                        <?php echo date('d F Y', strtotime($row['tanggal'])); ?>
-                                    </h6>
+                                <div class="p-4 text-center bg-white wrapper-bottom-card mt-auto d-flex flex-column justify-content-between" style="min-height: 140px;">
+                                    <div>
+                                        <span class="badge bg-purple-soft text-purple mb-2 px-3 py-2 rounded-pill">
+                                            <i class="bi bi-calendar-event me-1"></i> Edisi Mingguan
+                                        </span>
+                                        <h6 class="fw-bolder text-dark mb-1 fs-5 mt-1 title-date-warta">
+                                            <?php echo date('d F Y', strtotime($row['tanggal'])); ?>
+                                        </h6>
+                                    </div>
+                                    
+                                    <div class="w-100">
+                                        <p class="text-muted mb-0 px-1" style="font-size: 0.8rem; line-height: 1.3; white-space: normal; word-wrap: break-word;" title="<?php echo htmlspecialchars($row['tema_mingguan'] ?? ''); ?>">
+                                            <em>"<?php echo htmlspecialchars($row['tema_mingguan'] ?? 'Tema belum diatur'); ?>"</em>
+                                        </p>
+                                    </div>
                                 </div>
 
                             </div>
