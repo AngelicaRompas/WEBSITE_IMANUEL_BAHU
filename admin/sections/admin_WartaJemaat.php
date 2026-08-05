@@ -17,15 +17,20 @@
     
     <form action="proses/proses_warta.php" method="POST" enctype="multipart/form-data">
         
-        <!-- Bagian 1: Informasi Umum -->
+        <!-- Bagian 1: Informasi Umum & Cover Warta -->
         <div class="row g-3 mb-4">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <label class="form-label small fw-bold text-secondary">Tanggal Pelaksanaan Ibadah</label>
                 <input type="date" name="tanggal" class="form-control form-control-custom" value="<?php echo date('Y-m-d'); ?>" required>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <label class="form-label small fw-bold text-secondary">Tema Mingguan</label>
                 <input type="text" name="tema_mingguan" class="form-control form-control-custom" placeholder="Masukkan tema ibadah minggu" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label small fw-bold text-secondary">Cover Warta Utama (Landscape/Potrait)</label>
+                <input type="file" name="cover_warta" class="form-control form-control-custom" accept="image/*" required>
+                <div class="form-text text-muted" style="font-size: 0.75rem;">Ditampilkan pada halaman depan warta.</div>
             </div>
         </div>
 
@@ -43,7 +48,7 @@
                         <input type="text" name="khadim_sesi_<?php echo $sesi; ?>" class="form-control form-control-custom" placeholder="Nama pengkhotbah">
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label small fw-bold text-muted">Foto Khadim</label>
+                        <label class="form-label small fw-bold text-muted">Foto Khadim <span class="text-primary" style="font-size: 0.75rem;">(Format Landscape)</span></label>
                         <input type="file" name="foto_sesi_<?php echo $sesi; ?>" class="form-control form-control-custom" accept="image/*">
                     </div>
                     <div class="col-md-4">
@@ -61,7 +66,7 @@
                         <input type="text" name="puji_sesi_<?php echo $sesi; ?>" class="form-control form-control-custom" placeholder="Paduan suara / Kolom / Pelsis">
                     </div>
 
-                    <!-- Baris 3 Konten Sesi (Fitur Baru) -->
+                    <!-- Baris 3 Konten Sesi (Fitur Sebelumnya) -->
                     <div class="col-md-6">
                         <label class="form-label small fw-bold text-muted">KPI</label>
                         <input type="text" name="kpi_sesi_<?php echo $sesi; ?>" class="form-control form-control-custom" placeholder="Nama KPI">
@@ -74,15 +79,20 @@
             </div>
         <?php endforeach; ?>
 
-        <!-- Bagian 3: Informasi Dokumen Tambahan -->
+        <!-- Bagian 3: Informasi Dokumen Tambahan & Tata Ibadah -->
         <div class="row g-3 mb-4">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <label class="form-label small fw-bold text-secondary">Nas Pembacaan Alkitab</label>
                 <input type="text" name="pembacaan_alkitab" class="form-control form-control-custom" placeholder="Contoh: Efesus 2:1-10" required>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <label class="form-label small fw-bold text-secondary">File Lembar Warta (PDF)</label>
                 <input type="file" name="file_pdf" class="form-control form-control-custom" accept="application/pdf" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label small fw-bold text-secondary">File Tata Ibadah (PDF / Dokumen)</label>
+                <input type="file" name="file_tata_ibadah" class="form-control form-control-custom" accept=".pdf,.doc,.docx" required>
+                <div class="form-text text-muted" style="font-size: 0.75rem;">Dapat diunduh pengunjung di bagian publik.</div>
             </div>
         </div>
 

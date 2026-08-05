@@ -25,15 +25,17 @@ if (isset($_GET['logout'])) {
 
 // Logika Pengambilan Data Database
 $detail_tgl = isset($_GET['detail']) ? mysqli_real_escape_string($koneksi, $_GET['detail']) : null;
-$query = ($akses_warta) ? ($detail_tgl ? mysqli_query($koneksi, "SELECT * FROM warta_jemaat WHERE tanggal = '$detail_tgl'") : mysqli_query($koneksi, "SELECT DISTINCT tanggal FROM warta_jemaat ORDER BY tanggal DESC")) : null;
+$query = ($akses_warta) ? ($detail_tgl ? mysqli_query($koneksi, "SELECT * FROM warta_jemaat WHERE tanggal = '$detail_tgl'") : mysqli_query($koneksi, "SELECT DISTINCT tanggal, cover_warta FROM warta_jemaat ORDER BY tanggal DESC")) : null;
 
-// Logika Ekstra: Ambil file PDF satu kali saja untuk diletakkan di header detail
+// Logika Ekstra: Ambil file PDF warta & Tata Ibadah
 $pdf_file = '';
+$tata_file = '';
 if ($detail_tgl && $akses_warta) {
-    $q_pdf = mysqli_query($koneksi, "SELECT file_pdf FROM warta_jemaat WHERE tanggal = '$detail_tgl' AND file_pdf != '' LIMIT 1");
+    $q_pdf = mysqli_query($koneksi, "SELECT file_pdf, file_tata_ibadah FROM warta_jemaat WHERE tanggal = '$detail_tgl' LIMIT 1");
     if ($q_pdf && mysqli_num_rows($q_pdf) > 0) {
         $r_pdf = mysqli_fetch_assoc($q_pdf);
-        $pdf_file = $r_pdf['file_pdf'];
+        $pdf_file = $r_pdf['file_pdf'] ?? '';
+        $tata_file = $r_pdf['file_tata_ibadah'] ?? '';
     }
 }
 ?>
@@ -50,13 +52,11 @@ if ($detail_tgl && $akses_warta) {
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700;1,900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Tautan CSS Eksternal (Gunakan versioning time agar anti-cache browser) -->
     <link rel="stylesheet" href="assets/css/style-beranda.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="assets/css/style_warta.css?v=<?php echo time(); ?>">
 </head>
 <body>
 
-<!-- Elemen Background Estetik -->
 <div class="digital-grid"></div>
 <div class="aurora-container">
     <div class="aurora-blob blob-blue"></div>
@@ -65,29 +65,24 @@ if ($detail_tgl && $akses_warta) {
 
 <?php include 'navbar.php'; ?>
 
-<!-- Premium Header Area -->
 <section class="page-header-premium text-center z-2">
     <div class="container">
-        <!-- Badge Atas -->
         <div data-aos="fade-down" data-aos-duration="800">
             <span class="badge rounded-pill px-3 py-2 small mb-3 fw-bold tracking-widest" style="background-color: #f3effb; color: #6f42c1; letter-spacing: 2px;">
                 <i class="bi bi-journal-bookmark-fill me-2"></i>INFORMASI DIGITAL
             </span>      
         </div>
         
-        <!-- Judul Utama -->
         <h1 class="main-title-aesthetic mb-2" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="100">
             Warta Jemaat
         </h1>
         
-        <!-- Divider Estetis -->
         <div class="premium-divider" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200">
             <div class="line"></div>
             <div class="dot"></div>
             <div class="line"></div>
         </div>
         
-        <!-- Sub Judul -->
         <p class="sub-title-aesthetic fw-medium mb-0" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
             Pusat Informasi Pelayanan dan Jadwal Ibadah <span class="church-highlight">GMIM Imanuel Bahu</span>
         </p>
@@ -96,7 +91,6 @@ if ($detail_tgl && $akses_warta) {
 
 <div class="container pb-5 mb-5 position-relative z-2 mt-4">
     <?php if (!$akses_warta): ?>
-        <!-- Tampilan Halaman Terkunci (Verifikasi Kode) -->
         <div class="row justify-content-center" data-aos="zoom-in" data-aos-delay="300">
             <div class="col-md-5 glass-card auth-box p-5 text-center mt-2">
                 <i class="bi bi-shield-lock text-purple fs-1 mb-3 d-block"></i>
@@ -111,35 +105,40 @@ if ($detail_tgl && $akses_warta) {
         </div>
         
     <?php else: ?>
-        <!-- Navigasi Atas Menu Setelah Akses Terbuka -->
         <div class="d-flex justify-content-between align-items-center mb-4 mt-3" data-aos="fade-in">
-            <!-- Menambahkan class 'text-white' dan 'shadow-sm' agar tulisan putih dan menonjol -->
             <h4 class="fw-bold m-0 text-white" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.5);">
                 <i class="bi bi-collection-play me-2"></i> <?php echo $detail_tgl ? 'Detail Warta Digital' : 'Galeri Warta Jemaat'; ?>
             </h4>
             
-            <!-- Mengubah warna tombol menjadi putih dengan 'btn-outline-light' -->
             <a href="warta-jemaat.php?logout=1" class="btn btn-outline-light btn-sm rounded-pill px-4 fw-bold shadow-sm">
                 <i class="bi bi-box-arrow-right me-1"></i> Tutup Akses
             </a>
         </div>
 
         <?php if ($detail_tgl): ?>
-            <!-- ==============================================
-                 TAMPILAN MODE DETAIL (PETUGAS IBADAH 3 SESI)
-                 ============================================== -->
             
             <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
                 <a href="warta-jemaat.php" class="btn btn-dark rounded-pill px-4 py-2 fw-semibold shadow-sm" data-aos="fade-right">
                     <i class="bi bi-arrow-left me-2"></i> Kembali ke Galeri
                 </a>
                 
-                <?php if(!empty($pdf_file)): ?>
-                    <!-- FIX: Menghapus awalan 'admin/' karena folder target berada di root luar -->
-                    <a href="assets/document_warta/<?php echo htmlspecialchars($pdf_file); ?>" target="_blank" class="btn btn-purple rounded-pill px-4 py-2 fw-bold shadow-sm" data-aos="fade-left">
-                        <i class="bi bi-cloud-arrow-down-fill me-2"></i> Buka / Unduh Dokumen Warta (PDF)
-                    </a>
-                <?php endif; ?>
+                <div class="d-flex gap-2 flex-wrap" data-aos="fade-left">
+                    <?php if(!empty($pdf_file)): ?>
+                        <a href="assets/document_warta/<?php echo htmlspecialchars($pdf_file); ?>" target="_blank" class="btn btn-purple rounded-pill px-4 py-2 fw-bold shadow-sm">
+                            <i class="bi bi-cloud-arrow-down-fill me-2"></i> Unduh Warta (PDF)
+                        </a>
+                    <?php endif; ?>
+
+                    <?php if(!empty($tata_file)): ?>
+                        <a href="assets/document_tata_ibadah/<?php echo htmlspecialchars($tata_file); ?>" target="_blank" class="btn btn-light text-purple rounded-pill px-4 py-2 fw-bold shadow-sm">
+                            <i class="bi bi-file-earmark-text-fill me-2"></i> Unduh Tata Ibadah
+                        </a>
+                    <?php else: ?>
+                        <button class="btn btn-light text-muted rounded-pill px-4 py-2 fw-bold shadow-sm" disabled title="File Tata Ibadah belum diunggah untuk edisi ini">
+                            <i class="bi bi-file-earmark-x-fill me-2"></i> Tata Ibadah Kosong
+                        </button>
+                    <?php endif; ?>
+                </div>
             </div>
             
             <div class="row g-4">
@@ -147,26 +146,24 @@ if ($detail_tgl && $akses_warta) {
                 <div class="col-md-4" data-aos="fade-up">
                     <div class="glass-card p-4 h-100 text-center position-relative">
                         
-                        <!-- Wadah Foto Khadim -->
                         <?php if(!empty($row['foto_khadim'])): ?>
-                            <img src="admin/assets/images-khadim/<?php echo htmlspecialchars($row['foto_khadim']); ?>" class="khadim-img mb-4 mx-auto d-block" alt="Foto Khadim <?php echo htmlspecialchars($row['nama_khadim']); ?>">
+                            <img src="assets/images-khadim/<?php echo htmlspecialchars($row['foto_khadim']); ?>" class="img-fluid rounded shadow-sm mb-4 mx-auto d-block object-fit-cover" style="width: 100%; height: 180px;" alt="Foto Khadim">
                         <?php else: ?>
-                            <div class="khadim-img d-flex align-items-center justify-content-center bg-light mx-auto mb-4">
-                                <i class="bi bi-person-fill icon-placeholder"></i>
+                            <div class="d-flex align-items-center justify-content-center bg-light rounded shadow-sm mx-auto mb-4" style="width: 100%; height: 180px;">
+                                <i class="bi bi-person-fill fs-1 text-muted"></i>
                             </div>
                         <?php endif; ?>
                         
                         <h5 class="fw-bold text-purple mb-3"><?php echo htmlspecialchars($row['sesi_ibadah']); ?></h5>
                         <hr class="divider-line">
                         
-                        <!-- Rincian Tugas Khadim -->
                         <div class="text-start mt-3 data-petugas-block">
-                            <p class="mb-2"><small class="text-muted d-block">Nama Khadim</small><strong><i class="bi bi-person-badge me-2 text-purple"></i> <?php echo htmlspecialchars($row['nama_khadim']); ?></strong></p>
-                            <p class="mb-2"><small class="text-muted d-block">KPI</small><strong><i class="bi bi-diagram-3 me-2 text-purple"></i> <?php echo htmlspecialchars($row['kpi']); ?></strong></p>
-                            <p class="mb-2"><small class="text-muted d-block">Penerima Jemaat</small><strong><i class="bi bi-people me-2 text-purple"></i> <?php echo htmlspecialchars($row['penerima_jemaat']); ?></strong></p>
-                            <p class="mb-2"><small class="text-muted d-block">Doa & Pembacaan</small><strong><i class="bi bi-book-half me-2 text-purple"></i> <?php echo htmlspecialchars($row['doa_pembacaan']); ?></strong></p>
-                            <p class="mb-2"><small class="text-muted d-block">Puji-pujian</small><strong><i class="bi bi-music-note-beamed me-2 text-purple"></i> <?php echo htmlspecialchars($row['puji_pujian']); ?></strong></p>
-                            <p class="mb-3"><small class="text-muted d-block">Doa Persembahan</small><strong><i class="bi bi-cash-coin me-2 text-purple"></i> <?php echo htmlspecialchars($row['doa_persembahan']); ?></strong></p>
+                            <p class="mb-2"><small class="text-muted d-block">Nama Khadim</small><strong><i class="bi bi-person-badge me-2 text-purple"></i> <?php echo htmlspecialchars($row['nama_khadim'] ?? '-'); ?></strong></p>
+                            <p class="mb-2"><small class="text-muted d-block">KPI</small><strong><i class="bi bi-diagram-3 me-2 text-purple"></i> <?php echo htmlspecialchars($row['kpi'] ?? '-'); ?></strong></p>
+                            <p class="mb-2"><small class="text-muted d-block">Penerima Jemaat</small><strong><i class="bi bi-people me-2 text-purple"></i> <?php echo htmlspecialchars($row['penerima_jemaat'] ?? '-'); ?></strong></p>
+                            <p class="mb-2"><small class="text-muted d-block">Doa & Pembacaan</small><strong><i class="bi bi-book-half me-2 text-purple"></i> <?php echo htmlspecialchars($row['doa_pembacaan'] ?? '-'); ?></strong></p>
+                            <p class="mb-2"><small class="text-muted d-block">Puji-pujian</small><strong><i class="bi bi-music-note-beamed me-2 text-purple"></i> <?php echo htmlspecialchars($row['puji_pujian'] ?? '-'); ?></strong></p>
+                            <p class="mb-3"><small class="text-muted d-block">Doa Persembahan</small><strong><i class="bi bi-cash-coin me-2 text-purple"></i> <?php echo htmlspecialchars($row['doa_persembahan'] ?? '-'); ?></strong></p>
                         </div>
                         
                     </div>
@@ -175,9 +172,6 @@ if ($detail_tgl && $akses_warta) {
             </div>
             
         <?php else: ?>
-            <!-- ==============================================
-                 TAMPILAN MODE DAFTAR UTAMA (GRID ARSIP GALERI)
-                 ============================================== -->
             <div class="row g-4" data-aos="fade-up" data-aos-delay="200">
                 <?php if(mysqli_num_rows($query) > 0): ?>
                     <?php while($row = mysqli_fetch_assoc($query)): ?>
@@ -186,16 +180,22 @@ if ($detail_tgl && $akses_warta) {
                         <a href="warta-jemaat.php?detail=<?php echo $row['tanggal']; ?>" class="text-decoration-none card-gallery-link">
                             <div class="glass-card h-100 d-flex flex-column overflow-hidden warta-card-hover p-0">
                                 
-                                <div class="warta-cover-wrapper">
-                                    <img src="assets/images/cover_warta_default.png" alt="Cover Majalah Warta Jemaat" class="w-100 h-100 object-fit-cover">
-                                    <div class="warta-overlay">
-                                        <span class="btn btn-light rounded-pill fw-bold text-purple px-4 shadow-sm">
+                                <!-- DIPERBAIKI: Menggunakan object-fit-contain agar seluruh elemen gambar cover tampil utuh tanpa terpotong di dalam kotak portrait (490px) -->
+                                <div class="warta-cover-wrapper position-relative w-100 bg-dark d-flex align-items-center justify-content-center" style="height: 490px; overflow: hidden;">
+                                    <?php if(!empty($row['cover_warta'])): ?>
+                                        <img src="assets/images_cover/<?php echo htmlspecialchars($row['cover_warta']); ?>" alt="Cover Warta" class="w-100 h-100 object-fit-contain p-1">
+                                    <?php else: ?>
+                                        <img src="assets/images/cover_warta_default.png" alt="Cover Default" class="w-100 h-100 object-fit-cover">
+                                    <?php endif; ?>
+                                    
+                                    <div class="warta-overlay d-flex align-items-center justify-content-center">
+                                        <span class="btn btn-light rounded-pill fw-bold text-purple px-4 shadow">
                                             <i class="bi bi-book-half me-2"></i>Buka Warta
                                         </span>
                                     </div>
                                 </div>
                                 
-                                <div class="p-4 text-center bg-white wrapper-bottom-card">
+                                <div class="p-4 text-center bg-white wrapper-bottom-card mt-auto">
                                     <span class="badge bg-purple-soft text-purple mb-2 px-3 py-2 rounded-pill">
                                         <i class="bi bi-calendar-event me-1"></i> Edisi Mingguan
                                     </span>
@@ -231,4 +231,4 @@ if ($detail_tgl && $akses_warta) {
     AOS.init({ once: true, offset: 80 });
 </script>
 </body>
-</html> 
+</html>
