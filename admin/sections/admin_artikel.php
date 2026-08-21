@@ -34,7 +34,6 @@ if (isset($_POST['edit_artikel'])) {
     $tanggal = $_POST['tanggal'];
     $konten = mysqli_real_escape_string($koneksi, $_POST['konten']);
     
-    // Cek apakah ada upload gambar baru
     if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === 0) {
         $nama_file = $_FILES['gambar']['name'];
         $tmp_file = $_FILES['gambar']['tmp_name'];
@@ -42,7 +41,6 @@ if (isset($_POST['edit_artikel'])) {
         $ekstensi_boleh = ['jpg', 'jpeg', 'png', 'webp'];
         
         if (in_array($ekstensi, $ekstensi_boleh)) {
-            // Hapus gambar lama
             $q_img = mysqli_query($koneksi, "SELECT gambar FROM artikel_warta WHERE id = $id");
             $d_img = mysqli_fetch_assoc($q_img);
             if (!empty($d_img['gambar']) && file_exists('../assets/gallery/' . $d_img['gambar'])) {
@@ -132,7 +130,6 @@ if (isset($_GET['hapus_artikel'])) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?>
                     <?php 
                     $data_artikel = mysqli_query($koneksi, "SELECT * FROM artikel_warta ORDER BY tanggal DESC");
                     if (mysqli_num_rows($data_artikel) > 0):
@@ -156,7 +153,6 @@ if (isset($_GET['hapus_artikel'])) {
                             </span>
                         </td>
                         <td class="text-center">
-                            <!-- Tombol Edit memicu Modal -->
                             <button type="button" class="btn btn-warning btn-sm rounded-pill px-3 py-1 shadow-sm fw-bold text-white mb-1" data-bs-toggle="modal" data-bs-target="#editModal<?= $row['id'] ?>">
                                 <i class="bi bi-pencil-square me-1"></i> Edit
                             </button>
@@ -207,7 +203,6 @@ if (isset($_GET['hapus_artikel'])) {
                             </div>
                         </div>
                     </div>
-                    <?>
                     <?php 
                         endwhile; 
                     else:

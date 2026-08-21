@@ -5,7 +5,10 @@ include 'koneksi.php';
 // Ambil 3 event terlaksana terbaru khusus untuk berita kegiatan pelayanan
 $queryNews = mysqli_query($koneksi, "SELECT * FROM events WHERE DATE(tanggal) < CURDATE() AND tanggal != '0000-00-00' ORDER BY tanggal DESC LIMIT 3");
 
-// Ambil data warta terbaru untuk ditampilkan pada bagian Jadwal Ibadah Minggu
+// Ambil data artikel warta untuk slider Informasi Jemaat (bisa menampung banyak artikel)
+$query_artikel_publik = mysqli_query($koneksi, "SELECT * FROM artikel_warta ORDER BY tanggal DESC LIMIT 6");
+
+// Ambil data warta terbaru untuk ditampilkan pada bagian Jadwal Ibadah Minggu (sisi kanan)
 $query_warta_terbaru = mysqli_query($koneksi, "SELECT tanggal, cover_warta FROM warta_jemaat ORDER BY tanggal DESC LIMIT 1");
 $warta_terbaru = ($query_warta_terbaru && mysqli_num_rows($query_warta_terbaru) > 0) ? mysqli_fetch_assoc($query_warta_terbaru) : null;
 ?>
@@ -22,7 +25,6 @@ $warta_terbaru = ($query_warta_terbaru && mysqli_num_rows($query_warta_terbaru) 
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700;1,900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style-beranda.css?v=<?php echo time(); ?>">
-    
 </head>
 <body>
 
@@ -30,6 +32,7 @@ $warta_terbaru = ($query_warta_terbaru && mysqli_num_rows($query_warta_terbaru) 
 include 'navbar.php';  
 ?>
 
+<!-- 1. HERO SECTION (TULISAN SELAMAT DATANG & NAVIGASI 360 DI PALING ATAS) -->
 <section class="hero-section py-5">
     <div class="container text-center position-relative">
         <div data-aos="fade-down" data-aos-duration="1000">
@@ -53,6 +56,129 @@ include 'navbar.php';
     </div>
 </section>
 
+<!-- 2. SECTION UTAMA: INFORMASI JEMAAT (DENGAN PANAH SLIDER) & JADWAL IBADAH -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4 align-items-stretch">
+            
+            <!-- KIRI: INFORMASI JEMAAT (SLIDER HORIZONTAL DENGAN TOMBOL PANAH) -->
+            <div class="col-lg-8 position-relative d-flex flex-column" data-aos="fade-right">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h3 class="fw-bold text-white m-0"><i class="bi bi-newspaper me-2" style="color: #a78bfa !important;"></i> Informasi Jemaat</h3>
+                    
+                    <!-- Tombol Panah Navigasi Kiri / Kanan -->
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-light rounded-circle shadow-sm d-flex align-items-center justify-content-center" onclick="scrollInformasi('left')" style="width: 40px; height: 40px; background: rgba(255,255,255,0.9); border: none;">
+                            <i class="bi bi-chevron-left text-dark fw-bold"></i>
+                        </button>
+                        <button type="button" class="btn btn-light rounded-circle shadow-sm d-flex align-items-center justify-content-center" onclick="scrollInformasi('right')" style="width: 40px; height: 40px; background: rgba(255,255,255,0.9); border: none;">
+                            <i class="bi bi-chevron-right text-dark fw-bold"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Wadah Scroll Horizontal (Slider) -->
+                <div id="informasiSlider" class="d-flex gap-3 overflow-x-auto pb-3" style="scroll-behavior: smooth; scrollbar-width: none; -ms-overflow-style: none;">
+                    <?php 
+                    $array_artikel = [];
+                    if(mysqli_num_rows($query_artikel_publik) > 0) {
+                        while($art = mysqli_fetch_assoc($query_artikel_publik)) {
+                            $array_artikel[] = $art;
+                        }
+                    }
+                    
+                    if(count($array_artikel) > 0):
+                        foreach($array_artikel as $artikel): 
+                    ?>
+                    <div class="flex-shrink-0" style="width: 100%; max-width: 420px;">
+                        <div class="glass-card p-3 p-md-4 border-0 shadow-sm rounded-4 d-flex flex-column h-100 text-decoration-none" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#modalArtikel<?php echo $artikel['id']; ?>">
+                            <?php if(!empty($artikel['gambar'])): ?>
+                                <div class="w-100 mb-3 overflow-hidden rounded-3" style="height: 180px;">
+                                    <img src="assets/gallery/<?php echo htmlspecialchars($artikel['gambar']); ?>" class="w-100 h-100 object-fit-cover shadow-sm">
+                                </div>
+                            <?php endif; ?>
+                            <div class="flex-grow-1 text-start d-flex flex-column">
+                                <div class="text-muted small mb-1">
+                                    <i class="bi bi-calendar3 me-1 text-primary"></i> <?php echo date('d M Y', strtotime($artikel['tanggal'])); ?>
+                                </div>
+                                <h5 class="fw-bold text-dark mb-2"><?php echo htmlspecialchars($artikel['judul']); ?></h5>
+                                <p class="text-muted small mb-0 line-clamp-2"><?php echo strip_tags($artikel['konten']); ?></p>
+                            </div>
+                        </div>
+                    </div>
+                    <?php 
+                        endforeach; 
+                    else: 
+                    ?>
+                        <div class="w-100">
+                            <div class="glass-card p-4 text-center rounded-4 text-muted w-100">
+                                <p class="mb-0">Belum ada informasi jemaat atau artikel terbaru.</p>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <!-- KANAN: JADWAL IBADAH MINGGU -->
+            <div class="col-lg-4 d-flex flex-column" data-aos="fade-left">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h3 class="fw-bold text-white m-0"><i class="bi bi-calendar-week me-2" style="color: #a78bfa !important;"></i> Jadwal Ibadah</h3>
+                </div>
+
+                <div class="glass-card p-4 h-100 text-center border-0 d-flex flex-column align-items-center shadow-sm rounded-4">
+                    <?php if($warta_terbaru && !empty($warta_terbaru['cover_warta'])): ?>
+                        <div class="w-100 rounded-4 overflow-hidden mb-3 position-relative shadow-sm border">
+                            <img src="assets/images_cover/<?php echo htmlspecialchars($warta_terbaru['cover_warta']); ?>" alt="Cover Warta Terbaru" class="w-100 d-block rounded-4 warta-cover-img" style="height: auto; object-fit: contain;">
+                        </div>
+                        <a href="warta-jemaat.php?detail=<?php echo $warta_terbaru['tanggal']; ?>" class="btn btn-purple rounded-pill w-100 fw-bold py-2 shadow-sm mt-auto" style="background-color: #6f42c1; color: white;">
+                            <i class="bi bi-book-half me-2"></i> Buka Warta Minggu Ini
+                        </a>
+                    <?php else: ?>
+                        <div class="p-5 text-center my-auto">
+                            <p class="text-muted mb-0">Belum ada cover warta mingguan yang diunggah.</p>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     KUMPULAN MODAL DETAIL ARTIKEL (Diletakkan di luar looping)
+     ========================================================================== -->
+<?php if(count($array_artikel) > 0): ?>
+    <?php foreach($array_artikel as $artikel): ?>
+    <div class="modal fade" id="modalArtikel<?php echo $artikel['id']; ?>" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="p-4 text-white d-flex justify-content-between align-items-center" style="background: linear-gradient(135deg, #6f42c1 0%, #4a2b85 100%);">
+                    <h4 class="fw-bold mb-0"><i class="bi bi-newspaper me-2"></i>Detail Informasi Jemaat</h4>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 bg-light text-start">
+                    <?php if(!empty($artikel['gambar'])): ?>
+                        <div class="mb-4 text-center bg-dark p-2 rounded-4 shadow-sm border overflow-hidden d-flex align-items-center justify-content-center" style="min-height: 250px; max-height: 450px;">
+                            <img src="assets/gallery/<?php echo htmlspecialchars($artikel['gambar']); ?>" class="img-fluid rounded-3 w-100 h-100" style="object-fit: contain; max-height: 430px;">
+                        </div>
+                    <?php endif; ?>
+                    <h4 class="fw-bold text-dark mb-2"><?php echo htmlspecialchars($artikel['judul']); ?></h4>
+                    <div class="d-flex align-items-center text-primary mb-3">
+                        <i class="bi bi-calendar3 me-2"></i> 
+                        <span class="small fw-bold"><?php echo date('d F Y', strtotime($artikel['tanggal'])); ?></span>
+                    </div>
+                    <div class="bg-white p-4 rounded-4 shadow-sm border border-light">
+                        <p class="text-dark mb-0" style="line-height: 1.8; white-space: pre-line;"><?php echo htmlspecialchars($artikel['konten']); ?></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endforeach; ?>
+<?php endif; ?>
+
+<!-- 3. STRUKTUR PELAYANAN -->
 <section class="py-5">
     <div class="container-fluid px-2 px-md-5">
         <h2 class="fw-bold mb-5 text-dark text-center" data-aos="fade-up">Struktur Pelayanan</h2>
@@ -98,9 +224,9 @@ include 'navbar.php';
     </div>
 </section>
 
+<!-- 4. TAHAPAN PEMILIHAN PELSUS -->
 <section class="py-5">
     <div class="container">
-        <!-- Judul Section -->
         <div class="text-center mb-5" data-aos="fade-up">
             <h2 class="fw-bold text-white mb-2" style="letter-spacing: 1px;">TAHAPAN PEMILIHAN PELAYAN KHUSUS</h2>
             <div class="mx-auto" style="width: 60px; height: 2px; background: rgba(255,255,255,0.5);"></div>
@@ -112,21 +238,11 @@ include 'navbar.php';
             foreach($foto_tambahan as $foto):
             ?>
             <div class="col-lg-3 col-md-6 col-12" data-aos="zoom-in" data-aos-delay="150">
-                <!-- Tampilan Glassmorphism Digital -->
                 <div class="digital-card-wrapper" 
-                     style="background: rgba(255, 255, 255, 0.05); 
-                            backdrop-filter: blur(10px); 
-                            border: 1px solid rgba(255, 255, 255, 0.2); 
-                            border-radius: 25px; 
-                            padding: 8px; 
-                            transition: all 0.4s ease;
-                            cursor: pointer;"
+                     style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 25px; padding: 8px; transition: all 0.4s ease; cursor: pointer;"
                      onclick="openModal('assets/images/<?php echo $foto; ?>')">
-                    
                     <div class="overflow-hidden" style="border-radius: 18px;">
-                        <img src="assets/images/<?php echo $foto; ?>" 
-                             class="w-100" 
-                             style="aspect-ratio: 1/1; object-fit: cover; transition: transform 0.6s ease;">
+                        <img src="assets/images/<?php echo $foto; ?>" class="w-100" style="aspect-ratio: 1/1; object-fit: cover; transition: transform 0.6s ease;">
                     </div>
                 </div>
             </div>
@@ -145,7 +261,7 @@ include 'navbar.php';
   </div>
 </div>
 
-<!-- Bagian Berita Kegiatan Pelayanan (Murni dari tabel events) -->
+<!-- 5. BERITA KEGIATAN PELAYANAN -->
 <section class="py-5" id="berita-kegiatan">
     <div class="container">
         <h2 class="fw-bold mb-5 text-center text-dark" data-aos="fade-up">Berita Kegiatan Pelayanan</h2>
@@ -157,19 +273,13 @@ include 'navbar.php';
             ?>
             <div class="col-lg-4 col-md-6" data-aos="fade-up">
                 <div class="glass-card h-100 shadow-sm border-0 d-flex flex-column" style="border-radius: 20px; overflow: hidden;">
-                    
                     <div style="width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: #000;">
-                        <img src="assets/gallery/<?php echo htmlspecialchars($row['poster']); ?>" 
-                             class="w-100 h-100 object-fit-cover zoom-img" 
-                             alt="<?php echo htmlspecialchars($row['judul']); ?>">
+                        <img src="assets/gallery/<?php echo htmlspecialchars($row['poster']); ?>" class="w-100 h-100 object-fit-cover zoom-img" alt="<?php echo htmlspecialchars($row['judul']); ?>">
                     </div>
-                    
                     <div class="card-body p-3 p-md-4 d-flex flex-column">
                         <span class="badge bg-primary mb-2 align-self-start shadow-sm"><?php echo date('d M Y', strtotime($row['tanggal'])); ?></span>
                         <h6 class="fw-bold text-dark mb-3 line-clamp-2"><?php echo htmlspecialchars($row['judul']); ?></h6>
-                        <button class="btn btn-outline-primary w-100 rounded-pill py-2 mt-auto fw-bold" 
-                                data-bs-toggle="modal" 
-                                data-bs-target="#modalNews<?php echo $row['id']; ?>">
+                        <button class="btn btn-outline-primary w-100 rounded-pill py-2 mt-auto fw-bold" data-bs-toggle="modal" data-bs-target="#modalNews<?php echo $row['id']; ?>">
                             Lihat Detail
                         </button>
                     </div>
@@ -196,7 +306,6 @@ while($row = mysqli_fetch_assoc($queryNews)): ?>
             <div class="p-4 text-white" style="background: linear-gradient(135deg, #6f42c1 0%, #4a2b85 100%);">
                 <h4 class="fw-bold mb-0"><i class="bi bi-newspaper me-2"></i>Detail Kegiatan</h4>
             </div>
-            
             <div class="modal-body p-4 bg-light">
                 <div class="row">
                     <div class="col-lg-5 mb-3">
@@ -215,14 +324,12 @@ while($row = mysqli_fetch_assoc($queryNews)): ?>
                         </div>
                     </div>
                 </div>
-
                 <div class="d-flex align-items-center mt-4 mb-3">
                     <h6 class="fw-bold mb-0 text-dark text-uppercase" style="font-size: 0.8rem; letter-spacing: 1px;">
                         <i class="bi bi-images me-2 text-primary"></i>Dokumentasi Foto
                     </h6>
                     <div class="flex-grow-1 border-top ms-3 opacity-25"></div>
                 </div>
-
                 <div class="row g-2">
                     <?php  
                     $galeri = mysqli_query($koneksi, "SELECT * FROM event_gallery WHERE event_id = '".$row['id']."'");
@@ -257,41 +364,11 @@ while($g = mysqli_fetch_assoc($galeri)): ?>
 <?php endwhile; ?>
 <?php endwhile; ?>
 
-<!-- Bagian Jadwal Ibadah Minggu -->
-<section class="schedule-section py-5">
-    <div class="container text-center py-4">
-        <h2 class="fw-bold mb-2 text-dark" data-aos="fade-up">Jadwal Ibadah Minggu</h2>
-        <p class="text-muted mb-5" data-aos="fade-up" data-aos-delay="100">Mari bertumbuh bersama dalam persekutuan Ibadah jemaat GMIM Imanuel Bahu.</p>
-
-        <div class="row justify-content-center">
-            <?php if($warta_terbaru && !empty($warta_terbaru['cover_warta'])): ?>
-            <div class="col-lg-3 col-md-5 col-sm-8 col-11 mx-auto" data-aos="fade-up" data-aos-delay="150">
-                <div class="glass-card p-3 h-100 text-center border-0 d-flex flex-column align-items-center shadow-sm" style="border-radius: 20px; max-width: 360px; margin: 0 auto;">
-                    <!-- Tambahkan class warta-cover-img di sini -->
-                    <div class="w-100 rounded-4 overflow-hidden mb-3 position-relative d-flex align-items-center justify-content-center">
-                        <img src="assets/images_cover/<?php echo htmlspecialchars($warta_terbaru['cover_warta']); ?>" alt="Cover Warta Terbaru" class="w-100 d-block rounded-4 shadow-sm warta-cover-img" style="height: auto; object-fit: contain;">
-                    </div>
-                    <a href="warta-jemaat.php?detail=<?php echo $warta_terbaru['tanggal']; ?>" class="btn btn-purple rounded-pill w-100 fw-bold py-2 shadow-sm mt-auto" style="background-color: #6f42c1; color: white;">
-                        <i class="bi bi-book-half me-2"></i> Buka Warta Minggu Ini
-                    </a>
-                </div>
-            </div>
-            <?php else: ?>
-            <div class="col-md-6" data-aos="fade-up">
-                <div class="glass-card p-5 text-center border-0">
-                    <p class="text-muted mb-0">Belum ada cover warta mingguan yang diunggah.</p>
-                </div>
-            </div>
-            <?php endif; ?>
-        </div>
-    </div>
-</section>
-
+<!-- 6. LAYANAN INFORMASI DIGITAL -->
 <section class="info-section py-5">
     <div class="container text-center py-4">
         <h2 class="fw-bold mb-5 text-dark" data-aos="fade-up">Layanan Informasi Digital</h2>
         <div class="row g-4 justify-content-center text-start">
-            <!-- Agenda Terdekat -->
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
                 <div class="glass-card p-4 h-100 border-0 d-flex flex-column">
                     <div class="text-primary mb-3"><i class="bi bi-calendar3-event" style="font-size: 2.3rem;"></i></div>
@@ -323,7 +400,6 @@ while($g = mysqli_fetch_assoc($galeri)): ?>
                 </div>
             </div>
             
-            <!-- Warta Jemaat -->
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
                 <div class="glass-card p-4 h-100 border-0 d-flex flex-column">
                     <div class="text-info mb-3" style="color: #6f42c1 !important;"><i class="bi bi-file-earmark-text" style="font-size: 2.3rem;"></i></div>
@@ -333,7 +409,6 @@ while($g = mysqli_fetch_assoc($galeri)): ?>
                 </div>
             </div>
             
-            <!-- Transparansi Keuangan -->
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
                 <div class="glass-card p-4 h-100 border-0 d-flex flex-column">
                     <div class="text-success mb-3" style="color: #6f42c1 !important;"><i class="bi bi-wallet2" style="font-size: 2.3rem;"></i></div>
@@ -346,12 +421,12 @@ while($g = mysqli_fetch_assoc($galeri)): ?>
     </div>
 </section>
 
+<!-- 7. AYAT HARIAN -->
 <section class="reflection-section py-5 mb-5">
     <div class="container text-center">
         <div class="glass-card p-5 mx-auto" style="max-width: 800px;" data-aos="fade-up" data-aos-duration="1000">
             <?php 
             include 'data_ayat.php'; 
-            
             $index_terpilih = array_rand($bank_ayat);
             $ayat_hari_ini = $bank_ayat[$index_terpilih];
             ?>
@@ -378,6 +453,17 @@ while($g = mysqli_fetch_assoc($galeri)): ?>
     function openModal(src) {
         document.getElementById('modalImg').src = src;
         new bootstrap.Modal(document.getElementById('fotoModal')).show();
+    }
+
+    // Fungsi untuk menggeser slider informasi jemaat ke kiri atau kanan
+    function scrollInformasi(direction) {
+        const slider = document.getElementById('informasiSlider');
+        const scrollAmount = 400; 
+        if (direction === 'left') {
+            slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        } else {
+            slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
     }
 </script>
 </body>
