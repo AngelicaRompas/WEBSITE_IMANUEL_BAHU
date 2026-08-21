@@ -1,5 +1,5 @@
 /* ==========================================================================
-   SIDEBAR & OFFCANVAS BASE (ANTI-ACCORDION CRASH & SCROLLABLE)
+   SIDEBAR & OFFCANVAS BASE (SCROLLABLE SECURE)
    ========================================================================== */
 .admin-sidebar,
 .admin-offcanvas {
@@ -10,23 +10,25 @@
 }
 
 .admin-sidebar {
-    height: 100vh; /* FIX: Mengunci tinggi agar pas setinggi frame layar browser */
+    height: 100vh;
     position: fixed;
     top: 0;
     left: 0;
     width: 260px;
     z-index: 100;
     
-    /* FIX UTAMA: Mengaktifkan scroll internal jika isi menu melebihi batas bawah monitor */
-    overflow-y: auto; 
+    /* Mengaktifkan scroll pada seluruh sidebar */
+    overflow-y: auto !important;
     overflow-x: hidden;
     
-    /* Sentuhan Premium: Desain scrollbar modern tipis semi-transparan */
+    /* Padding atas-bawah agar konten tidak mentok */
+    padding: 1.5rem 1rem;
+    
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
 }
 
-/* Modifikasi Scrollbar Webkit (Chrome/Edge/Safari) agar bergaya minimalis */
+/* Modifikasi Scrollbar Webkit */
 .admin-sidebar::-webkit-scrollbar {
     width: 5px;
 }
@@ -36,6 +38,13 @@
 .admin-sidebar::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.25);
     border-radius: 10px;
+}
+
+@media (min-width: 992px) {
+    .admin-main-box {
+        margin-left: 260px;
+        width: calc(100% - 260px);
+    }
 }
 
 .admin-offcanvas {
@@ -116,11 +125,6 @@
     transform: rotate(180deg);
 }
 
-.collapse-menu-wrapper {
-    padding-left: 8px;
-    margin-bottom: 4px;
-}
-
 .collapse .nav-link-admin {
     margin-bottom: 4px;
     padding-left: 2.5rem !important;
@@ -145,6 +149,11 @@
 @media (max-width: 991.98px) {
     .admin-sidebar {
         display: none !important;
+    }
+    
+    .admin-main-box {
+        margin-left: 0 !important;
+        width: 100% !important;
     }
     
     .tab-content {

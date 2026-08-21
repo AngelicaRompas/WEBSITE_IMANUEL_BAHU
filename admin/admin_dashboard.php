@@ -139,6 +139,10 @@ $kolomBerikutnya = (
                     <?php include 'sections/admin_beranda.php'; ?>
                 </div>
 
+                <div class="tab-pane fade" id="admin-artikel" role="tabpanel">
+                    <?php include 'sections/admin_artikel.php'; ?>
+                </div>
+
                 <div class="tab-pane fade" id="admin-datajemaat" role="tabpanel">
                     <?php include 'sections/admin_DataJemaat.php'; ?>
                 </div>
