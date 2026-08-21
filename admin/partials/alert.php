@@ -22,6 +22,8 @@ $alerts = [
     'kategori_sudah_ada'   => ['warning', 'Kategori komisi tersebut sudah ada.'],
     'kategori_kosong'      => ['warning', 'Nama kategori tidak boleh kosong.'],
     'kategori_dipakai'     => ['danger', 'Kategori tidak dapat dihapus karena masih digunakan oleh anggota komisi.'],
+    'sukses_artikel' => ['primary', 'Artikel atau informasi warta berhasil disimpan!'],
+    'sukses_hapus_artikel' => ['info', 'Artikel atau informasi warta berhasil dihapus.'],
     ];
 
 if (array_key_exists($pesan, $alerts)): 
