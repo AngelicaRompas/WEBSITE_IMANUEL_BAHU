@@ -158,10 +158,10 @@ if ($detail_tgl && $akses_warta) {
                         <hr class="divider-line">
                         
                         <div class="text-start mt-3 data-petugas-block">
-                            <p class="mb-2"><small class="text-muted d-block">Nama Khadim</small><strong><i class="bi bi-person-badge me-2 text-purple"></i> <?php echo htmlspecialchars($row['nama_khadim'] ?? '-'); ?></strong></p>
+                            <p class="mb-2"><small class="text-muted d-block">Khadim</small><strong><i class="bi bi-person-badge me-2 text-purple"></i> <?php echo htmlspecialchars($row['nama_khadim'] ?? '-'); ?></strong></p>
                             <p class="mb-2"><small class="text-muted d-block">KPI</small><strong><i class="bi bi-diagram-3 me-2 text-purple"></i> <?php echo htmlspecialchars($row['kpi'] ?? '-'); ?></strong></p>
                             <p class="mb-2"><small class="text-muted d-block">Penerima Jemaat</small><strong><i class="bi bi-people me-2 text-purple"></i> <?php echo htmlspecialchars($row['penerima_jemaat'] ?? '-'); ?></strong></p>
-                            <p class="mb-2"><small class="text-muted d-block">Doa & Pembacaan</small><strong><i class="bi bi-book-half me-2 text-purple"></i> <?php echo htmlspecialchars($row['doa_pembacaan'] ?? '-'); ?></strong></p>
+                            <p class="mb-2"><small class="text-muted d-block">Doa & Pembacaan Alkitab</small><strong><i class="bi bi-book-half me-2 text-purple"></i> <?php echo htmlspecialchars($row['doa_pembacaan'] ?? '-'); ?></strong></p>
                             <p class="mb-2"><small class="text-muted d-block">Puji-pujian</small><strong><i class="bi bi-music-note-beamed me-2 text-purple"></i> <?php echo htmlspecialchars($row['puji_pujian'] ?? '-'); ?></strong></p>
                             <p class="mb-3"><small class="text-muted d-block">Doa Persembahan</small><strong><i class="bi bi-cash-coin me-2 text-purple"></i> <?php echo htmlspecialchars($row['doa_persembahan'] ?? '-'); ?></strong></p>
                         </div>
@@ -180,11 +180,11 @@ if ($detail_tgl && $akses_warta) {
                         <a href="warta-jemaat.php?detail=<?php echo $row['tanggal']; ?>" class="text-decoration-none card-gallery-link">
                             <div class="glass-card h-100 d-flex flex-column overflow-hidden warta-card-hover p-0">
                                 
-                                <div class="warta-cover-wrapper position-relative w-100 bg-dark d-flex align-items-center justify-content-center" style="height: 490px; overflow: hidden;">
+                                <div class="warta-cover-wrapper position-relative w-100">
                                     <?php if(!empty($row['cover_warta'])): ?>
-                                        <img src="assets/images_cover/<?php echo htmlspecialchars($row['cover_warta']); ?>" alt="Cover Warta" class="w-100 h-100 object-fit-contain p-1">
+                                        <img src="assets/images_cover/<?php echo htmlspecialchars($row['cover_warta']); ?>" alt="Cover Warta" class="w-100">
                                     <?php else: ?>
-                                        <img src="assets/images/cover_warta_default.png" alt="Cover Default" class="w-100 h-100 object-fit-cover">
+                                        <img src="assets/images/cover_warta_default.png" alt="Cover Default" class="w-100">
                                     <?php endif; ?>
                                     
                                     <div class="warta-overlay d-flex align-items-center justify-content-center">

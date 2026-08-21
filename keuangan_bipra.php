@@ -26,7 +26,7 @@ $label_komisi_lengkap = [
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 border-bottom pb-3 mb-4">
         <div>
             <h5 class="fw-bold text-dark mb-1">Penyetoran Kas Kategorial (BIPRA)</h5>
-            <small class="text-muted">Ikhtisar keterbukaan laporan keuangan masuk dari masing-masing komisi kategorial jemaat</small>
+            <small class="text-muted">Daftar Penyetoran masing-masing komisi kategorial jemaat setiap bulan</small>
         </div>
         
         <div class="d-flex align-items-center gap-2">

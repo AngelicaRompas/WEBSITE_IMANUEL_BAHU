@@ -2,8 +2,12 @@
 
 <?php
 include 'koneksi.php';  
-// Ambil 3 event terlaksana terbaru
+// Ambil 3 event terlaksana terbaru khusus untuk berita kegiatan pelayanan
 $queryNews = mysqli_query($koneksi, "SELECT * FROM events WHERE DATE(tanggal) < CURDATE() AND tanggal != '0000-00-00' ORDER BY tanggal DESC LIMIT 3");
+
+// Ambil data warta terbaru untuk ditampilkan pada bagian Jadwal Ibadah Minggu
+$query_warta_terbaru = mysqli_query($koneksi, "SELECT tanggal, cover_warta FROM warta_jemaat ORDER BY tanggal DESC LIMIT 1");
+$warta_terbaru = ($query_warta_terbaru && mysqli_num_rows($query_warta_terbaru) > 0) ? mysqli_fetch_assoc($query_warta_terbaru) : null;
 ?>
 
 <!DOCTYPE html>
@@ -22,8 +26,8 @@ $queryNews = mysqli_query($koneksi, "SELECT * FROM events WHERE DATE(tanggal) < 
 </head>
 <body>
 
-<?php 
-include 'navbar.php'; 
+<?php  
+include 'navbar.php';  
 ?>
 
 <section class="hero-section py-5">
@@ -50,14 +54,13 @@ include 'navbar.php';
 </section>
 
 <section class="py-5">
-    <!-- px-2 pada mobile memberikan ruang lebih lebar agar kartu bisa melebar -->
     <div class="container-fluid px-2 px-md-5">
         <h2 class="fw-bold mb-5 text-dark text-center" data-aos="fade-up">Struktur Pelayanan</h2>
-        <div class="row g-3 justify-content-center"> 
+        <div class="row g-3 justify-content-center">  
             <?php
             $profil_items = [
                 ["foto" => "pdt.png", "title" => "Pendeta", "desc" => "Pendeta Pelayanan GMIM Imanuel Bahu", "link" => "data-jemaat.php#pills-bpmj"],
-                ["foto" => "pelsus.jpg", "title" => "Pelayan Khusus", "desc" => "Penatua & Diaken Kolom", "link" => "data-jemaat.php#pills-pelsus"],
+                ["foto" => "pelsus.png", "title" => "Pelayan Khusus", "desc" => "Penatua & Diaken Kolom", "link" => "data-jemaat.php#pills-pelsus"],
                 ["foto" => "bpmj.png", "title" => "Badan Pekerja Majelis Jemaat", "desc" => "Badan Pekerja Majelis Jemaat Periode Pelayanan 2022 - 2026", "link" => "data-jemaat.php#pills-bpmj"]
             ];
             foreach($profil_items as $item):
@@ -66,7 +69,6 @@ include 'navbar.php';
             <div class="col-lg-4 col-md-6" data-aos="fade-up">
                 <div class="glass-card h-100 border-0 d-flex flex-column shadow-sm" style="border-radius: 20px; overflow: hidden;">
                     
-                    <!-- Perbaikan: Gunakan object-fit: contain pada mobile agar wajah tidak terpotong -->
                     <div class="img-container-wrapper" 
                          onclick="openModal('<?php echo $path_foto; ?>')"
                          style="width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: #f8f9fa; cursor: pointer; display: flex; align-items: center; justify-content: center;">
@@ -86,8 +88,45 @@ include 'navbar.php';
                         <p class="text-muted small mb-4 flex-grow-1"><?php echo $item['desc']; ?></p>
                         <a href="<?php echo $item['link']; ?>" 
                            class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold w-100">
-                           Lihat Profil
+                            Lihat Profil
                         </a>
+                    </div>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <!-- Judul Section -->
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="fw-bold text-white mb-2" style="letter-spacing: 1px;">TAHAPAN PEMILIHAN PELAYAN KHUSUS</h2>
+            <div class="mx-auto" style="width: 60px; height: 2px; background: rgba(255,255,255,0.5);"></div>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <?php
+            $foto_tambahan = ["tahapan1.jpeg", "tahapan2.jpeg", "tahapan3.jpeg", "tahapan4.jpeg"];
+            foreach($foto_tambahan as $foto):
+            ?>
+            <div class="col-lg-3 col-md-6 col-12" data-aos="zoom-in" data-aos-delay="150">
+                <!-- Tampilan Glassmorphism Digital -->
+                <div class="digital-card-wrapper" 
+                     style="background: rgba(255, 255, 255, 0.05); 
+                            backdrop-filter: blur(10px); 
+                            border: 1px solid rgba(255, 255, 255, 0.2); 
+                            border-radius: 25px; 
+                            padding: 8px; 
+                            transition: all 0.4s ease;
+                            cursor: pointer;"
+                     onclick="openModal('assets/images/<?php echo $foto; ?>')">
+                    
+                    <div class="overflow-hidden" style="border-radius: 18px;">
+                        <img src="assets/images/<?php echo $foto; ?>" 
+                             class="w-100" 
+                             style="aspect-ratio: 1/1; object-fit: cover; transition: transform 0.6s ease;">
                     </div>
                 </div>
             </div>
@@ -106,28 +145,25 @@ include 'navbar.php';
   </div>
 </div>
 
-
+<!-- Bagian Berita Kegiatan Pelayanan (Murni dari tabel events) -->
 <section class="py-5" id="berita-kegiatan">
     <div class="container">
         <h2 class="fw-bold mb-5 text-center text-dark" data-aos="fade-up">Berita Kegiatan Pelayanan</h2>
         
         <div class="row g-4 justify-content-center">
-            <?php 
+            <?php  
             if(mysqli_num_rows($queryNews) > 0):
-                while($row = mysqli_fetch_assoc($queryNews)): 
+                while($row = mysqli_fetch_assoc($queryNews)):  
             ?>
             <div class="col-lg-4 col-md-6" data-aos="fade-up">
-                <!-- Gunakan class d-flex flex-column agar tinggi kartu konsisten -->
                 <div class="glass-card h-100 shadow-sm border-0 d-flex flex-column" style="border-radius: 20px; overflow: hidden;">
                     
-                    <!-- Perbaikan tinggi gambar: Menggunakan aspect-ratio agar rapi di semua layar -->
-                    <div style="width: 100%; aspect-ratio: 16 / 9; overflow: hidden;">
+                    <div style="width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: #000;">
                         <img src="assets/gallery/<?php echo htmlspecialchars($row['poster']); ?>" 
                              class="w-100 h-100 object-fit-cover zoom-img" 
                              alt="<?php echo htmlspecialchars($row['judul']); ?>">
                     </div>
                     
-                    <!-- Perbaikan padding: Menggunakan class p-3 pada mobile agar lebih ringkas -->
                     <div class="card-body p-3 p-md-4 d-flex flex-column">
                         <span class="badge bg-primary mb-2 align-self-start shadow-sm"><?php echo date('d M Y', strtotime($row['tanggal'])); ?></span>
                         <h6 class="fw-bold text-dark mb-3 line-clamp-2"><?php echo htmlspecialchars($row['judul']); ?></h6>
@@ -139,9 +175,9 @@ include 'navbar.php';
                     </div>
                 </div>
             </div>
-            <?php 
+            <?php  
                 endwhile; 
-            else: 
+            else:  
             ?>
                 <div class="col-12 text-center py-4">
                     <p class="text-muted">Belum ada berita kegiatan terbaru.</p>
@@ -151,8 +187,8 @@ include 'navbar.php';
     </div>
 </section>
 
-<?php 
-mysqli_data_seek($queryNews, 0); 
+<?php  
+mysqli_data_seek($queryNews, 0);  
 while($row = mysqli_fetch_assoc($queryNews)): ?>
 <div class="modal fade" id="modalNews<?php echo $row['id']; ?>" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -188,7 +224,7 @@ while($row = mysqli_fetch_assoc($queryNews)): ?>
                 </div>
 
                 <div class="row g-2">
-                    <?php 
+                    <?php  
                     $galeri = mysqli_query($koneksi, "SELECT * FROM event_gallery WHERE event_id = '".$row['id']."'");
                     while($g = mysqli_fetch_assoc($galeri)): ?>
                         <div class="col-3">
@@ -203,7 +239,7 @@ while($row = mysqli_fetch_assoc($queryNews)): ?>
     </div>
 </div>
 
-<?php 
+<?php  
 $galeri = mysqli_query($koneksi, "SELECT * FROM event_gallery WHERE event_id = '".$row['id']."'");
 while($g = mysqli_fetch_assoc($galeri)): ?>
     <div class="modal fade" id="modalFotoNews<?php echo $g['id']; ?>" tabindex="-1" aria-hidden="true">
@@ -221,46 +257,32 @@ while($g = mysqli_fetch_assoc($galeri)): ?>
 <?php endwhile; ?>
 <?php endwhile; ?>
 
+<!-- Bagian Jadwal Ibadah Minggu -->
 <section class="schedule-section py-5">
     <div class="container text-center py-4">
         <h2 class="fw-bold mb-2 text-dark" data-aos="fade-up">Jadwal Ibadah Minggu</h2>
         <p class="text-muted mb-5" data-aos="fade-up" data-aos-delay="100">Mari bertumbuh bersama dalam persekutuan Ibadah jemaat GMIM Imanuel Bahu.</p>
-        
-        <div class="row g-4 justify-content-center">
-            <!-- Ibadah Subuh -->
-            <div class="col-md-4" data-aos="fade-up" data-aos-delay="150">
-                <!-- Tambahkan class p-md-4 untuk menjaga tampilan desktop tetap lebar, dan p-3 untuk mobile -->
-                <div class="glass-card p-3 p-md-4 h-100 text-center border-0">
-                    <div class="d-inline-block p-3 rounded-circle mb-3" style="background-color: #f3effb; color: #6f42c1;">
-                        <i class="bi bi-sunrise-fill" style="font-size: 1.8rem;"></i>
+
+        <div class="row justify-content-center">
+            <?php if($warta_terbaru && !empty($warta_terbaru['cover_warta'])): ?>
+            <div class="col-lg-3 col-md-5 col-sm-8 col-11 mx-auto" data-aos="fade-up" data-aos-delay="150">
+                <div class="glass-card p-3 h-100 text-center border-0 d-flex flex-column align-items-center shadow-sm" style="border-radius: 20px; max-width: 360px; margin: 0 auto;">
+                    <!-- Tambahkan class warta-cover-img di sini -->
+                    <div class="w-100 rounded-4 overflow-hidden mb-3 position-relative d-flex align-items-center justify-content-center">
+                        <img src="assets/images_cover/<?php echo htmlspecialchars($warta_terbaru['cover_warta']); ?>" alt="Cover Warta Terbaru" class="w-100 d-block rounded-4 shadow-sm warta-cover-img" style="height: auto; object-fit: contain;">
                     </div>
-                    <h5 class="fw-bold text-dark" style="font-size: 1.1rem;">Ibadah Subuh</h5>
-                    <h3 class="fw-bolder mb-2" style="color: #6f42c1; font-size: 1.4rem;">05:30 WITA</h3>
-                    <p class="small text-muted mb-0">Gedung Gereja Utama</p>
+                    <a href="warta-jemaat.php?detail=<?php echo $warta_terbaru['tanggal']; ?>" class="btn btn-purple rounded-pill w-100 fw-bold py-2 shadow-sm mt-auto" style="background-color: #6f42c1; color: white;">
+                        <i class="bi bi-book-half me-2"></i> Buka Warta Minggu Ini
+                    </a>
                 </div>
             </div>
-            <!-- Ibadah Pagi -->
-            <div class="col-md-4" data-aos="fade-up" data-aos-delay="250">
-                <div class="glass-card p-3 p-md-4 h-100 text-center border-0" style="background: rgba(111, 66, 193, 0.05); border: 1px solid rgba(111, 66, 193, 0.2);">
-                    <div class="d-inline-block bg-primary text-white p-3 rounded-circle mb-3 shadow-sm">
-                        <i class="bi bi-sun-fill" style="font-size: 1.8rem;"></i>
-                    </div>
-                    <h5 class="fw-bold text-dark" style="font-size: 1.1rem;">Ibadah Pagi</h5>
-                    <h3 class="fw-bolder mb-2" style="color: #6f42c1; font-size: 1.4rem;">09:00 WITA</h3>
-                    <p class="small text-muted mb-0">Gedung Gereja Utama</p>
+            <?php else: ?>
+            <div class="col-md-6" data-aos="fade-up">
+                <div class="glass-card p-5 text-center border-0">
+                    <p class="text-muted mb-0">Belum ada cover warta mingguan yang diunggah.</p>
                 </div>
             </div>
-            <!-- Ibadah Malam -->
-            <div class="col-md-4" data-aos="fade-up" data-aos-delay="350">
-                <div class="glass-card p-3 p-md-4 h-100 text-center border-0">
-                    <div class="d-inline-block bg-dark bg-opacity-10 p-3 rounded-circle text-dark mb-3">
-                        <i class="bi bi-moon-stars-fill" style="font-size: 1.8rem;"></i>
-                    </div>
-                    <h5 class="fw-bold text-dark" style="font-size: 1.1rem;">Ibadah Malam</h5>
-                    <h3 class="fw-bolder mb-2" style="color: #6f42c1; font-size: 1.4rem;">18:00 WITA</h3>
-                    <p class="small text-muted mb-0">Gedung Gereja Utama</p>
-                </div>
-            </div>
+            <?php endif; ?>
         </div>
     </div>
 </section>
@@ -328,10 +350,8 @@ while($g = mysqli_fetch_assoc($galeri)): ?>
     <div class="container text-center">
         <div class="glass-card p-5 mx-auto" style="max-width: 800px;" data-aos="fade-up" data-aos-duration="1000">
             <?php 
-            // Hubungkan dengan file bank ayat
             include 'data_ayat.php'; 
             
-            // Menggunakan array_rand agar ayat berganti setiap kali halaman di-refresh
             $index_terpilih = array_rand($bank_ayat);
             $ayat_hari_ini = $bank_ayat[$index_terpilih];
             ?>

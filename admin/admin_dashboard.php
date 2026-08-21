@@ -164,7 +164,7 @@ $kolomBerikutnya = (
                 </div>
 
                 <div class="tab-pane fade" id="admin-renungan" role="tabpanel">
-                    <?php include 'sections/admin_Renungan.php'; ?>
+                    <?php include 'sections/admin_renungan.php'; ?>
                 </div>
 
             </div>
@@ -175,177 +175,93 @@ $kolomBerikutnya = (
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-/* ==========================================================
+/* =========================
    ACTIVE TAB ROUTER
-========================================================== */
-window.addEventListener("DOMContentLoaded", function () {
-
-    const url = new URL(window.location.href);
-
-    let tabId = url.searchParams.get("tab") || "admin-beranda";
-    let subtab = url.searchParams.get("subtab") || "minggu";
+========================= */
+window.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tabId = urlParams.get('tab') || 'admin-beranda';
+    const subtab = urlParams.get('subtab');
 
     const targetPane = document.getElementById(tabId);
+    const targetBtn = document.querySelector(`[data-bs-target="#${tabId}"], [href="#${tabId}"]`);
 
-    if (!targetPane) {
-        console.warn("Tab tidak ditemukan :", tabId);
-        return;
-    }
+    if (targetPane) {
+        document.querySelectorAll('#v-pills-tabContent > .tab-pane')
+            .forEach(el => el.classList.remove('show', 'active'));
 
-    // Nonaktifkan semua tab utama
-    document.querySelectorAll("#v-pills-tabContent > .tab-pane")
-        .forEach(pane => {
-            pane.classList.remove("show", "active");
-        });
+        document.querySelectorAll('.nav-link-admin')
+            .forEach(el => el.classList.remove('active'));
 
-    document.querySelectorAll(".nav-link-admin")
-        .forEach(btn => btn.classList.remove("active"));
+        targetPane.classList.add('show', 'active');
 
-    // Aktifkan tab tujuan
-    targetPane.classList.add("show", "active");
+        if (targetBtn) {
+            targetBtn.classList.add('active');
 
-    // Cari tombol sidebar
-    const targetBtn = document.querySelector(
-        `[data-bs-target="#${tabId}"], a[href="#${tabId}"]`
-    );
-
-    if (targetBtn) {
-
-        targetBtn.classList.add("active");
-
-        // Jika berada di submenu
-        const parentCollapse = targetBtn.closest(".collapse");
-
-        if (parentCollapse) {
-
-            bootstrap.Collapse
-                .getOrCreateInstance(parentCollapse, {
-                    toggle: false
-                })
-                .show();
-
-            const parentButton = document.querySelector(
-                `[data-bs-target="#${parentCollapse.id}"]`
-            );
-
-            if (parentButton) {
-                parentButton.classList.add("active");
+            // Buka collapse parent jika menu berada di dalam submenu
+            const parentCollapse = targetBtn.closest('.collapse');
+            if (parentCollapse) {
+                bootstrap.Collapse.getOrCreateInstance(parentCollapse, { toggle: false }).show();
+                const toggleBtn = document.querySelector(`[data-bs-target="#${parentCollapse.id}"]`);
+                if (toggleBtn) {
+                    toggleBtn.classList.add('active');
+                }
             }
-
         }
-
     }
 
-    /* ======================================================
-       SUBTAB KEUANGAN
-    ====================================================== */
-
+    // Khusus subtab keuangan
     if (tabId === "admin-keuangan") {
-
-        const map = {
-            minggu: "#sub-keuangan-minggu",
-            kolom: "#sub-keuangan-kolom",
-            bipra: "#sub-keuangan-bipra",
-            sampul: "#sub-keuangan-sampul",
-            khusus: "#sub-keuangan-khusus",
-            pengeluaran: "#sub-keuangan-pengeluaran"
-        };
-
-        const selector = map[subtab];
-
-        if (selector) {
-
-            const subButton = document.querySelector(
-                `[data-bs-target="${selector}"]`
-            );
-
-            if (subButton) {
-                bootstrap.Tab.getOrCreateInstance(subButton).show();
-            }
-
+        let targetSubtab = subtab || "minggu";
+        const subtabButton = document.querySelector(`[data-bs-target="#sub-keuangan-${targetSubtab}"]`);
+        if (subtabButton) {
+            bootstrap.Tab.getOrCreateInstance(subtabButton).show();
         }
-
     }
-
 });
 
-
-/* ==========================================================
-   SIMPAN TAB AKTIF
-========================================================== */
-
-document.querySelectorAll(".nav-link-admin").forEach(button => {
-
-    button.addEventListener("click", function () {
-
-        const target =
-            this.getAttribute("data-bs-target") ||
-            this.getAttribute("href");
-
+/* =========================
+   SIMPAN TAB AKTIF KTIKA DIKLIK
+========================= */
+document.querySelectorAll('.nav-link-admin').forEach(button => {
+    button.addEventListener('click', () => {
+        const target = button.getAttribute('data-bs-target') || button.getAttribute('href');
         if (!target) return;
 
-        const tabId = target.replace("#", "");
+        const tabId = target.replace('#', '');
+        const url = new URL(window.location);
 
-        const url = new URL(window.location.href);
+        url.searchParams.set('tab', tabId);
+        url.searchParams.delete('pesan');
 
-        url.searchParams.set("tab", tabId);
-
-        url.searchParams.delete("pesan");
-
-        if (tabId !== "admin-keuangan") {
-
-            url.searchParams.delete("subtab");
-            url.searchParams.delete("tgl_keuangan");
-
+        // Bersihkan parameter khusus keuangan jika pindah ke menu lain
+        if (tabId !== 'admin-keuangan') {
+            url.searchParams.delete('tgl_keuangan');
+            url.searchParams.delete('subtab');
         }
 
-        history.replaceState({}, "", url);
+        window.history.replaceState({}, '', url);
 
-        const sidebar = document.getElementById("mobileSidebar");
-
-        if (sidebar) {
-
-            bootstrap.Offcanvas
-                .getOrCreateInstance(sidebar)
-                .hide();
-
+        // Tutup otomatis sidebar mobile setelah klik menu
+        const sidebarElement = document.getElementById('mobileSidebar');
+        if (sidebarElement) {
+            bootstrap.Offcanvas.getOrCreateInstance(sidebarElement).hide();
         }
-
     });
-
 });
 
-
-/* ==========================================================
+/* =========================
    SIMPAN SUBTAB KEUANGAN
-========================================================== */
-
-document.addEventListener("shown.bs.tab", function (e) {
-
+========================= */
+document.addEventListener("shown.bs.tab", function(e){
     const target = e.target.getAttribute("data-bs-target");
+    if(!target) return;
 
-    if (!target) return;
-
-    const map = {
-        "#sub-keuangan-minggu": "minggu",
-        "#sub-keuangan-kolom": "kolom",
-        "#sub-keuangan-bipra": "bipra",
-        "#sub-keuangan-sampul": "sampul",
-        "#sub-keuangan-khusus": "khusus",
-        "#sub-keuangan-pengeluaran": "pengeluaran"
-    };
-
-    if (map[target]) {
-
-        const url = new URL(window.location.href);
-
-        url.searchParams.set("tab", "admin-keuangan");
-        url.searchParams.set("subtab", map[target]);
-
-        history.replaceState({}, "", url);
-
+    if(target === "#sub-keuangan-minggu" || target === "#sub-keuangan-kolom"){
+        const url = new URL(window.location);
+        url.searchParams.set("subtab", target === "#sub-keuangan-minggu" ? "minggu" : "kolom");
+        window.history.replaceState({}, "", url);
     }
-
 });
 </script>
 </body>
